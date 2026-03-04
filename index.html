@@ -9,233 +9,228 @@
 <script>window.__chartOK=false;window.__zipOK=false;</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" onload="window.__chartOK=true" onerror="console.warn('Chart.js CDN blocked')"></script>
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js" onload="window.__zipOK=true" onerror="console.warn('JSZip CDN blocked')"></script>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
-  --bg:#f4f7f2;--card:#fff;--card2:#eef3eb;
-  --t1:#0f1f12;--t2:#3d5940;--t3:#7a9a7d;--t4:#b2ccb5;
-  --ac:#16803c;--ac2:#22c55e;--acL:#dcfce7;--acLL:#f0fdf4;
-  --warn:#f59e0b;--warnL:#fef3c7;--err:#ef4444;--errL:#fef2f2;
-  --bd:#d4e4d4;--bd2:#b8d0b8;
-  --r:16px;--r2:12px;--r3:8px;
-  --sh:0 1px 2px rgba(15,31,18,.06);
-  --shM:0 4px 20px rgba(15,31,18,.08);
-  --shL:0 12px 48px rgba(15,31,18,.12);
-  --tr:.18s cubic-bezier(.4,0,.2,1);
+  --bg:#f0f4ef;--card:#fff;--card2:#eef3eb;
+  --t1:#0d1f10;--t2:#3a5c3d;--t3:#6e9471;--t4:#aac4ad;
+  --ac:#16803c;--ac2:#22c55e;--acL:#d6f5e3;--acLL:#f0fdf4;
+  --warn:#d97706;--warnL:#fef3c7;--err:#dc2626;--errL:#fef2f2;
+  --bd:#cce0ce;--bd2:#a8c8ab;
+  --r:20px;--r2:16px;--r3:10px;
+  --sh:0 1px 3px rgba(13,31,16,.07),0 1px 2px rgba(13,31,16,.04);
+  --shM:0 6px 24px rgba(13,31,16,.1);
+  --shL:0 16px 56px rgba(13,31,16,.14);
+  --tr:.2s cubic-bezier(.4,0,.2,1);
+  --fs-xs:12px;--fs-sm:13.5px;--fs-base:15px;--fs-md:16px;
+  --fs-lg:18px;--fs-xl:22px;--fs-2xl:28px;--fs-3xl:36px;
 }
 html{font-size:16px;scroll-behavior:smooth}
-body{font-family:'Outfit','Noto Sans JP',system-ui,sans-serif;background:var(--bg);color:var(--t1);-webkit-font-smoothing:antialiased;min-height:100dvh;overflow-x:hidden}
+body{font-family:'DM Sans','Noto Sans JP',system-ui,sans-serif;background:var(--bg);color:var(--t1);-webkit-font-smoothing:antialiased;min-height:100dvh;overflow-x:hidden}
 
 /* ======== WELCOME ======== */
-#welcome{min-height:100dvh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:40px 24px;background:linear-gradient(165deg,#f0fdf4 0%,#f4f7f2 40%,#ecfdf5 100%);position:relative;overflow:hidden}
-#welcome::before{content:'';position:absolute;top:-120px;right:-80px;width:300px;height:300px;background:radial-gradient(circle,rgba(34,197,94,.12),transparent 70%);border-radius:50%}
-#welcome::after{content:'';position:absolute;bottom:-100px;left:-60px;width:260px;height:260px;background:radial-gradient(circle,rgba(22,128,60,.08),transparent 70%);border-radius:50%}
-.wc{position:relative;z-index:1;width:100%;max-width:360px}
-.wc-logo{width:72px;height:72px;margin:0 auto 20px;border-radius:22px;background:linear-gradient(135deg,#16803c,#22c55e);display:flex;align-items:center;justify-content:center;font-size:32px;color:#fff;box-shadow:0 8px 32px rgba(22,128,60,.3),inset 0 1px 0 rgba(255,255,255,.2);position:relative}
-.wc-logo::after{content:'';position:absolute;inset:2px;border-radius:20px;background:linear-gradient(135deg,transparent 50%,rgba(255,255,255,.15))}
-.wc h1{font-size:26px;font-weight:800;letter-spacing:-.5px;margin-bottom:4px}
+#welcome{min-height:100dvh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:48px 28px;background:linear-gradient(160deg,#f0fdf4 0%,#f0f4ef 45%,#ecfdf5 100%);position:relative;overflow:hidden}
+#welcome::before{content:'';position:absolute;top:-140px;right:-100px;width:360px;height:360px;background:radial-gradient(circle,rgba(34,197,94,.14),transparent 70%);border-radius:50%}
+#welcome::after{content:'';position:absolute;bottom:-120px;left:-80px;width:300px;height:300px;background:radial-gradient(circle,rgba(22,128,60,.09),transparent 70%);border-radius:50%}
+.wc{position:relative;z-index:1;width:100%;max-width:380px}
+.wc-logo{width:84px;height:84px;margin:0 auto 24px;border-radius:26px;background:linear-gradient(135deg,#16803c,#22c55e);display:flex;align-items:center;justify-content:center;font-size:38px;color:#fff;box-shadow:0 10px 40px rgba(22,128,60,.35),inset 0 1px 0 rgba(255,255,255,.25)}
+.wc h1{font-size:30px;font-weight:900;letter-spacing:-.8px;margin-bottom:6px}
 .wc h1 em{font-style:normal;background:linear-gradient(135deg,#16803c,#22c55e);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.wc p{font-size:13.5px;color:var(--t3);line-height:1.6;margin-bottom:32px}
-
-/* Upload zone */
-.uz{width:100%;padding:36px 20px;border:2px dashed var(--bd2);border-radius:20px;background:rgba(255,255,255,.7);backdrop-filter:blur(8px);cursor:pointer;transition:var(--tr);position:relative;overflow:hidden;margin-bottom:14px}
+.wc p{font-size:var(--fs-sm);color:var(--t3);line-height:1.7;margin-bottom:36px}
+.uz{width:100%;padding:40px 24px;border:2px dashed var(--bd2);border-radius:22px;background:rgba(255,255,255,.75);backdrop-filter:blur(8px);cursor:pointer;transition:var(--tr);position:relative;overflow:hidden;margin-bottom:14px}
 .uz:hover{border-color:var(--ac);background:var(--acLL);box-shadow:var(--shM)}
 .uz.over{border-color:var(--ac);background:var(--acL);transform:scale(1.02)}
-.uz-ico{font-size:36px;margin-bottom:8px}
-.uz-t{font-size:14.5px;font-weight:700;margin-bottom:4px}
-.uz-h{font-size:11.5px;color:var(--t3)}
+.uz-ico{font-size:42px;margin-bottom:10px}
+.uz-t{font-size:var(--fs-md);font-weight:800;margin-bottom:5px}
+.uz-h{font-size:var(--fs-xs);color:var(--t3)}
 .uz input{position:absolute;inset:0;opacity:0;cursor:pointer}
-
-/* Buttons */
-.wc-btn{width:100%;padding:15px;border:none;border-radius:var(--r2);font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:var(--tr);display:flex;align-items:center;justify-content:center;gap:8px}
-.wc-btn.primary{background:linear-gradient(135deg,#16803c,#15803d);color:#fff;box-shadow:0 4px 16px rgba(22,128,60,.25);margin-bottom:10px}
-.wc-btn.primary:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(22,128,60,.3)}
+.wc-btn{width:100%;padding:17px;border:none;border-radius:14px;font-size:var(--fs-base);font-weight:700;cursor:pointer;font-family:inherit;transition:var(--tr);display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:.1px}
+.wc-btn.primary{background:linear-gradient(135deg,#16803c,#15803d);color:#fff;box-shadow:0 5px 20px rgba(22,128,60,.28);margin-bottom:12px}
+.wc-btn.primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(22,128,60,.35)}
 .wc-btn.primary:active{transform:scale(.98)}
-.wc-btn.ghost{background:var(--card);color:var(--t2);border:1px solid var(--bd)}
+.wc-btn.ghost{background:var(--card);color:var(--t2);border:1.5px solid var(--bd);font-size:var(--fs-sm)}
 .wc-btn.ghost:hover{background:var(--acLL);border-color:var(--ac)}
-
-/* Cached data notice */
-.wc-cache{margin-top:20px;padding:12px 16px;background:var(--card);border-radius:var(--r2);border:1px solid var(--bd);font-size:12px;color:var(--t2);cursor:pointer;transition:var(--tr);display:none}
+.wc-cache{margin-top:22px;padding:14px 18px;background:var(--card);border-radius:14px;border:1.5px solid var(--bd);font-size:var(--fs-sm);color:var(--t2);cursor:pointer;transition:var(--tr);display:none}
 .wc-cache:hover{border-color:var(--ac);background:var(--acLL)}
 .wc-cache b{color:var(--ac);font-weight:700}
 
-/* ======== ONBOARDING OVERLAY ======== */
-#onboard{display:none;position:fixed;inset:0;z-index:800;background:rgba(15,31,18,.4);backdrop-filter:blur(6px);justify-content:center;align-items:center;padding:20px}
+/* ======== ONBOARDING ======== */
+#onboard{display:none;position:fixed;inset:0;z-index:800;background:rgba(13,31,16,.45);backdrop-filter:blur(8px);justify-content:center;align-items:center;padding:24px}
 #onboard.on{display:flex}
-.ob{background:var(--card);border-radius:24px;max-width:400px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:var(--shL);animation:obIn .35s cubic-bezier(.4,0,.2,1)}
-@keyframes obIn{from{opacity:0;transform:scale(.92) translateY(20px)}to{opacity:1;transform:none}}
-.ob-head{padding:24px 24px 16px;text-align:center}
-.ob-head h2{font-size:20px;font-weight:800;margin-bottom:4px}
-.ob-head p{font-size:12.5px;color:var(--t3)}
-.ob-steps{padding:0 20px 16px}
-.ob-s{display:flex;gap:12px;padding:14px;margin-bottom:8px;background:var(--card2);border-radius:var(--r2)}
-.ob-s .ob-n{width:28px;height:28px;border-radius:9px;background:var(--ac);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0}
-.ob-s h4{font-size:13px;font-weight:700;margin-bottom:2px}
-.ob-s p{font-size:11.5px;color:var(--t2);line-height:1.5}
-.ob-go{margin:0 20px 20px;padding:14px;background:var(--ac);color:#fff;border:none;border-radius:var(--r2);font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;width:calc(100% - 40px);transition:var(--tr)}
+.ob{background:var(--card);border-radius:28px;max-width:420px;width:100%;max-height:88vh;overflow-y:auto;box-shadow:var(--shL);animation:obIn .35s cubic-bezier(.4,0,.2,1)}
+@keyframes obIn{from{opacity:0;transform:scale(.92) translateY(24px)}to{opacity:1;transform:none}}
+.ob-head{padding:28px 28px 18px;text-align:center}
+.ob-head h2{font-size:var(--fs-xl);font-weight:900;margin-bottom:5px}
+.ob-head p{font-size:var(--fs-sm);color:var(--t3)}
+.ob-steps{padding:0 22px 18px}
+.ob-s{display:flex;gap:14px;padding:16px;margin-bottom:10px;background:var(--card2);border-radius:var(--r2)}
+.ob-s .ob-n{width:32px;height:32px;border-radius:11px;background:var(--ac);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0}
+.ob-s h4{font-size:var(--fs-sm);font-weight:700;margin-bottom:3px}
+.ob-s p{font-size:var(--fs-xs);color:var(--t2);line-height:1.6}
+.ob-go{margin:0 22px 24px;padding:16px;background:var(--ac);color:#fff;border:none;border-radius:var(--r2);font-size:var(--fs-base);font-weight:700;cursor:pointer;font-family:inherit;width:calc(100% - 44px);transition:var(--tr)}
 .ob-go:hover{background:#15703a}
 
 /* ======== APP SHELL ======== */
-#app{display:none;max-width:460px;margin:0 auto;padding-bottom:100px}
+#app{display:none;max-width:480px;margin:0 auto;padding-bottom:110px}
 
 /* Top bar */
-.top{position:sticky;top:0;z-index:100;background:var(--bg);padding:12px 20px 8px;display:flex;align-items:center;gap:10px;border-bottom:1px solid transparent;transition:border-color .15s}
+.top{position:sticky;top:0;z-index:100;background:rgba(240,244,239,.95);backdrop-filter:blur(14px);padding:14px 22px 10px;display:flex;align-items:center;gap:12px;border-bottom:1px solid transparent;transition:border-color .15s}
 .top.scrolled{border-bottom-color:var(--bd)}
-.top-logo{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#16803c,#22c55e);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;box-shadow:0 2px 8px rgba(22,128,60,.2)}
+.top-logo{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#16803c,#22c55e);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;box-shadow:0 3px 10px rgba(22,128,60,.25)}
 .top-t{flex:1;min-width:0}
-.top-t h1{font-size:15px;font-weight:700;letter-spacing:-.2px}
-.top-t .top-d{font-size:10.5px;color:var(--t3)}
-.top-btns{display:flex;gap:4px}
-.tb{width:32px;height:32px;border:1px solid var(--bd);background:var(--card);border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;color:var(--t2);transition:var(--tr);flex-shrink:0}
+.top-t h1{font-size:var(--fs-md);font-weight:800;letter-spacing:-.3px}
+.top-t .top-d{font-size:11px;color:var(--t3);margin-top:1px}
+.top-btns{display:flex;gap:6px}
+.tb{width:36px;height:36px;border:1.5px solid var(--bd);background:var(--card);border-radius:11px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;color:var(--t2);transition:var(--tr);flex-shrink:0}
 .tb:hover{background:var(--acL);color:var(--ac);border-color:var(--ac)}
 
-/* Sub-nav: back + breadcrumb (unified) */
-.subnav{display:none;padding:8px 20px;background:var(--bg);position:sticky;top:54px;z-index:99;border-bottom:1px solid var(--bd)}
-.subnav.on{display:flex;align-items:center;gap:8px}
-.sn-back{display:flex;align-items:center;gap:4px;padding:7px 14px;background:var(--card);border:1px solid var(--bd);border-radius:var(--r3);font-size:12.5px;font-weight:600;cursor:pointer;color:var(--t2);font-family:inherit;transition:var(--tr);flex-shrink:0}
+/* Sub-nav */
+.subnav{display:none;padding:10px 22px;background:rgba(240,244,239,.95);backdrop-filter:blur(14px);position:sticky;top:62px;z-index:99;border-bottom:1px solid var(--bd)}
+.subnav.on{display:flex;align-items:center;gap:10px}
+.sn-back{display:flex;align-items:center;gap:5px;padding:9px 16px;background:var(--card);border:1.5px solid var(--bd);border-radius:var(--r3);font-size:var(--fs-sm);font-weight:700;cursor:pointer;color:var(--t2);font-family:inherit;transition:var(--tr);flex-shrink:0}
 .sn-back:hover{background:var(--acL);color:var(--ac);border-color:var(--ac)}
 .sn-back:active{transform:scale(.96)}
-.sn-path{flex:1;font-size:11.5px;color:var(--t3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right}
+.sn-path{flex:1;font-size:var(--fs-xs);color:var(--t3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right}
 
 /* Period */
-.per{display:flex;gap:2px;margin:10px 20px;padding:3px;background:var(--card);border-radius:10px;border:1px solid var(--bd);overflow-x:auto;scrollbar-width:none}
+.per{display:flex;gap:3px;margin:12px 22px;padding:4px;background:var(--card);border-radius:14px;border:1.5px solid var(--bd);overflow-x:auto;scrollbar-width:none}
 .per::-webkit-scrollbar{display:none}
-.pb{flex:1;min-width:0;padding:7px 4px;border:none;border-radius:8px;font-size:11px;font-weight:600;text-align:center;cursor:pointer;background:transparent;color:var(--t3);font-family:inherit;transition:var(--tr);white-space:nowrap}
-.pb.on{background:var(--ac);color:#fff;box-shadow:0 2px 8px rgba(22,128,60,.2)}
+.pb{flex:1;min-width:0;padding:9px 5px;border:none;border-radius:11px;font-size:12px;font-weight:700;text-align:center;cursor:pointer;background:transparent;color:var(--t3);font-family:inherit;transition:var(--tr);white-space:nowrap}
+.pb.on{background:var(--ac);color:#fff;box-shadow:0 2px 10px rgba(22,128,60,.25)}
 .pb:not(.on):hover{background:var(--acLL);color:var(--ac)}
 
 /* Profile */
-.prof{display:flex;gap:6px;padding:0 20px;margin-bottom:10px;align-items:center}
-.prof select{padding:6px 10px;border:1px solid var(--bd);border-radius:var(--r3);font-size:11px;font-family:inherit;background:var(--card);color:var(--t1);appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6' fill='%237a9a7d'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;padding-right:22px;cursor:pointer;transition:var(--tr)}
-.prof select:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 3px rgba(22,128,60,.1)}
-.prof .ptag{font-size:10.5px;color:var(--ac);font-weight:600;padding:3px 10px;background:var(--acL);border-radius:20px}
+.prof{display:flex;gap:8px;padding:0 22px;margin-bottom:12px;align-items:center}
+.prof select{padding:8px 12px;border:1.5px solid var(--bd);border-radius:10px;font-size:var(--fs-sm);font-family:inherit;font-weight:600;background:var(--card);color:var(--t1);appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6' fill='%236e9471'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:26px;cursor:pointer;transition:var(--tr)}
+.prof select:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 3px rgba(22,128,60,.12)}
+.prof .ptag{font-size:var(--fs-xs);color:var(--ac);font-weight:700;padding:5px 12px;background:var(--acL);border-radius:20px}
 
 /* View */
-#view{padding:0 20px}
+#view{padding:0 22px}
 
 /* ======== CARDS ======== */
-.cg{display:flex;flex-direction:column;gap:8px}
+.cg{display:flex;flex-direction:column;gap:10px}
 
 /* Summary card */
-.sc{background:var(--card);border-radius:var(--r);padding:15px;border:1px solid var(--bd);cursor:pointer;transition:all .15s ease;display:flex;align-items:center;gap:12px;box-shadow:var(--sh)}
-.sc:hover{box-shadow:var(--shM);transform:translateY(-1px)}
+.sc{background:var(--card);border-radius:var(--r);padding:18px;border:1.5px solid var(--bd);cursor:pointer;transition:all .18s ease;display:flex;align-items:center;gap:14px;box-shadow:var(--sh)}
+.sc:hover{box-shadow:var(--shM);transform:translateY(-2px);border-color:var(--bd2)}
 .sc:active{transform:scale(.985)}
-.sc .ico{width:42px;height:42px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.sc .ico{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
 .sc .bd{flex:1;min-width:0}
-.sc .nm{font-size:12px;font-weight:600;color:var(--t2);display:flex;align-items:baseline;gap:5px;margin-bottom:1px}
-.sc .nm .sub{font-size:10px;color:var(--t4);font-weight:400}
-.sc .vl{font-size:24px;font-weight:800;letter-spacing:-.8px;line-height:1.15}
-.sc .vl small{font-size:11.5px;font-weight:500;color:var(--t2);letter-spacing:0}
-.sc .inf{font-size:10.5px;color:var(--t3);margin-top:2px;line-height:1.4}
-.sc .dl{font-size:10px;font-weight:600;padding:3px 8px;border-radius:20px;flex-shrink:0}
+.sc .nm{font-size:var(--fs-sm);font-weight:700;color:var(--t2);display:flex;align-items:baseline;gap:6px;margin-bottom:3px}
+.sc .nm .sub{font-size:11px;color:var(--t4);font-weight:400}
+.sc .vl{font-size:var(--fs-2xl);font-weight:900;letter-spacing:-1px;line-height:1.15;color:var(--t1)}
+.sc .vl small{font-size:var(--fs-base);font-weight:500;color:var(--t2);letter-spacing:0}
+.sc .inf{font-size:var(--fs-xs);color:var(--t3);margin-top:3px;line-height:1.5}
+.sc .dl{font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;flex-shrink:0}
 .sc .dl.up{background:var(--acL);color:var(--ac)}.sc .dl.dn{background:var(--errL);color:var(--err)}
-.sc .arr{color:var(--t4);font-size:16px;flex-shrink:0;transition:var(--tr)}
-.sc:hover .arr{color:var(--ac);transform:translateX(2px)}
+.sc .arr{color:var(--t4);font-size:18px;flex-shrink:0;transition:var(--tr)}
+.sc:hover .arr{color:var(--ac);transform:translateX(3px)}
 
 /* Month card */
-.mc{background:var(--card);border-radius:var(--r2);padding:12px 14px;border:1px solid var(--bd);cursor:pointer;display:flex;align-items:center;gap:10px;transition:var(--tr);box-shadow:var(--sh)}
+.mc{background:var(--card);border-radius:var(--r2);padding:15px 17px;border:1.5px solid var(--bd);cursor:pointer;display:flex;align-items:center;gap:12px;transition:var(--tr);box-shadow:var(--sh)}
 .mc:hover{box-shadow:var(--shM);transform:translateY(-1px)}.mc:active{transform:scale(.985)}
-.mc .ml{font-size:12px;font-weight:700;width:64px;flex-shrink:0;color:var(--t2)}
-.mc .bar{flex:1;height:22px;background:var(--card2);border-radius:5px;overflow:hidden}
-.mc .bar div{height:100%;border-radius:5px;transition:width .4s ease}
-.mc .mv{font-size:12px;font-weight:700;min-width:70px;text-align:right}
-.mc .mv small{font-size:10px;font-weight:400;color:var(--t3)}
+.mc .ml{font-size:var(--fs-sm);font-weight:700;width:70px;flex-shrink:0;color:var(--t2)}
+.mc .bar{flex:1;height:24px;background:var(--card2);border-radius:7px;overflow:hidden}
+.mc .bar div{height:100%;border-radius:7px;transition:width .45s ease}
+.mc .mv{font-size:var(--fs-sm);font-weight:700;min-width:80px;text-align:right;color:var(--t1)}
+.mc .mv small{font-size:11px;font-weight:400;color:var(--t3)}
 
 /* Day card */
-.dc{background:var(--card);border-radius:10px;padding:11px 13px;border:1px solid var(--bd);cursor:pointer;display:flex;align-items:center;gap:10px;transition:var(--tr);box-shadow:var(--sh)}
-.dc:hover{box-shadow:var(--shM)}.dc:active{transform:scale(.985)}
-.dc .dd{width:42px;flex-shrink:0;text-align:center}
-.dc .dd b{display:block;font-size:16px;font-weight:800;line-height:1.2}
-.dc .dd em{font-style:normal;font-size:10px;color:var(--t3);font-weight:500}
-.dc .dv{flex:1;font-size:15px;font-weight:700}.dc .dv small{font-size:10.5px;font-weight:400;color:var(--t3)}
-.dc .dt{font-size:9.5px;padding:3px 8px;border-radius:20px;font-weight:600;flex-shrink:0}
+.dc{background:var(--card);border-radius:14px;padding:13px 15px;border:1.5px solid var(--bd);cursor:pointer;display:flex;align-items:center;gap:12px;transition:var(--tr);box-shadow:var(--sh)}
+.dc:hover{box-shadow:var(--shM);border-color:var(--bd2)}.dc:active{transform:scale(.985)}
+.dc .dd{width:48px;flex-shrink:0;text-align:center}
+.dc .dd b{display:block;font-size:var(--fs-xl);font-weight:900;line-height:1.2;letter-spacing:-.5px}
+.dc .dd em{font-style:normal;font-size:11px;color:var(--t3);font-weight:600}
+.dc .dv{flex:1;font-size:var(--fs-md);font-weight:700;color:var(--t1)}.dc .dv small{font-size:var(--fs-xs);font-weight:500;color:var(--t3)}
+.dc .dt{font-size:11px;padding:4px 10px;border-radius:20px;font-weight:700;flex-shrink:0}
 
 /* Chart */
-.chc{background:var(--card);border-radius:var(--r);padding:14px;border:1px solid var(--bd);margin-bottom:12px;box-shadow:var(--sh)}
-.chc h3{font-size:12px;font-weight:600;margin-bottom:10px;color:var(--t3)}
-.chw{height:170px;position:relative}
+.chc{background:var(--card);border-radius:var(--r);padding:18px;border:1.5px solid var(--bd);margin-bottom:14px;box-shadow:var(--sh)}
+.chc h3{font-size:var(--fs-sm);font-weight:700;margin-bottom:12px;color:var(--t3)}
+.chw{height:190px;position:relative}
 
 /* Section label */
-.slbl{font-size:11px;font-weight:600;color:var(--t3);margin:18px 0 8px;display:flex;align-items:center;gap:5px;letter-spacing:.5px;text-transform:uppercase}
+.slbl{font-size:12px;font-weight:700;color:var(--t3);margin:20px 0 10px;display:flex;align-items:center;gap:6px;letter-spacing:.6px;text-transform:uppercase}
 .slbl em{font-style:normal;font-weight:400;text-transform:none;letter-spacing:0;color:var(--t4)}
 
 /* ======== MODAL ======== */
 .mo{display:none;position:fixed;inset:0;z-index:1000;flex-direction:column;justify-content:flex-end}
 .mo.on{display:flex}
-.mo-bg{position:absolute;inset:0;background:rgba(15,31,18,.3);backdrop-filter:blur(4px);animation:fadeIn .15s}
+.mo-bg{position:absolute;inset:0;background:rgba(13,31,16,.35);backdrop-filter:blur(6px);animation:fadeIn .18s}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.mo-p{background:var(--card);border-radius:24px 24px 0 0;max-height:85vh;overflow:hidden;position:relative;z-index:1;animation:slideUp .25s cubic-bezier(.4,0,.2,1)}
+.mo-p{background:var(--card);border-radius:28px 28px 0 0;max-height:88vh;overflow:hidden;position:relative;z-index:1;animation:slideUp .28s cubic-bezier(.4,0,.2,1)}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:none}}
-.mo-h{padding:14px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bd)}
-.mo-h h3{font-size:15px;font-weight:700}
-.mo-x{width:30px;height:30px;border:none;background:var(--card2);border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;color:var(--t2);transition:var(--tr)}
+.mo-h{padding:18px 24px;display:flex;justify-content:space-between;align-items:center;border-bottom:1.5px solid var(--bd)}
+.mo-h h3{font-size:var(--fs-md);font-weight:800}
+.mo-x{width:34px;height:34px;border:none;background:var(--card2);border-radius:50%;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;color:var(--t2);transition:var(--tr)}
 .mo-x:hover{background:var(--acL);color:var(--ac)}
-.mo-b{padding:18px 20px;overflow-y:auto;max-height:calc(85vh - 52px);-webkit-overflow-scrolling:touch}
-.mg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.mo-b{padding:22px 24px;overflow-y:auto;max-height:calc(88vh - 60px);-webkit-overflow-scrolling:touch}
+.mg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
 .mg3{grid-template-columns:1fr 1fr 1fr}
-.mx{padding:12px 10px;background:var(--card2);border-radius:var(--r2);text-align:center}
-.mx .ml{font-size:10px;color:var(--t3);margin-bottom:2px;font-weight:500}
-.mx .mv{font-size:22px;font-weight:800;letter-spacing:-.5px;line-height:1.15}
-.mx .mv small{font-size:11px;font-weight:500;color:var(--t2)}
-.mev{padding:9px 12px;border-radius:var(--r3);font-size:11.5px;font-weight:500;margin-bottom:8px;line-height:1.5}
-.cr{display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--card2)}.cr:last-child{border:none}
-.cr .cl{width:56px;font-size:10.5px;color:var(--t3);flex-shrink:0;font-weight:500}
-.cr .cb{flex:1;height:18px;background:var(--card2);border-radius:5px;position:relative;overflow:visible}
-.cr .cv{width:80px;text-align:right;font-size:10.5px}.cr .cv b{color:var(--ac);font-weight:700}
+.mx{padding:16px 12px;background:var(--card2);border-radius:var(--r2);text-align:center}
+.mx .ml{font-size:12px;color:var(--t3);margin-bottom:4px;font-weight:600}
+.mx .mv{font-size:var(--fs-2xl);font-weight:900;letter-spacing:-.8px;line-height:1.15}
+.mx .mv small{font-size:var(--fs-sm);font-weight:500;color:var(--t2)}
+.mev{padding:12px 16px;border-radius:var(--r3);font-size:var(--fs-sm);font-weight:600;margin-bottom:10px;line-height:1.6}
+.cr{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1.5px solid var(--card2)}.cr:last-child{border:none}
+.cr .cl{width:62px;font-size:11px;color:var(--t3);flex-shrink:0;font-weight:600}
+.cr .cb{flex:1;height:20px;background:var(--card2);border-radius:6px;position:relative;overflow:visible}
+.cr .cv{width:86px;text-align:right;font-size:11px}.cr .cv b{color:var(--ac);font-weight:700}
 
 /* ======== EDIT OVERLAY ======== */
 .eo{display:none;position:fixed;inset:0;z-index:900;flex-direction:column;justify-content:flex-end}
 .eo.on{display:flex}
-.eo-bg{position:absolute;inset:0;background:rgba(15,31,18,.2);backdrop-filter:blur(3px)}
-.eo-p{background:var(--card);border-radius:24px 24px 0 0;width:100%;max-width:460px;margin:0 auto;max-height:75vh;overflow-y:auto;padding:20px;position:relative;z-index:1;animation:slideUp .2s ease}
-.eo-p h3{font-size:15px;font-weight:700;margin-bottom:14px}
-.er{display:flex;align-items:center;gap:10px;padding:11px 8px;border-bottom:1px solid var(--card2);cursor:grab;border-radius:var(--r3);transition:var(--tr)}
+.eo-bg{position:absolute;inset:0;background:rgba(13,31,16,.25);backdrop-filter:blur(4px)}
+.eo-p{background:var(--card);border-radius:28px 28px 0 0;width:100%;max-width:480px;margin:0 auto;max-height:78vh;overflow-y:auto;padding:24px;position:relative;z-index:1;animation:slideUp .22s ease}
+.eo-p h3{font-size:var(--fs-lg);font-weight:800;margin-bottom:16px}
+.er{display:flex;align-items:center;gap:12px;padding:13px 10px;border-bottom:1.5px solid var(--card2);cursor:grab;border-radius:var(--r3);transition:var(--tr)}
 .er:active{cursor:grabbing;background:var(--acL)}
-.er .eico{font-size:17px;width:28px;text-align:center}
-.er .enm{flex:1;font-size:13px;font-weight:600}
-.er .etg{width:42px;height:22px;border-radius:11px;border:none;cursor:pointer;transition:var(--tr);position:relative}
+.er .eico{font-size:20px;width:32px;text-align:center}
+.er .enm{flex:1;font-size:var(--fs-base);font-weight:700}
+.er .etg{width:46px;height:26px;border-radius:13px;border:none;cursor:pointer;transition:var(--tr);position:relative}
 .er .etg.on{background:var(--ac)}.er .etg.off{background:var(--bd)}
-.er .etg::after{content:'';position:absolute;top:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:var(--tr);box-shadow:0 1px 3px rgba(0,0,0,.15)}
-.er .etg.on::after{left:22px}.er .etg.off::after{left:2px}
-.er .edr{color:var(--t4);font-size:14px}
-.ebtn{width:100%;padding:13px;background:var(--ac);color:#fff;border:none;border-radius:var(--r2);font-size:13px;font-weight:700;cursor:pointer;margin-top:14px;font-family:inherit}
+.er .etg::after{content:'';position:absolute;top:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:var(--tr);box-shadow:0 1px 3px rgba(0,0,0,.18)}
+.er .etg.on::after{left:23px}.er .etg.off::after{left:3px}
+.er .edr{color:var(--t4);font-size:16px}
+.ebtn{width:100%;padding:15px;background:var(--ac);color:#fff;border:none;border-radius:var(--r2);font-size:var(--fs-base);font-weight:800;cursor:pointer;margin-top:16px;font-family:inherit;letter-spacing:.2px}
 
 /* ======== LOADING ======== */
-.ldg{display:none;position:fixed;inset:0;background:rgba(244,247,242,.96);z-index:2000;justify-content:center;align-items:center;flex-direction:column;gap:14px;backdrop-filter:blur(8px)}
+.ldg{display:none;position:fixed;inset:0;background:rgba(240,244,239,.97);z-index:2000;justify-content:center;align-items:center;flex-direction:column;gap:16px;backdrop-filter:blur(10px)}
 .ldg.on{display:flex}
-.ldg .sp{width:44px;height:44px;border:3px solid var(--bd);border-top-color:var(--ac);border-radius:50%;animation:spin .6s linear infinite}
+.ldg .sp{width:50px;height:50px;border:3.5px solid var(--bd);border-top-color:var(--ac);border-radius:50%;animation:spin .65s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.ldg .lt{font-size:13px;color:var(--t2);font-weight:500}
-.ldg .pbar{width:200px;height:4px;background:var(--bd);border-radius:2px;overflow:hidden}
-.ldg .pfill{height:100%;background:linear-gradient(90deg,var(--ac),var(--ac2));border-radius:2px;transition:width .25s;width:0}
+.ldg .lt{font-size:var(--fs-base);color:var(--t2);font-weight:600}
+.ldg .pbar{width:220px;height:5px;background:var(--bd);border-radius:3px;overflow:hidden}
+.ldg .pfill{height:100%;background:linear-gradient(90deg,var(--ac),var(--ac2));border-radius:3px;transition:width .28s;width:0}
 
-.ust{font-size:11.5px;padding:9px 14px;margin:0 20px 10px;border-radius:var(--r3);display:none;font-weight:500}
+.ust{font-size:var(--fs-sm);padding:11px 16px;margin:0 22px 12px;border-radius:var(--r3);display:none;font-weight:600}
 .ust.ok{display:block;background:var(--acL);color:#166534}.ust.er{display:block;background:var(--errL);color:#991b1b}
 
-.fade-in{animation:fadeIn .2s ease}
-@media(max-width:360px){.sc .vl{font-size:20px}.sc .ico{width:36px;height:36px}.pb{font-size:10px}}
+.fade-in{animation:fadeIn .22s ease}
+@media(max-width:360px){.sc .vl{font-size:var(--fs-xl)}.sc .ico{width:44px;height:44px}.pb{font-size:11px}}
 </style>
 </head>
-<body style="background:#f4f7f2">
+<body>
 <noscript><div style="padding:40px;text-align:center;font-family:sans-serif"><h2>Health Dashboard</h2><p>JavaScriptを有効にしてください</p></div></noscript>
 <div class="ldg" id="ldg"><div class="sp"></div><div class="lt" id="lt">読み込み中...</div><div class="pbar"><div class="pfill" id="pf"></div></div></div>
 
 <!-- WELCOME -->
-<div id="welcome" style="min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:40px 24px;background:#f0fdf4;font-family:system-ui,-apple-system,sans-serif">
-  <div class="wc" style="max-width:360px;width:100%">
-    <div style="width:72px;height:72px;margin:0 auto 20px;border-radius:22px;background:linear-gradient(135deg,#16803c,#22c55e);display:flex;align-items:center;justify-content:center;font-size:32px;color:#fff;box-shadow:0 8px 32px rgba(22,128,60,.3)">♥</div>
-    <h1 style="font-size:26px;font-weight:800;letter-spacing:-.5px;margin:0 0 4px;color:#0f1f12"><span style="color:#16803c">Health</span> Dashboard</h1>
-    <p style="font-size:13.5px;color:#7a9a7d;line-height:1.6;margin:0 0 32px">Apple Healthのデータを美しく可視化。<br>ZIPファイルをアップロードして始めましょう。</p>
-    <div class="uz" id="uz" style="width:100%;padding:36px 20px;border:2px dashed #b8d0b8;border-radius:20px;background:rgba(255,255,255,.7);cursor:pointer;position:relative;overflow:hidden;margin-bottom:14px">
-      <div style="font-size:36px;margin-bottom:8px">📁</div>
-      <div style="font-size:14.5px;font-weight:700;margin-bottom:4px;color:#0f1f12">ZIPファイルを選択またはドロップ</div>
-      <div style="font-size:11.5px;color:#7a9a7d">ヘルスケアApp → … → すべてのデータを書き出す</div>
-      <input type="file" id="wFile" accept=".zip" onchange="handleUpload(event)" style="position:absolute;inset:0;opacity:0;cursor:pointer">
+<div id="welcome">
+  <div class="wc">
+    <div class="wc-logo">♥</div>
+    <h1><em>Health</em> Dashboard</h1>
+    <p>Apple Healthのデータを美しく可視化。<br>ZIPファイルをアップロードして始めましょう。</p>
+    <div class="uz" id="uz">
+      <div class="uz-ico">📁</div>
+      <div class="uz-t">ZIPファイルを選択またはドロップ</div>
+      <div class="uz-h">ヘルスケアApp → … → すべてのデータを書き出す</div>
+      <input type="file" id="wFile" accept=".zip" onchange="handleUpload(event)">
     </div>
-    <button class="wc-btn primary" onclick="startDemo()" style="width:100%;padding:15px;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#16803c,#15803d);color:#fff;box-shadow:0 4px 16px rgba(22,128,60,.25);margin-bottom:10px;font-family:inherit">▶ デモデータで体験する</button>
-    <div class="wc-cache" id="wcCache" onclick="loadCache()" style="display:none;margin-top:20px;padding:12px 16px;background:#fff;border-radius:12px;border:1px solid #d4e4d4;font-size:12px;color:#3d5940;cursor:pointer">
-      💾 前回のデータが保存されています — <b style="color:#16803c">タップで復元</b>
+    <button class="wc-btn primary" onclick="startDemo()">▶ デモデータで体験する</button>
+    <div class="wc-cache" id="wcCache" onclick="loadCache()">
+      💾 前回のデータが保存されています — <b>タップで復元</b>
     </div>
   </div>
 </div>
@@ -304,7 +299,8 @@ const CATS=[
 ];
 let catOrder,catVis;
 function loadCP(){try{catOrder=JSON.parse(localStorage.getItem('hd_co'))||CATS.map(c=>c.id);catVis=JSON.parse(localStorage.getItem('hd_cv'))||Object.fromEntries(CATS.map(c=>[c.id,true]))}catch(e){catOrder=CATS.map(c=>c.id);catVis=Object.fromEntries(CATS.map(c=>[c.id,true]))}for(const c of CATS){if(!catOrder.includes(c.id))catOrder.push(c.id);if(!(c.id in catVis))catVis[c.id]=true}}
-function saveCP(){try{localStorage.setItem('hd_co',JSON.stringify(catOrder));localStorage.setItem('hd_cv',JSON.stringify(catVis))}catch(e){}}function catOf(id){return CATS.find(c=>c.id===id)}
+function saveCP(){try{localStorage.setItem('hd_co',JSON.stringify(catOrder));localStorage.setItem('hd_cv',JSON.stringify(catVis))}catch(e){}}
+function catOf(id){return CATS.find(c=>c.id===id)}
 
 // ===== BENCHMARKS =====
 const BN={bmi:{m:{'20':22,'30':23.5,'40':24,'50':23.8,'60':23.5,'70':23},f:{'20':20.5,'30':21.5,'40':22,'50':22.5,'60':22.8,'70':22.5}},bodyFat:{m:{'20':16,'30':18,'40':20,'50':22,'60':23,'70':24},f:{'20':24,'30':26,'40':28,'50':30,'60':32,'70':33}},weight:{m:{'20':66.5,'30':70.5,'40':71,'50':69.5,'60':66,'70':63},f:{'20':52.5,'30':54,'40':55.5,'50':55,'60':53.5,'70':51}},steps:{m:{'20':7500,'30':7800,'40':7500,'50':7300,'60':6700,'70':5400},f:{'20':6800,'30':6500,'40':6800,'50':6700,'60':5900,'70':4600}},rhr:{m:{'20':65,'30':67,'40':68,'50':69,'60':68,'70':67},f:{'20':68,'30':70,'40':71,'50':70,'60':69,'70':68}},slp:{m:{'20':420,'30':400,'40':380,'50':370,'60':390,'70':420},f:{'20':430,'30':400,'40':380,'50':380,'60':400,'70':430}},vo2:{m:{'20':44,'30':41,'40':38,'50':35,'60':32,'70':28},f:{'20':36,'30':33,'40':30,'50':27,'60':25,'70':22}}};
@@ -360,15 +356,14 @@ function clMo(){document.getElementById('mo').classList.remove('on');document.bo
 document.addEventListener('keydown',e=>{if(e.key==='Escape')clMo()});
 
 // ===== CHARTS =====
-function initChart(){if(typeof Chart==='undefined')return;Chart.defaults.font.family="'Outfit','Noto Sans JP',sans-serif";Chart.defaults.font.size=10;Chart.defaults.color='#7a9a7d';Chart.defaults.plugins.legend.display=false;Chart.defaults.elements.point.radius=0;Chart.defaults.elements.point.hoverRadius=4;Chart.defaults.elements.line.tension=.4;Chart.defaults.elements.line.borderWidth=2}
+function initChart(){if(typeof Chart==='undefined')return;Chart.defaults.font.family="'DM Sans','Noto Sans JP',sans-serif";Chart.defaults.font.size=11;Chart.defaults.color='#6e9471';Chart.defaults.plugins.legend.display=false;Chart.defaults.elements.point.radius=0;Chart.defaults.elements.point.hoverRadius=5;Chart.defaults.elements.line.tension=.4;Chart.defaults.elements.line.borderWidth=2.5}
 initChart();
-function mkCh(id,cfg){if(typeof Chart==='undefined'){const c=document.getElementById(id);if(c)c.parentElement.innerHTML='<div style="padding:20px;text-align:center;color:var(--t3);font-size:11px">📊 グラフはSafariで直接開くと表示されます</div>';return}if(charts[id])charts[id].destroy();const c=document.getElementById(id);if(!c)return;charts[id]=new Chart(c,cfg)}
+function mkCh(id,cfg){if(typeof Chart==='undefined'){const c=document.getElementById(id);if(c)c.parentElement.innerHTML='<div style="padding:24px;text-align:center;color:var(--t3);font-size:var(--fs-sm)">📊 グラフはSafariで直接開くと表示されます</div>';return}if(charts[id])charts[id].destroy();const c=document.getElementById(id);if(!c)return;charts[id]=new Chart(c,cfg)}
 
 // ===== NAVIGATION =====
 function nav(){const cur=navStack.length?navStack[navStack.length-1]:{level:'home'};updSN();const el=document.getElementById('view');el.innerHTML='';el.className='fade-in';if(cur.level==='home')rHome(el);else if(cur.level==='cat')rCat(el,cur.id);else if(cur.level==='month')rMonth(el,cur.id,cur.ym)}
 function push(o){navStack.push(o);nav();window.scrollTo({top:0,behavior:'smooth'})}
 function pop(){if(navStack.length)navStack.pop();nav();window.scrollTo({top:0,behavior:'smooth'})}
-function goH(){navStack=[];nav()}
 function updSN(){const sn=document.getElementById('subnav'),sp=document.getElementById('snPath');if(!navStack.length){sn.classList.remove('on');return}sn.classList.add('on');let p='ホーム';for(const n of navStack){if(n.level==='cat'){const c=catOf(n.id);p+=' › '+c.icon+' '+c.name}else if(n.level==='month')p+=' › '+n.ym.replace('-','年')+'月'}sp.textContent=p}
 // Swipe back
 let tX=0;document.addEventListener('touchstart',e=>{tX=e.touches[0].clientX},{passive:true});document.addEventListener('touchend',e=>{if(e.changedTouches[0].clientX-tX>80&&navStack.length)pop()},{passive:true});
@@ -376,7 +371,7 @@ let tX=0;document.addEventListener('touchstart',e=>{tX=e.touches[0].clientX},{pa
 window.addEventListener('scroll',()=>{document.getElementById('topbar')?.classList.toggle('scrolled',window.scrollY>4)},{passive:true});
 
 // ===== HOME =====
-function rHome(el){let h='';const cats=catOrder.filter(id=>catVis[id]).map(id=>catOf(id)).filter(Boolean);const scored=cats.map(c=>({c,n:catDC(c.id)})).sort((a,b)=>b.n-a.n);for(const{c}of scored)h+=mkSC(c);if(pSex&&pAge)h+=mkCmp();el.innerHTML=h||'<div style="text-align:center;padding:40px;color:var(--t3)">✎ボタンでカテゴリを表示設定してください</div>'}
+function rHome(el){let h='';const cats=catOrder.filter(id=>catVis[id]).map(id=>catOf(id)).filter(Boolean);const scored=cats.map(c=>({c,n:catDC(c.id)})).sort((a,b)=>b.n-a.n);for(const{c}of scored)h+=mkSC(c);if(pSex&&pAge)h+=mkCmp();el.innerHTML=h||'<div style="text-align:center;padding:48px;color:var(--t3);font-size:var(--fs-base)">✎ボタンでカテゴリを表示設定してください</div>'}
 
 function mkSC(cat){const id=cat.id;let val='',inf='',delta='',dc='';
   if(id==='body'){const a=fA(D.bodyMass),bm=lstA(a);if(!bm)return'';const bf=lstA(fA(D.bodyFat)),bi=lstA(fA(D.bmi)),lm=lstA(fA(D.leanMass));val=bm.v+'<small> kg</small>';let p=[];if(bf)p.push('体脂肪 '+bf.v+'%');if(bi)p.push('BMI '+bi.v);if(lm)p.push('除脂肪 '+lm.v+'kg');inf=p.join(' · ');if(a.length>1){const d2=bm.v-a[a.length-2].v;delta=(d2>=0?'+':'')+d2.toFixed(1)+'kg';dc=d2<=0?'up':'dn'}
@@ -389,27 +384,27 @@ function mkSC(cat){const id=cat.id;let val='',inf='',delta='',dc='';
   return'<div class="sc" onclick="push({level:\'cat\',id:\''+id+'\'})"><div class="ico" style="background:'+cat.bg+'">'+cat.icon+'</div><div class="bd"><div class="nm">'+cat.name+' <span class="sub">'+cat.sub+'</span></div><div class="vl">'+val+'</div><div class="inf">'+inf+'</div></div>'+(delta?'<div class="dl '+dc+'">'+delta+'</div>':'')+'<div class="arr">›</div></div>'}
 
 // ===== CATEGORY =====
-function rCat(el,id){const c=catOf(id);let h='<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px"><div style="width:42px;height:42px;border-radius:13px;background:'+c.bg+';display:flex;align-items:center;justify-content:center;font-size:20px">'+c.icon+'</div><div><div style="font-size:16px;font-weight:800">'+c.name+'</div><div style="font-size:11.5px;color:var(--t3)">'+c.desc+'</div></div></div>';h+='<div class="chc"><h3>📈 推移</h3><div class="chw"><canvas id="cCh"></canvas></div></div>';h+='<div class="slbl">📅 月別 <em>— タップで日別へ</em></div><div class="cg" id="mC"></div>';el.innerHTML=h;setTimeout(()=>{rCCh(id);rMC(id)},20)}
-function rCCh(id){let lb=[],d1=[];const c=catOf(id);if(id==='steps'){const o=fK(D.steps);lb=Object.keys(o);d1=Object.values(o)}else if(id==='heart'){const o=fK(D.heartRate);lb=Object.keys(o);d1=Object.values(o).map(v=>v.avg)}else if(id==='sleep'){const o=fK(D.sleep);lb=Object.keys(o);d1=Object.values(o).map(v=>v.total/60)}else if(id==='body'){const a=fA(D.bodyMass);lb=a.map(x=>x.d);d1=a.map(x=>x.v)}else if(id==='vitals'){const o=fK(D.spo2);lb=Object.keys(o);d1=Object.values(o).map(v=>v.avg)}else if(id==='activity'){const o=fK(D.activeEnergy);lb=Object.keys(o);d1=Object.values(o)}else if(id==='workout'){const a=fA(D.workouts);lb=a.map(x=>x.d);d1=a.map(x=>x.dur)}const bar=['steps','activity','workout'].includes(id);mkCh('cCh',{type:bar?'bar':'line',data:{labels:lb,datasets:[bar?{data:d1,backgroundColor:c.color+'40',borderWidth:0,borderRadius:3}:{data:d1,borderColor:c.color,backgroundColor:c.color+'10',fill:true,pointRadius:lb.length<50?2:0}]},options:{responsive:true,maintainAspectRatio:false,interaction:{intersect:false,mode:'index'},scales:{x:{display:false},y:{grid:{color:'#eef3ee'},border:{display:false}}},plugins:{tooltip:{backgroundColor:'#0f1f12',padding:10,cornerRadius:8,displayColors:false}}}})}
-function rMC(id){let months;if(id==='body')months=byMA(fA(D.bodyMass));else if(id==='workout')months=byMA(fA(D.workouts));else{const src={steps:D.steps,heart:D.heartRate,sleep:D.sleep,vitals:D.spo2,activity:D.activeEnergy}[id];months=byM(fK(src||{}))}const c=catOf(id),yms=Object.keys(months).sort().reverse();let mx=0;const sums=yms.map(ym=>{const it=months[ym];let v=0,lb='';if(id==='steps'){v=Math.round(AV(it.map(x=>x.v)));lb=fN(v)+' 歩/日'}else if(id==='heart'){v=Math.round(AV(it.map(x=>x.v.avg)));lb=v+' bpm'}else if(id==='sleep'){v=Math.round(AV(it.map(x=>x.v.total)));lb=hmS(v)}else if(id==='body'){v=it[it.length-1].v;lb=v+' kg'}else if(id==='vitals'){v=+AV(it.map(x=>x.v.avg)).toFixed(1);lb=v+'%'}else if(id==='activity'){v=Math.round(AV(it.map(x=>x.v)));lb=fN(v)+' kcal'}else if(id==='workout'){v=it.length;lb=v+'回'}mx=Math.max(mx,v);return{ym,v,lb,n:it.length}});let h='';for(const s of sums){const p=mx?s.v/mx*100:0;h+='<div class="mc" onclick="push({level:\'month\',id:\''+id+'\',ym:\''+s.ym+'\'})"><div class="ml">'+s.ym.replace(/(\d{4})-(\d{2})/,'$1年$2月').slice(2)+'</div><div class="bar"><div style="width:'+p+'%;background:'+c.color+'"></div></div><div class="mv">'+s.lb+' <small>'+s.n+'日</small></div></div>'}document.getElementById('mC').innerHTML=h||'<div style="text-align:center;padding:24px;color:var(--t3)">データなし</div>'}
+function rCat(el,id){const c=catOf(id);let h='<div style="display:flex;align-items:center;gap:14px;margin-bottom:18px"><div style="width:52px;height:52px;border-radius:16px;background:'+c.bg+';display:flex;align-items:center;justify-content:center;font-size:24px">'+c.icon+'</div><div><div style="font-size:var(--fs-xl);font-weight:900;letter-spacing:-.5px">'+c.name+'</div><div style="font-size:var(--fs-sm);color:var(--t3);margin-top:2px">'+c.desc+'</div></div></div>';h+='<div class="chc"><h3>📈 推移</h3><div class="chw"><canvas id="cCh"></canvas></div></div>';h+='<div class="slbl">📅 月別 <em>— タップで日別へ</em></div><div class="cg" id="mC"></div>';el.innerHTML=h;setTimeout(()=>{rCCh(id);rMC(id)},20)}
+function rCCh(id){let lb=[],d1=[];const c=catOf(id);if(id==='steps'){const o=fK(D.steps);lb=Object.keys(o);d1=Object.values(o)}else if(id==='heart'){const o=fK(D.heartRate);lb=Object.keys(o);d1=Object.values(o).map(v=>v.avg)}else if(id==='sleep'){const o=fK(D.sleep);lb=Object.keys(o);d1=Object.values(o).map(v=>v.total/60)}else if(id==='body'){const a=fA(D.bodyMass);lb=a.map(x=>x.d);d1=a.map(x=>x.v)}else if(id==='vitals'){const o=fK(D.spo2);lb=Object.keys(o);d1=Object.values(o).map(v=>v.avg)}else if(id==='activity'){const o=fK(D.activeEnergy);lb=Object.keys(o);d1=Object.values(o)}else if(id==='workout'){const a=fA(D.workouts);lb=a.map(x=>x.d);d1=a.map(x=>x.dur)}const bar=['steps','activity','workout'].includes(id);mkCh('cCh',{type:bar?'bar':'line',data:{labels:lb,datasets:[bar?{data:d1,backgroundColor:c.color+'40',borderWidth:0,borderRadius:4}:{data:d1,borderColor:c.color,backgroundColor:c.color+'12',fill:true,pointRadius:lb.length<50?2:0}]},options:{responsive:true,maintainAspectRatio:false,interaction:{intersect:false,mode:'index'},scales:{x:{display:false},y:{grid:{color:'#edf2ed'},border:{display:false}}},plugins:{tooltip:{backgroundColor:'#0d1f10',padding:12,cornerRadius:10,displayColors:false,titleFont:{size:12,weight:'bold'},bodyFont:{size:13}}}}})}
+function rMC(id){let months;if(id==='body')months=byMA(fA(D.bodyMass));else if(id==='workout')months=byMA(fA(D.workouts));else{const src={steps:D.steps,heart:D.heartRate,sleep:D.sleep,vitals:D.spo2,activity:D.activeEnergy}[id];months=byM(fK(src||{}))}const c=catOf(id),yms=Object.keys(months).sort().reverse();let mx=0;const sums=yms.map(ym=>{const it=months[ym];let v=0,lb='';if(id==='steps'){v=Math.round(AV(it.map(x=>x.v)));lb=fN(v)+' 歩/日'}else if(id==='heart'){v=Math.round(AV(it.map(x=>x.v.avg)));lb=v+' bpm'}else if(id==='sleep'){v=Math.round(AV(it.map(x=>x.v.total)));lb=hmS(v)}else if(id==='body'){v=it[it.length-1].v;lb=v+' kg'}else if(id==='vitals'){v=+AV(it.map(x=>x.v.avg)).toFixed(1);lb=v+'%'}else if(id==='activity'){v=Math.round(AV(it.map(x=>x.v)));lb=fN(v)+' kcal'}else if(id==='workout'){v=it.length;lb=v+'回'}mx=Math.max(mx,v);return{ym,v,lb,n:it.length}});let h='';for(const s of sums){const p=mx?s.v/mx*100:0;h+='<div class="mc" onclick="push({level:\'month\',id:\''+id+'\',ym:\''+s.ym+'\'})"><div class="ml">'+s.ym.replace(/(\d{4})-(\d{2})/,'$1年$2月').slice(2)+'</div><div class="bar"><div style="width:'+p+'%;background:'+c.color+'"></div></div><div class="mv">'+s.lb+' <small>'+s.n+'日</small></div></div>'}document.getElementById('mC').innerHTML=h||'<div style="text-align:center;padding:28px;color:var(--t3);font-size:var(--fs-base)">データなし</div>'}
 
 // ===== MONTH =====
-function rMonth(el,id,ym){const c=catOf(id),ymLb=ym.replace(/(\d{4})-(\d{2})/,'$1年$2月');let h='<div style="margin-bottom:14px"><div style="font-size:16px;font-weight:800">'+c.icon+' '+ymLb+'</div><div style="font-size:11.5px;color:var(--t3)">'+c.desc+'</div></div>';h+='<div class="chc"><div class="chw"><canvas id="dCh"></canvas></div></div>';h+='<div class="slbl">📋 日別 <em>— タップで詳細</em></div><div class="cg" id="dC"></div>';el.innerHTML=h;setTimeout(()=>{rDCh(id,ym);rDC(id,ym)},20)}
-function rDCh(id,ym){let lb=[],d1=[];const c=catOf(id);if(id==='body'){const a=fA(D.bodyMass).filter(x=>x.d.startsWith(ym));lb=a.map(x=>+x.d.slice(8));d1=a.map(x=>x.v)}else if(id==='workout'){const a=fA(D.workouts).filter(x=>x.d.startsWith(ym));lb=a.map(x=>+x.d.slice(8));d1=a.map(x=>x.dur)}else{const src={steps:D.steps,heart:D.heartRate,sleep:D.sleep,vitals:D.spo2,activity:D.activeEnergy}[id];const o=fK(src||{});for(const[k,v]of Object.entries(o)){if(!k.startsWith(ym))continue;lb.push(+k.slice(8));if(id==='heart')d1.push(v.avg);else if(id==='sleep')d1.push(v.total/60);else if(id==='vitals')d1.push(v.avg);else d1.push(v)}}const bar=['steps','activity','workout'].includes(id);mkCh('dCh',{type:bar?'bar':'line',data:{labels:lb,datasets:[bar?{data:d1,backgroundColor:c.color+'50',borderRadius:4}:{data:d1,borderColor:c.color,backgroundColor:c.color+'10',fill:true}]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{grid:{display:false},border:{display:false}},y:{grid:{color:'#eef3ee'},border:{display:false}}},plugins:{tooltip:{backgroundColor:'#0f1f12',padding:10,cornerRadius:8,displayColors:false}}}})}
-function rDC(id,ym){let days=[];const c=catOf(id);if(id==='body')days=fA(D.bodyMass).filter(x=>x.d.startsWith(ym)).map(x=>{const bf=(D.bodyFat||[]).find(b=>b.d===x.d);return{d:x.d,val:x.v+' kg'+(bf?' · '+bf.v+'%':'')}});else if(id==='workout')days=fA(D.workouts).filter(x=>x.d.startsWith(ym)).map(x=>({d:x.d,val:wkN(x.type),tag:Math.round(x.dur)+'分'}));else{const src={steps:D.steps,heart:D.heartRate,sleep:D.sleep,vitals:D.spo2,activity:D.activeEnergy}[id];const o=fK(src||{});for(const[k,v]of Object.entries(o)){if(!k.startsWith(ym))continue;let val='',tag='';if(id==='steps'){val=fN(Math.round(v))+' 歩';const di=(D.distance||{})[k];if(di)val+=' · '+di.toFixed(1)+'km';tag=v>=8000?'達成':''}else if(id==='heart'){val=v.avg+' bpm';tag=v.min+'〜'+v.max}else if(id==='sleep'){val=hmS(v.total);tag=v.total>=420?'充分':'不足'}else if(id==='vitals'){val=v.avg+'%';tag=v.avg>=96?'正常':'注意'}else{val=fN(Math.round(v))+' kcal';const ex=(D.exerciseTime||{})[k];if(ex)val+=' · 運動'+Math.round(ex)+'分'}days.push({d:k,val,tag})}}days.sort((a,b)=>b.d.localeCompare(a.d));let h='';for(const dy of days){const dt=new Date(dy.d),dn=+dy.d.slice(8),dw2=dow[dt.getDay()],dwC=dt.getDay()===0?'color:#c53030':dt.getDay()===6?'color:#2563eb':'';h+='<div class="dc" onclick="shDay(\''+id+'\',\''+dy.d+'\')"><div class="dd"><b>'+dn+'</b><em style="'+dwC+'">'+dw2+'</em></div><div class="dv">'+dy.val+'</div>'+(dy.tag?'<div class="dt" style="background:'+c.bg+';color:'+c.color+'">'+dy.tag+'</div>':'')+'</div>'}document.getElementById('dC').innerHTML=h||'<div style="text-align:center;padding:24px;color:var(--t3)">データなし</div>'}
+function rMonth(el,id,ym){const c=catOf(id),ymLb=ym.replace(/(\d{4})-(\d{2})/,'$1年$2月');let h='<div style="margin-bottom:16px"><div style="font-size:var(--fs-xl);font-weight:900;letter-spacing:-.5px">'+c.icon+' '+ymLb+'</div><div style="font-size:var(--fs-sm);color:var(--t3);margin-top:3px">'+c.desc+'</div></div>';h+='<div class="chc"><div class="chw"><canvas id="dCh"></canvas></div></div>';h+='<div class="slbl">📋 日別 <em>— タップで詳細</em></div><div class="cg" id="dC"></div>';el.innerHTML=h;setTimeout(()=>{rDCh(id,ym);rDC(id,ym)},20)}
+function rDCh(id,ym){let lb=[],d1=[];const c=catOf(id);if(id==='body'){const a=fA(D.bodyMass).filter(x=>x.d.startsWith(ym));lb=a.map(x=>+x.d.slice(8));d1=a.map(x=>x.v)}else if(id==='workout'){const a=fA(D.workouts).filter(x=>x.d.startsWith(ym));lb=a.map(x=>+x.d.slice(8));d1=a.map(x=>x.dur)}else{const src={steps:D.steps,heart:D.heartRate,sleep:D.sleep,vitals:D.spo2,activity:D.activeEnergy}[id];const o=fK(src||{});for(const[k,v]of Object.entries(o)){if(!k.startsWith(ym))continue;lb.push(+k.slice(8));if(id==='heart')d1.push(v.avg);else if(id==='sleep')d1.push(v.total/60);else if(id==='vitals')d1.push(v.avg);else d1.push(v)}}const bar=['steps','activity','workout'].includes(id);mkCh('dCh',{type:bar?'bar':'line',data:{labels:lb,datasets:[bar?{data:d1,backgroundColor:c.color+'50',borderRadius:5}:{data:d1,borderColor:c.color,backgroundColor:c.color+'12',fill:true}]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{grid:{display:false},border:{display:false},ticks:{font:{size:11,weight:'600'}}},y:{grid:{color:'#edf2ed'},border:{display:false},ticks:{font:{size:11}}}},plugins:{tooltip:{backgroundColor:'#0d1f10',padding:12,cornerRadius:10,displayColors:false}}}})}
+function rDC(id,ym){let days=[];const c=catOf(id);if(id==='body')days=fA(D.bodyMass).filter(x=>x.d.startsWith(ym)).map(x=>{const bf=(D.bodyFat||[]).find(b=>b.d===x.d);return{d:x.d,val:x.v+' kg'+(bf?' · '+bf.v+'%':'')}});else if(id==='workout')days=fA(D.workouts).filter(x=>x.d.startsWith(ym)).map(x=>({d:x.d,val:wkN(x.type),tag:Math.round(x.dur)+'分'}));else{const src={steps:D.steps,heart:D.heartRate,sleep:D.sleep,vitals:D.spo2,activity:D.activeEnergy}[id];const o=fK(src||{});for(const[k,v]of Object.entries(o)){if(!k.startsWith(ym))continue;let val='',tag='';if(id==='steps'){val=fN(Math.round(v))+' 歩';const di=(D.distance||{})[k];if(di)val+=' · '+di.toFixed(1)+'km';tag=v>=8000?'達成':''}else if(id==='heart'){val=v.avg+' bpm';tag=v.min+'〜'+v.max}else if(id==='sleep'){val=hmS(v.total);tag=v.total>=420?'充分':'不足'}else if(id==='vitals'){val=v.avg+'%';tag=v.avg>=96?'正常':'注意'}else{val=fN(Math.round(v))+' kcal';const ex=(D.exerciseTime||{})[k];if(ex)val+=' · 運動'+Math.round(ex)+'分'}days.push({d:k,val,tag})}}days.sort((a,b)=>b.d.localeCompare(a.d));let h='';for(const dy of days){const dt=new Date(dy.d),dn=+dy.d.slice(8),dw2=dow[dt.getDay()],dwC=dt.getDay()===0?'color:#c53030':dt.getDay()===6?'color:#2563eb':'';h+='<div class="dc" onclick="shDay(\''+id+'\',\''+dy.d+'\')"><div class="dd"><b>'+dn+'</b><em style="'+dwC+'">'+dw2+'</em></div><div class="dv">'+dy.val+'</div>'+(dy.tag?'<div class="dt" style="background:'+c.bg+';color:'+c.color+'">'+dy.tag+'</div>':'')+'</div>'}document.getElementById('dC').innerHTML=h||'<div style="text-align:center;padding:28px;color:var(--t3);font-size:var(--fs-base)">データなし</div>'}
 
 // ===== DAY MODALS =====
 function shDay(id,d){({steps:shSt,heart:shHR,sleep:shSl,body:shBd,vitals:shVt,activity:shAc,workout:shWk})[id](d)}
 function shSt(d){const st=(D.steps||{})[d],di=(D.distance||{})[d],en=(D.activeEnergy||{})[d],fl=(D.flights||{})[d],ex=(D.exerciseTime||{})[d];let h='<div class="mg"><div class="mx" style="background:var(--acL)"><div class="ml">👣 歩数</div><div class="mv" style="color:var(--ac)">'+(st?fN(st):'-')+'</div></div><div class="mx"><div class="ml">📏 距離</div><div class="mv">'+(di?di.toFixed(1):'-')+'<small>km</small></div></div><div class="mx"><div class="ml">🔥 消費</div><div class="mv">'+(en?fN(Math.round(en)):'-')+'<small>kcal</small></div></div><div class="mx"><div class="ml">🪜 階段</div><div class="mv">'+(fl||'-')+'<small>階</small></div></div></div>';if(ex)h+='<div class="mev" style="background:var(--acL);color:var(--ac)">🏃 エクササイズ '+Math.round(ex)+'分</div>';const p=st?Math.round(st/8000*100):0;h+='<div class="mev" style="background:'+(p>=100?'var(--acL)':'var(--warnL)')+';color:'+(p>=100?'var(--ac)':'var(--warn)')+'">目標 8,000歩: <b>'+p+'%</b>'+(p>=100?' 🎉':'')+'</div>';opMo(d+' の歩数',h)}
 function shHR(d){const hr=(D.heartRate||{})[d];if(!hr)return;let h='<div class="mg mg3"><div class="mx" style="background:var(--errL)"><div class="ml">最小</div><div class="mv" style="color:var(--err)">'+hr.min+'</div></div><div class="mx" style="background:var(--acL)"><div class="ml">平均</div><div class="mv" style="color:var(--ac)">'+hr.avg+'</div></div><div class="mx" style="background:var(--warnL)"><div class="ml">最大</div><div class="mv" style="color:var(--warn)">'+hr.max+'</div></div></div>';const lv=hr.avg<60?'徐脈気味':hr.avg<=100?'正常範囲':'やや高め';h+='<div class="mev" style="background:var(--acL);color:var(--ac)">💡 平均'+hr.avg+'bpm → '+lv+'</div>';const rhr=(D.restingHR||{})[d],hrv=(D.hrv||{})[d];if(rhr||hrv){h+='<div class="mg">';if(rhr)h+='<div class="mx"><div class="ml">安静時心拍</div><div class="mv">'+rhr+'<small>bpm</small></div></div>';if(hrv)h+='<div class="mx"><div class="ml">HRV</div><div class="mv">'+Math.round(hrv)+'<small>ms</small></div></div>';h+='</div>'}opMo(d+' の心拍',h)}
-function shSl(d){const s=(D.sleep||{})[d];if(!s||!s.total)return;const t=s.total,pC=(s.core/t*100).toFixed(0),pD=((s.deep||0)/t*100).toFixed(0),pR=((s.rem||0)/t*100).toFixed(0);let h='<div style="text-align:center;margin-bottom:14px"><div style="font-size:11px;color:var(--t3)">🛏 '+(s.start||'')+' → ⏰ '+(s.end||'')+'</div><div style="font-size:34px;font-weight:800;color:#6b21a8">'+hmS(t)+'</div></div>';h+='<div style="display:flex;height:26px;border-radius:7px;overflow:hidden;margin-bottom:6px"><div style="width:'+pC+'%;background:#34d399"></div><div style="width:'+pD+'%;background:#059669"></div><div style="width:'+pR+'%;background:#a78bfa"></div></div>';h+='<div style="display:flex;gap:10px;font-size:11px;color:var(--t2);margin-bottom:14px;flex-wrap:wrap"><span>🟢コア '+hmS(s.core)+' '+pC+'%</span><span>🟩深い '+hmS(s.deep||0)+' '+pD+'%</span><span>🟣レム '+hmS(s.rem||0)+' '+pR+'%</span></div>';const tH=t/60;h+='<div class="mev" style="background:'+(tH>=7?'var(--acL)':'var(--warnL)')+';color:'+(tH>=7?'var(--ac)':'var(--warn)')+'">'+(tH>=7?'✅ 推奨7〜9時間をクリア':'⚠️ 7時間未満')+'</div>';opMo(d+' の睡眠',h)}
+function shSl(d){const s=(D.sleep||{})[d];if(!s||!s.total)return;const t=s.total,pC=(s.core/t*100).toFixed(0),pD=((s.deep||0)/t*100).toFixed(0),pR=((s.rem||0)/t*100).toFixed(0);let h='<div style="text-align:center;margin-bottom:18px"><div style="font-size:var(--fs-xs);color:var(--t3);margin-bottom:4px">🛏 '+(s.start||'')+' → ⏰ '+(s.end||'')+'</div><div style="font-size:40px;font-weight:900;color:#6b21a8;letter-spacing:-1.5px">'+hmS(t)+'</div></div>';h+='<div style="display:flex;height:28px;border-radius:8px;overflow:hidden;margin-bottom:8px"><div style="width:'+pC+'%;background:#34d399"></div><div style="width:'+pD+'%;background:#059669"></div><div style="width:'+pR+'%;background:#a78bfa"></div></div>';h+='<div style="display:flex;gap:12px;font-size:var(--fs-sm);color:var(--t2);margin-bottom:16px;flex-wrap:wrap"><span>🟢コア '+hmS(s.core)+' '+pC+'%</span><span>🟩深い '+hmS(s.deep||0)+' '+pD+'%</span><span>🟣レム '+hmS(s.rem||0)+' '+pR+'%</span></div>';const tH=t/60;h+='<div class="mev" style="background:'+(tH>=7?'var(--acL)':'var(--warnL)')+';color:'+(tH>=7?'var(--ac)':'var(--warn)')+'">'+(tH>=7?'✅ 推奨7〜9時間をクリア':'⚠️ 7時間未満')+'</div>';opMo(d+' の睡眠',h)}
 function shBd(d){const bm=(D.bodyMass||[]).find(x=>x.d===d),bf=(D.bodyFat||[]).find(x=>x.d===d),bi=(D.bmi||[]).find(x=>x.d===d),lm=(D.leanMass||[]).find(x=>x.d===d);let h='<div class="mg">';if(bm)h+='<div class="mx" style="background:var(--acL)"><div class="ml">体重</div><div class="mv" style="color:var(--ac)">'+bm.v+'<small>kg</small></div></div>';if(bf)h+='<div class="mx" style="background:var(--warnL)"><div class="ml">体脂肪率</div><div class="mv" style="color:var(--warn)">'+bf.v+'<small>%</small></div></div>';if(bi)h+='<div class="mx"><div class="ml">BMI</div><div class="mv">'+bi.v+'</div></div>';if(lm)h+='<div class="mx" style="background:#f3e8ff"><div class="ml">除脂肪体重</div><div class="mv" style="color:#6b21a8">'+lm.v+'<small>kg</small></div></div>';h+='</div>';if(bi){const b=bi.v,lv=b<18.5?'低体重':b<25?'普通体重':b<30?'肥満1度':'肥満2度+';h+='<div class="mev" style="background:var(--acL);color:var(--ac)">BMI '+b+' → '+lv+'</div>'}opMo(d+' の体組成',h)}
 function shVt(d){const sp=(D.spo2||{})[d],rs=(D.respiratory||{})[d],v2=(D.vo2max||[]).find(x=>x.d===d);let h='<div class="mg">';if(sp){h+='<div class="mx" style="background:var(--acL)"><div class="ml">SpO2 平均</div><div class="mv" style="color:var(--ac)">'+sp.avg+'<small>%</small></div></div>';h+='<div class="mx"><div class="ml">SpO2 最小</div><div class="mv">'+sp.min+'<small>%</small></div></div>'}if(rs)h+='<div class="mx"><div class="ml">呼吸数</div><div class="mv">'+rs.avg+'<small>回/分</small></div></div>';if(v2)h+='<div class="mx" style="background:#ecfeff"><div class="ml">VO2Max</div><div class="mv" style="color:#0e7490">'+v2.v+'</div></div>';h+='</div>';if(sp){const lv=sp.avg>=96?'正常範囲':sp.avg>=94?'やや低め':'低め';h+='<div class="mev" style="background:var(--acL);color:var(--ac)">💡 '+lv+'</div>'}opMo(d+' のバイタル',h)}
 function shAc(d){const en=(D.activeEnergy||{})[d],bs=(D.basalEnergy||{})[d],ex=(D.exerciseTime||{})[d];let h='<div class="mg">';if(en)h+='<div class="mx" style="background:var(--acL)"><div class="ml">アクティブ</div><div class="mv" style="color:var(--ac)">'+fN(Math.round(en))+'<small>kcal</small></div></div>';if(bs)h+='<div class="mx"><div class="ml">基礎代謝</div><div class="mv">'+fN(Math.round(bs))+'<small>kcal</small></div></div>';if(en&&bs)h+='<div class="mx" style="background:#fff7ed"><div class="ml">合計</div><div class="mv" style="color:#c2410c">'+fN(Math.round(en+bs))+'<small>kcal</small></div></div>';if(ex)h+='<div class="mx"><div class="ml">運動時間</div><div class="mv">'+Math.round(ex)+'<small>分</small></div></div>';h+='</div>';opMo(d+' のエネルギー',h)}
-function shWk(d){const wks=fA(D.workouts).filter(x=>x.d===d);let h='';for(const w of wks)h+='<div style="padding:12px;background:var(--card2);border-radius:var(--r2);margin-bottom:8px"><div style="font-size:14px;font-weight:700">'+wkN(w.type)+'</div><div style="display:flex;gap:12px;margin-top:6px;font-size:11.5px;color:var(--t2)"><span>⏱'+Math.round(w.dur)+'分</span>'+(w.dist?'<span>📏'+w.dist.toFixed(1)+'km</span>':'')+'<span>🔥'+Math.round(w.cal)+'kcal</span></div></div>';opMo(d+' のワークアウト',h||'データなし')}
+function shWk(d){const wks=fA(D.workouts).filter(x=>x.d===d);let h='';for(const w of wks)h+='<div style="padding:16px;background:var(--card2);border-radius:var(--r2);margin-bottom:10px"><div style="font-size:var(--fs-md);font-weight:800">'+wkN(w.type)+'</div><div style="display:flex;gap:14px;margin-top:8px;font-size:var(--fs-sm);color:var(--t2)"><span>⏱'+Math.round(w.dur)+'分</span>'+(w.dist?'<span>📏'+w.dist.toFixed(1)+'km</span>':'')+'<span>🔥'+Math.round(w.cal)+'kcal</span></div></div>';opMo(d+' のワークアウト',h||'データなし')}
 
 // ===== COMPARISON =====
-function mkCmp(){if(!pSex||!pAge)return'';const g=pSex,a=agG(pAge),bm=lstA(fA(D.bodyMass)),bf=lstA(fA(D.bodyFat)),bi=lstA(fA(D.bmi)),stL=lst(fK(D.steps)),rhr=lst(fK(D.restingHR)),slL=lst(fK(D.sleep)),v2=lstA(fA(D.vo2max));function rw(lb,ic,y,av,u,mn,mx2,hb){if(y==null)return'';const rg=mx2-mn,yp=Math.min(Math.max((y-mn)/rg*100,2),98),ap=Math.min(Math.max((av-mn)/rg*100,2),98),ok=hb?y>=av:y<=av;return'<div class="cr"><div class="cl">'+ic+' '+lb+'</div><div class="cb"><div style="position:absolute;top:0;left:'+ap+'%;width:1px;height:100%;background:var(--bd2)"></div><div style="position:absolute;top:-1px;left:'+yp+'%;width:5px;height:20px;background:'+(ok?'var(--ac)':'var(--err)')+';border-radius:3px;transform:translateX(-50%);box-shadow:0 1px 4px '+(ok?'rgba(22,128,60,.3)':'rgba(239,68,68,.3)')+'"></div></div><div class="cv"><b>'+y+u+'</b><br><span style="color:var(--t3)">'+av+u+'</span></div></div>'}let h='<div style="margin-top:18px;padding:16px;background:var(--card);border-radius:var(--r);border:1px solid var(--bd);box-shadow:var(--sh)"><div style="font-size:13px;font-weight:700;margin-bottom:12px">📊 '+(g==='m'?'男性':'女性')+a+'代との比較</div>';h+=rw('BMI','📐',bi?.v,BN.bmi[g][a],'',15,35,0);h+=rw('体重','⚖️',bm?.v,BN.weight[g][a],'kg',40,100,0);h+=rw('体脂肪','📊',bf?.v,BN.bodyFat[g][a],'%',5,45,0);h+=rw('歩数','👣',stL?Math.round(stL.v):null,BN.steps[g][a],'',0,15000,1);h+=rw('安静HR','❤️',rhr?.v,BN.rhr[g][a],'bpm',45,90,0);h+=rw('睡眠','🌙',slL?Math.round(slL.v.total):null,BN.slp[g][a],'分',200,600,1);h+=rw('VO2Max','🏃',v2?.v,BN.vo2[g][a],'',15,55,1);h+='<div style="font-size:9px;color:var(--t4);margin-top:10px">出典: 厚労省 国民健康・栄養調査（参考値）</div></div>';return h}
+function mkCmp(){if(!pSex||!pAge)return'';const g=pSex,a=agG(pAge),bm=lstA(fA(D.bodyMass)),bf=lstA(fA(D.bodyFat)),bi=lstA(fA(D.bmi)),stL=lst(fK(D.steps)),rhr=lst(fK(D.restingHR)),slL=lst(fK(D.sleep)),v2=lstA(fA(D.vo2max));function rw(lb,ic,y,av,u,mn,mx2,hb){if(y==null)return'';const rg=mx2-mn,yp=Math.min(Math.max((y-mn)/rg*100,2),98),ap=Math.min(Math.max((av-mn)/rg*100,2),98),ok=hb?y>=av:y<=av;return'<div class="cr"><div class="cl">'+ic+' '+lb+'</div><div class="cb"><div style="position:absolute;top:0;left:'+ap+'%;width:2px;height:100%;background:var(--bd2)"></div><div style="position:absolute;top:-2px;left:'+yp+'%;width:6px;height:22px;background:'+(ok?'var(--ac)':'var(--err)')+';border-radius:3px;transform:translateX(-50%);box-shadow:0 1px 4px '+(ok?'rgba(22,128,60,.3)':'rgba(220,38,38,.3)')+'"></div></div><div class="cv"><b>'+y+u+'</b><br><span style="color:var(--t3)">'+av+u+'</span></div></div>'}let h='<div style="margin-top:20px;padding:18px;background:var(--card);border-radius:var(--r);border:1.5px solid var(--bd);box-shadow:var(--sh)"><div style="font-size:var(--fs-base);font-weight:800;margin-bottom:14px">📊 '+(g==='m'?'男性':'女性')+a+'代との比較</div>';h+=rw('BMI','📐',bi?.v,BN.bmi[g][a],'',15,35,0);h+=rw('体重','⚖️',bm?.v,BN.weight[g][a],'kg',40,100,0);h+=rw('体脂肪','📊',bf?.v,BN.bodyFat[g][a],'%',5,45,0);h+=rw('歩数','👣',stL?Math.round(stL.v):null,BN.steps[g][a],'',0,15000,1);h+=rw('安静HR','❤️',rhr?.v,BN.rhr[g][a],'bpm',45,90,0);h+=rw('睡眠','🌙',slL?Math.round(slL.v.total):null,BN.slp[g][a],'分',200,600,1);h+=rw('VO2Max','🏃',v2?.v,BN.vo2[g][a],'',15,55,1);h+='<div style="font-size:10px;color:var(--t4);margin-top:12px">出典: 厚労省 国民健康・栄養調査（参考値）</div></div>';return h}
 
 // ===== EDIT =====
 function toggleEdit(){const ov=document.getElementById('eo');if(ov.classList.contains('on')){ov.classList.remove('on');document.body.style.overflow='';nav();return}let h='';for(const id of catOrder){const c=catOf(id);if(!c)continue;h+='<div class="er" data-id="'+id+'" draggable="true"><div class="edr">☰</div><div class="eico">'+c.icon+'</div><div class="enm">'+c.name+'</div><button class="etg '+(catVis[id]?'on':'off')+'" onclick="tgCat(\''+id+'\',this)"></button></div>'}document.getElementById('editList').innerHTML=h;ov.classList.add('on');document.body.style.overflow='hidden';const list=document.getElementById('editList');let dr=null;list.querySelectorAll('.er').forEach(r=>{r.addEventListener('dragstart',()=>{dr=r;r.style.opacity='.4'});r.addEventListener('dragend',()=>{dr=null;r.style.opacity='1';catOrder=[...list.querySelectorAll('.er')].map(x=>x.dataset.id);saveCP()});r.addEventListener('dragover',e=>{e.preventDefault();if(dr&&dr!==r){const rc=r.getBoundingClientRect();e.clientY<rc.top+rc.height/2?list.insertBefore(dr,r):list.insertBefore(dr,r.nextSibling)}})})}
@@ -417,11 +412,225 @@ function tgCat(id,b){catVis[id]=!catVis[id];b.className='etg '+(catVis[id]?'on':
 
 // ===== DEMO =====
 function startDemo(){const ld=document.getElementById('ldg');ld.classList.add('on');document.getElementById('lt').textContent='デモデータ生成中...';document.getElementById('pf').style.width='50%';setTimeout(()=>{D=genDemo();document.getElementById('pf').style.width='100%';setTimeout(()=>{ld.classList.remove('on');const showOB=!localStorage.getItem('hd_ob');enterApp(showOB)},300)},500)}
-function genDemo(){const nd={steps:{},distance:{},activeEnergy:{},basalEnergy:{},flights:{},exerciseTime:{},heartRate:{},restingHR:{},hrv:{},walkingHR:{},bodyMass:[],bodyFat:[],bmi:[],leanMass:[],spo2:{},respiratory:{},vo2max:[],sleep:{},workouts:[],activitySummary:[],details:{}};const now=new Date(),R=(a,b)=>a+Math.random()*(b-a);for(let i=365;i>=0;i--){const dt=new Date(now);dt.setDate(dt.getDate()-i);const d=dt.toISOString().slice(0,10);nd.steps[d]=Math.round(R(3000,15000));nd.distance[d]=+(nd.steps[d]*.0007).toFixed(2);nd.activeEnergy[d]=Math.round(R(150,600));nd.basalEnergy[d]=Math.round(R(1400,1700));nd.flights[d]=Math.round(R(0,15));nd.exerciseTime[d]=Math.round(R(5,60));nd.heartRate[d]={avg:Math.round(R(65,90)),min:Math.round(R(45,60)),max:Math.round(R(110,160))};nd.restingHR[d]=Math.round(R(55,72));nd.hrv[d]=Math.round(R(20,80));nd.spo2[d]={avg:+(R(95.5,98.5)).toFixed(1),min:+(R(93,96)).toFixed(1),max:99};nd.respiratory[d]={avg:+(R(13,18)).toFixed(1)};if(i%2===0){const sl=Math.round(R(300,540)),dp=Math.round(sl*R(.1,.25)),rm=Math.round(sl*R(.15,.3));nd.sleep[d]={total:sl,core:sl-dp-rm,deep:dp,rem:rm,awake:Math.round(R(5,30)),start:'23:'+(''+Math.round(R(0,59))).padStart(2,'0'),end:'06:'+(''+Math.round(R(0,59))).padStart(2,'0')}}if(i%3===0){const w=64+Math.sin(i/30)*2+R(-.5,.5),bf=18+Math.sin(i/40)*2+R(-.3,.3);nd.bodyMass.push({d,v:+w.toFixed(1)});nd.bodyFat.push({d,v:+bf.toFixed(1)});nd.bmi.push({d,v:+(w/1.69/1.69).toFixed(1)});nd.leanMass.push({d,v:+(w*(1-bf/100)).toFixed(1)})}if(i%30===0)nd.vo2max.push({d,v:+(R(35,45)).toFixed(1)});if(i%7===0)nd.workouts.push({d,type:['Walking','Running','Cycling','TraditionalStrengthTraining'][Math.floor(R(0,4))],dur:Math.round(R(20,90)),dist:+(R(1,10)).toFixed(2),cal:Math.round(R(100,500))})}return nd}
+function genDemo(){const nd={steps:{},distance:{},activeEnergy:{},basalEnergy:{},flights:{},exerciseTime:{},heartRate:{},restingHR:{},hrv:{},walkingHR:{},bodyMass:[],bodyFat:[],bmi:[],leanMass:[],spo2:{},respiratory:{},vo2max:[],sleep:{},workouts:[],activitySummary:[],details:{}};const now=new Date(),R=(a,b)=>a+Math.random()*(b-a);for(let i=365;i>=0;i--){const dt=new Date(now);dt.setDate(dt.getDate()-i);const d=dt.toISOString().slice(0,10);nd.steps[d]=Math.round(R(3000,15000));nd.distance[d]=+(nd.steps[d]*.0007).toFixed(2);nd.activeEnergy[d]=Math.round(R(150,600));nd.basalEnergy[d]=Math.round(R(1400,1700));nd.flights[d]=Math.round(R(0,15));nd.exerciseTime[d]=Math.round(R(5,60));nd.heartRate[d]={avg:Math.round(R(65,90)),min:Math.round(R(45,60)),max:Math.round(R(110,160))};nd.restingHR[d]=Math.round(R(55,72));nd.hrv[d]=Math.round(R(20,80));nd.spo2[d]={avg:+(R(95.5,98.5)).toFixed(1),min:+(R(93,96)).toFixed(1),max:99};nd.respiratory[d]={avg:+(R(13,18)).toFixed(1)};if(i%2===0){const sl=Math.round(R(360,480)),dp=Math.round(sl*R(.1,.25)),rm=Math.round(sl*R(.15,.3));nd.sleep[d]={total:sl,core:sl-dp-rm,deep:dp,rem:rm,awake:Math.round(R(5,30)),start:'23:'+(''+Math.round(R(0,59))).padStart(2,'0'),end:'06:'+(''+Math.round(R(0,59))).padStart(2,'0')}}if(i%3===0){const w=64+Math.sin(i/30)*2+R(-.5,.5),bf=18+Math.sin(i/40)*2+R(-.3,.3);nd.bodyMass.push({d,v:+w.toFixed(1)});nd.bodyFat.push({d,v:+bf.toFixed(1)});nd.bmi.push({d,v:+(w/1.69/1.69).toFixed(1)});nd.leanMass.push({d,v:+(w*(1-bf/100)).toFixed(1)})}if(i%30===0)nd.vo2max.push({d,v:+(R(35,45)).toFixed(1)});if(i%7===0)nd.workouts.push({d,type:['Walking','Running','Cycling','TraditionalStrengthTraining'][Math.floor(R(0,4))],dur:Math.round(R(20,90)),dist:+(R(1,10)).toFixed(2),cal:Math.round(R(100,500))})}return nd}
 
-// ===== UPLOAD =====
+// ========================================================
+// ===== UPLOAD & XML PARSE (睡眠二重計上修正版) =====
+// ========================================================
 async function parseZip(file){if(typeof JSZip==='undefined'){alert('ZIPの読み込みにはSafariで直接開いてください');return}const ld=document.getElementById('ldg'),lt=document.getElementById('lt'),pf=document.getElementById('pf');ld.classList.add('on');lt.textContent='ZIP展開中...';pf.style.width='10%';try{const zip=await JSZip.loadAsync(file);let xf=null;zip.forEach((p2,e)=>{if(p2.endsWith('export.xml')&&!e.dir)xf=e});if(!xf)throw new Error('export.xmlが見つかりません');lt.textContent='XML読み込み中...';pf.style.width='30%';const xml=await xf.async('string');pf.style.width='55%';lt.textContent='解析中（'+Math.round(xml.length/1048576)+'MB）...';await new Promise(r=>setTimeout(r,50));D=parseXML(xml);pf.style.width='90%';lt.textContent='データを保存中...';await cacheData(D);pf.style.width='95%';lt.textContent='完了！';const us=document.getElementById('us');us.className='ust ok';us.textContent='✅ '+Object.keys(D.steps).length+'日分のデータを読み込みました';await new Promise(r=>setTimeout(r,300));ld.classList.remove('on');const showOB=!localStorage.getItem('hd_ob');enterApp(showOB)}catch(e){ld.classList.remove('on');const us=document.getElementById('us');us.className='ust er';us.textContent='❌ '+e.message;console.error(e)}}
-function parseXML(xml){const nd={steps:{},distance:{},activeEnergy:{},basalEnergy:{},flights:{},exerciseTime:{},heartRate:{},restingHR:{},hrv:{},walkingHR:{},bodyMass:[],bodyFat:[],bmi:[],leanMass:[],spo2:{},respiratory:{},vo2max:[],sleep:{},workouts:[],activitySummary:[],details:{}};function at(t,n){const m2=t.match(new RegExp(n+'="([^"]*)"'));return m2?m2[1]:null}function pDt(s){return new Date(s.replace(' +','+').replace(' -','-'))}const hrD={},spD={},rsD={},slS={},ddS={},ddD={},ddF={};const rR=/<Record\s+([^>]*?)(?:\/>|>)/g;let m;while((m=rR.exec(xml))!==null){const t=m[1],tp=at(t,'type'),vS=at(t,'value')||'0',sd=at(t,'startDate'),ed=at(t,'endDate'),dk=sd?sd.slice(0,10):null;if(!dk)continue;const v=parseFloat(vS)||0,src=at(t,'sourceName')||'',isW=src.indexOf('Watch')>=0;switch(tp){case'HKQuantityTypeIdentifierStepCount':(ddS[dk]||(ddS[dk]=[])).push({s:sd,e:ed,v,w:isW});break;case'HKQuantityTypeIdentifierDistanceWalkingRunning':(ddD[dk]||(ddD[dk]=[])).push({s:sd,e:ed,v,w:isW});break;case'HKQuantityTypeIdentifierFlightsClimbed':(ddF[dk]||(ddF[dk]=[])).push({s:sd,e:ed,v,w:isW});break;case'HKQuantityTypeIdentifierActiveEnergyBurned':nd.activeEnergy[dk]=(nd.activeEnergy[dk]||0)+v;break;case'HKQuantityTypeIdentifierBasalEnergyBurned':nd.basalEnergy[dk]=(nd.basalEnergy[dk]||0)+v;break;case'HKQuantityTypeIdentifierAppleExerciseTime':nd.exerciseTime[dk]=(nd.exerciseTime[dk]||0)+v;break;case'HKQuantityTypeIdentifierHeartRate':(hrD[dk]||(hrD[dk]=[])).push(v);break;case'HKQuantityTypeIdentifierRestingHeartRate':nd.restingHR[dk]=v;break;case'HKQuantityTypeIdentifierHeartRateVariabilitySDNN':nd.hrv[dk]=v;break;case'HKQuantityTypeIdentifierBodyMass':nd.bodyMass.push({d:dk,v:Math.round(v*10)/10});break;case'HKQuantityTypeIdentifierBodyFatPercentage':nd.bodyFat.push({d:dk,v:Math.round(v*1000)/10});break;case'HKQuantityTypeIdentifierBodyMassIndex':nd.bmi.push({d:dk,v:Math.round(v*10)/10});break;case'HKQuantityTypeIdentifierLeanBodyMass':nd.leanMass.push({d:dk,v:Math.round(v*10)/10});break;case'HKQuantityTypeIdentifierOxygenSaturation':(spD[dk]||(spD[dk]=[])).push(v<1?Math.round(v*10000)/100:v);break;case'HKQuantityTypeIdentifierRespiratoryRate':(rsD[dk]||(rsD[dk]=[])).push(v);break;case'HKQuantityTypeIdentifierVO2Max':nd.vo2max.push({d:dk,v:Math.round(v*10)/10});break;case'HKCategoryTypeIdentifierSleepAnalysis':{if(!sd||!ed)break;const sh=parseInt(sd.slice(11,13));let sD=dk;if(sh<18){const d2=new Date(dk);d2.setDate(d2.getDate()-1);sD=d2.toISOString().slice(0,10)}if(!slS[sD])slS[sD]={core:0,deep:0,rem:0,awake:0,total:0,start:'',end:'',_sr:sd,_er:ed};const sg=slS[sD],ms=pDt(ed)-pDt(sd),dm=Math.max(0,ms/60000);if(vS.includes('Core')||vS.includes('Unspecified'))sg.core+=dm;else if(vS.includes('Deep'))sg.deep+=dm;else if(vS.includes('REM'))sg.rem+=dm;else if(vS.includes('Awake'))sg.awake+=dm;sg.total+=(vS.includes('Awake')?0:dm);if(!sg.start||sd<sg._sr){sg.start=sd.slice(11,16);sg._sr=sd}if(!sg.end||ed>sg._er){sg.end=ed.slice(11,16);sg._er=ed}break}}}function ddDay(recs){const w=recs.filter(r=>r.w),ph=recs.filter(r=>!r.w);let t=0;for(const r of w)t+=r.v;if(w.length){const wt=w.map(r=>({s:pDt(r.s).getTime(),e:pDt(r.e).getTime()}));for(const r of ph){const ps=pDt(r.s).getTime(),pe=pDt(r.e).getTime();if(!wt.some(w2=>ps<w2.e&&pe>w2.s))t+=r.v}}else for(const r of ph)t+=r.v;return t}for(const[dk,r]of Object.entries(ddS))nd.steps[dk]=Math.round(ddDay(r));for(const[dk,r]of Object.entries(ddD))nd.distance[dk]=Math.round(ddDay(r)*100)/100;for(const[dk,r]of Object.entries(ddF))nd.flights[dk]=Math.round(ddDay(r));for(const[k,vs]of Object.entries(hrD))nd.heartRate[k]={avg:Math.round(AV(vs)),min:Math.round(Math.min(...vs)),max:Math.round(Math.max(...vs))};for(const[k,vs]of Object.entries(spD))nd.spo2[k]={avg:Math.round(AV(vs)*10)/10,min:Math.round(Math.min(...vs)*10)/10,max:Math.round(Math.max(...vs)*10)/10};for(const[k,vs]of Object.entries(rsD))nd.respiratory[k]={avg:Math.round(AV(vs)*10)/10};for(const[k,sg]of Object.entries(slS))if(sg.total>0)nd.sleep[k]={total:Math.round(sg.total),core:Math.round(sg.core),deep:Math.round(sg.deep),rem:Math.round(sg.rem),awake:Math.round(sg.awake),start:sg.start,end:sg.end};const wR=/<Workout\s+([^>]*?)>/g;while((m=wR.exec(xml))!==null){const t=m[1],wt=(at(t,'workoutActivityType')||'').replace('HKWorkoutActivityType',''),du=parseFloat(at(t,'duration')||0),di=parseFloat(at(t,'totalDistance')||0),ca=parseFloat(at(t,'totalEnergyBurned')||0),sd2=at(t,'startDate'),dk2=sd2?sd2.slice(0,10):null;if(dk2&&du>0)nd.workouts.push({d:dk2,type:wt,dur:Math.round(du*10)/10,dist:Math.round(di*100)/100,cal:Math.round(ca)})}const aR=/<ActivitySummary\s+([^>]*?)\/>/g;while((m=aR.exec(xml))!==null){const t=m[1],dk3=at(t,'dateComponents');if(dk3)nd.activitySummary.push({d:dk3,ae:parseFloat(at(t,'activeEnergyBurned')||0),aeg:parseFloat(at(t,'activeEnergyBurnedGoal')||0),ex:parseFloat(at(t,'appleExerciseTime')||0),exg:parseFloat(at(t,'appleExerciseTimeGoal')||0),st:parseFloat(at(t,'appleStandHours')||0),stg:parseFloat(at(t,'appleStandHoursGoal')||0)})}function ded(a){const m3={};for(const x of a)m3[x.d]=x;return Object.values(m3).sort((a2,b)=>a2.d.localeCompare(b.d))}nd.bodyMass=ded(nd.bodyMass);nd.bodyFat=ded(nd.bodyFat);nd.bmi=ded(nd.bmi);nd.leanMass=ded(nd.leanMass);nd.vo2max=ded(nd.vo2max);nd.workouts.sort((a2,b)=>a2.d.localeCompare(b.d));nd.activitySummary.sort((a2,b)=>a2.d.localeCompare(b.d));return nd}
+
+function parseXML(xml){
+  const nd={steps:{},distance:{},activeEnergy:{},basalEnergy:{},flights:{},exerciseTime:{},heartRate:{},restingHR:{},hrv:{},walkingHR:{},bodyMass:[],bodyFat:[],bmi:[],leanMass:[],spo2:{},respiratory:{},vo2max:[],sleep:{},workouts:[],activitySummary:[],details:{}};
+  function at(t,n){const m2=t.match(new RegExp(n+'="([^"]*)"'));return m2?m2[1]:null}
+  function pDt(s){return new Date(s.replace(' +','+').replace(' -','-'))}
+  
+  // ---- Step/Distance/Flights dedup (Watch優先) ----
+  const hrD={},spD={},rsD={};
+  const ddS={},ddD={},ddF={};
+
+  // ---- 睡眠: セッションをソースごとに収集してマージ ----
+  // key: date → [{src, type, startMs, endMs}]
+  const slRaw={};
+
+  // ---- エネルギー: ソース別に収集して重複排除 ----
+  // key: date → [{src, startMs, endMs, val}]
+  const aeRaw={},beRaw={},exRaw={};
+
+  const rR=/<Record\s+([^>]*?)(?:\/>|>)/g;
+  let m;
+  while((m=rR.exec(xml))!==null){
+    const t=m[1],tp=at(t,'type'),vS=at(t,'value')||'0',sd=at(t,'startDate'),ed=at(t,'endDate'),dk=sd?sd.slice(0,10):null;
+    if(!dk)continue;
+    const v=parseFloat(vS)||0,src=at(t,'sourceName')||'',isW=src.toLowerCase().indexOf('watch')>=0;
+    const sdMs=sd?pDt(sd).getTime():0,edMs=ed?pDt(ed).getTime():0;
+
+    switch(tp){
+      // --- 歩数・距離・階段: Watch優先重複排除(従来通り) ---
+      case'HKQuantityTypeIdentifierStepCount':
+        (ddS[dk]||(ddS[dk]=[])).push({s:sd,e:ed,v,w:isW});break;
+      case'HKQuantityTypeIdentifierDistanceWalkingRunning':
+        (ddD[dk]||(ddD[dk]=[])).push({s:sd,e:ed,v,w:isW});break;
+      case'HKQuantityTypeIdentifierFlightsClimbed':
+        (ddF[dk]||(ddF[dk]=[])).push({s:sd,e:ed,v,w:isW});break;
+
+      // --- エネルギー: 時間インターバルで重複排除 ---
+      case'HKQuantityTypeIdentifierActiveEnergyBurned':
+        (aeRaw[dk]||(aeRaw[dk]=[])).push({src,s:sdMs,e:edMs,v,w:isW});break;
+      case'HKQuantityTypeIdentifierBasalEnergyBurned':
+        (beRaw[dk]||(beRaw[dk]=[])).push({src,s:sdMs,e:edMs,v,w:isW});break;
+      case'HKQuantityTypeIdentifierAppleExerciseTime':
+        (exRaw[dk]||(exRaw[dk]=[])).push({src,s:sdMs,e:edMs,v,w:isW});break;
+
+      // --- 心拍数: 全ソースのavg(元通りでOK, 範囲計算のため) ---
+      case'HKQuantityTypeIdentifierHeartRate':
+        (hrD[dk]||(hrD[dk]=[])).push(v);break;
+      case'HKQuantityTypeIdentifierRestingHeartRate':
+        // Watchを優先、なければ最新値
+        if(!nd.restingHR[dk]||isW)nd.restingHR[dk]=v;break;
+      case'HKQuantityTypeIdentifierHeartRateVariabilitySDNN':
+        if(!nd.hrv[dk]||isW)nd.hrv[dk]=v;break;
+
+      // --- 体組成 ---
+      case'HKQuantityTypeIdentifierBodyMass':nd.bodyMass.push({d:dk,v:Math.round(v*10)/10});break;
+      case'HKQuantityTypeIdentifierBodyFatPercentage':nd.bodyFat.push({d:dk,v:Math.round(v*1000)/10});break;
+      case'HKQuantityTypeIdentifierBodyMassIndex':nd.bmi.push({d:dk,v:Math.round(v*10)/10});break;
+      case'HKQuantityTypeIdentifierLeanBodyMass':nd.leanMass.push({d:dk,v:Math.round(v*10)/10});break;
+
+      // --- SpO2・呼吸数 ---
+      case'HKQuantityTypeIdentifierOxygenSaturation':
+        (spD[dk]||(spD[dk]=[])).push(v<1?Math.round(v*10000)/100:v);break;
+      case'HKQuantityTypeIdentifierRespiratoryRate':
+        (rsD[dk]||(rsD[dk]=[])).push(v);break;
+      case'HKQuantityTypeIdentifierVO2Max':
+        nd.vo2max.push({d:dk,v:Math.round(v*10)/10});break;
+
+      // ---- 睡眠: セッションを生データとして収集 ----
+      case'HKCategoryTypeIdentifierSleepAnalysis':{
+        if(!sd||!ed)break;
+        const sh=parseInt(sd.slice(11,13));
+        let sD=dk;
+        if(sh<18){const d2=new Date(dk);d2.setDate(d2.getDate()-1);sD=d2.toISOString().slice(0,10)}
+        if(!slRaw[sD])slRaw[sD]=[];
+        slRaw[sD].push({src,w:isW,type:vS,s:sdMs,e:edMs});
+        break;
+      }
+    }
+  }
+
+  // ---- 歩数デデュプ (Watch優先インターバルマージ) ----
+  function ddDay(recs){
+    const w=recs.filter(r=>r.w),ph=recs.filter(r=>!r.w);
+    let t=0;
+    for(const r of w)t+=r.v;
+    if(w.length){
+      const wt=w.map(r=>({s:pDt(r.s).getTime(),e:pDt(r.e).getTime()}));
+      for(const r of ph){const ps=pDt(r.s).getTime(),pe=pDt(r.e).getTime();if(!wt.some(w2=>ps<w2.e&&pe>w2.s))t+=r.v}
+    }else for(const r of ph)t+=r.v;
+    return t;
+  }
+  for(const[dk,r]of Object.entries(ddS))nd.steps[dk]=Math.round(ddDay(r));
+  for(const[dk,r]of Object.entries(ddD))nd.distance[dk]=Math.round(ddDay(r)*100)/100;
+  for(const[dk,r]of Object.entries(ddF))nd.flights[dk]=Math.round(ddDay(r));
+
+  // ---- エネルギー重複排除: Watchデータがあればそちらのみ集計 ----
+  function sumEnergy(rawMap){
+    const result={};
+    for(const[dk,recs]of Object.entries(rawMap)){
+      const watches=recs.filter(r=>r.w);
+      // Watchデータがある日はWatch分のみ合算
+      // Watchデータがない日はPhone分を合算
+      const use=watches.length?watches:recs;
+      // さらに時間インターバルで重複マージ
+      result[dk]=mergeIntervalSum(use);
+    }
+    return result;
+  }
+
+  // 時間インターバルをマージして合計値を算出
+  function mergeIntervalSum(recs){
+    if(!recs.length)return 0;
+    // インターバルでソート
+    const sorted=[...recs].sort((a,b)=>a.s-b.s);
+    let total=0,curE=sorted[0].s;
+    for(const r of sorted){
+      if(r.s>=curE){// 重複なし
+        total+=r.v;curE=r.e;
+      } else if(r.e>curE){// 部分重複 → 非重複部分のみ按分加算
+        const overlap=curE-r.s,dur=r.e-r.s;
+        if(dur>0){const ratio=(r.e-curE)/dur;total+=r.v*ratio}
+        curE=r.e;
+      }
+      // 完全包含の場合はスキップ
+    }
+    return Math.round(total);
+  }
+
+  const aeResult=sumEnergy(aeRaw);
+  const beResult=sumEnergy(beRaw);
+  const exResult=sumEnergy(exRaw);
+  for(const[dk,v]of Object.entries(aeResult))nd.activeEnergy[dk]=v;
+  for(const[dk,v]of Object.entries(beResult))nd.basalEnergy[dk]=v;
+  for(const[dk,v]of Object.entries(exResult))nd.exerciseTime[dk]=v;
+
+  // ---- 心拍数集計 ----
+  for(const[k,vs]of Object.entries(hrD))nd.heartRate[k]={avg:Math.round(AV(vs)),min:Math.round(Math.min(...vs)),max:Math.round(Math.max(...vs))};
+  for(const[k,vs]of Object.entries(spD))nd.spo2[k]={avg:Math.round(AV(vs)*10)/10,min:Math.round(Math.min(...vs)*10)/10,max:Math.round(Math.max(...vs)*10)/10};
+  for(const[k,vs]of Object.entries(rsD))nd.respiratory[k]={avg:Math.round(AV(vs)*10)/10};
+
+  // ========================================
+  // ===== 睡眠: 重複排除マージロジック =====
+  // ========================================
+  for(const[sD,sessions]of Object.entries(slRaw)){
+    // 睡眠ステージ別にWatchセッションとiPhoneセッションを分ける
+    const watchSessions=sessions.filter(s=>s.w);
+    const phoneSessions=sessions.filter(s=>!s.w);
+
+    // Watchセッションがあれば、Watch優先でiPhoneの重複部分を除外
+    const useSessions=watchSessions.length>0
+      ? mergeWatchPhone(watchSessions,phoneSessions)
+      : phoneSessions;
+
+    // ステージ別に重複なしのインターバルをマージ
+    const stageRecs={core:[],deep:[],rem:[],awake:[]};
+    for(const s of useSessions){
+      const v=s.type;
+      if(v.includes('Core')||v.includes('Unspecified'))stageRecs.core.push(s);
+      else if(v.includes('Deep'))stageRecs.deep.push(s);
+      else if(v.includes('REM'))stageRecs.rem.push(s);
+      else if(v.includes('Awake'))stageRecs.awake.push(s);
+    }
+
+    function sumStage(recs){
+      if(!recs.length)return 0;
+      // インターバルマージ（分単位）
+      const sorted=[...recs].sort((a,b)=>a.s-b.s);
+      let total=0,curE=sorted[0].s;
+      for(const r of sorted){
+        if(r.s>=curE){total+=(r.e-r.s)/60000;curE=r.e}
+        else if(r.e>curE){total+=(r.e-curE)/60000;curE=r.e}
+      }
+      return Math.round(total);
+    }
+
+    const core=sumStage(stageRecs.core);
+    const deep=sumStage(stageRecs.deep);
+    const rem=sumStage(stageRecs.rem);
+    const awake=sumStage(stageRecs.awake);
+    const total=core+deep+rem; // Awakeは合計から除外
+
+    if(total>0){
+      // 就寝・起床時刻
+      const allMs=useSessions.filter(s=>!s.type.includes('Awake'));
+      const minMs=allMs.reduce((mn,s)=>Math.min(mn,s.s),Infinity);
+      const maxMs=allMs.reduce((mx2,s)=>Math.max(mx2,s.e),-Infinity);
+      const fmt=ms=>{const d=new Date(ms);return(''+d.getHours()).padStart(2,'0')+':'+(''+d.getMinutes()).padStart(2,'0')};
+      nd.sleep[sD]={total,core,deep,rem,awake,start:minMs<Infinity?fmt(minMs):'',end:maxMs>-Infinity?fmt(maxMs):''};
+    }
+  }
+
+  // Watch優先マージ: Watchのインターバルを優先し、Phoneの重複部分を除外
+  function mergeWatchPhone(watchSess,phoneSess){
+    if(!phoneSess.length)return watchSess;
+    const watchIntervals=watchSess.map(s=>({s:s.s,e:s.e}));
+    const filtered=phoneSess.filter(ps=>{
+      // Watchセッションと全く重複していないPhoneセッションのみ残す
+      return !watchIntervals.some(wi=>ps.s<wi.e&&ps.e>wi.s);
+    });
+    return [...watchSess,...filtered];
+  }
+
+  // ---- ワークアウト ----
+  const wR=/<Workout\s+([^>]*?)>/g;
+  while((m=wR.exec(xml))!==null){const t=m[1],wt=(at(t,'workoutActivityType')||'').replace('HKWorkoutActivityType',''),du=parseFloat(at(t,'duration')||0),di=parseFloat(at(t,'totalDistance')||0),ca=parseFloat(at(t,'totalEnergyBurned')||0),sd2=at(t,'startDate'),dk2=sd2?sd2.slice(0,10):null;if(dk2&&du>0)nd.workouts.push({d:dk2,type:wt,dur:Math.round(du*10)/10,dist:Math.round(di*100)/100,cal:Math.round(ca)})}
+  const aR=/<ActivitySummary\s+([^>]*?)\/>/g;
+  while((m=aR.exec(xml))!==null){const t=m[1],dk3=at(t,'dateComponents');if(dk3)nd.activitySummary.push({d:dk3,ae:parseFloat(at(t,'activeEnergyBurned')||0),aeg:parseFloat(at(t,'activeEnergyBurnedGoal')||0),ex:parseFloat(at(t,'appleExerciseTime')||0),exg:parseFloat(at(t,'appleExerciseTimeGoal')||0),st:parseFloat(at(t,'appleStandHours')||0),stg:parseFloat(at(t,'appleStandHoursGoal')||0)})}
+
+  // ---- デデュプ (日付重複除去・ソート) ----
+  function ded(a){const m3={};for(const x of a)m3[x.d]=x;return Object.values(m3).sort((a2,b)=>a2.d.localeCompare(b.d))}
+  nd.bodyMass=ded(nd.bodyMass);nd.bodyFat=ded(nd.bodyFat);nd.bmi=ded(nd.bmi);nd.leanMass=ded(nd.leanMass);nd.vo2max=ded(nd.vo2max);nd.workouts.sort((a2,b)=>a2.d.localeCompare(b.d));nd.activitySummary.sort((a2,b)=>a2.d.localeCompare(b.d));
+  return nd;
+}
+
 async function handleUpload(ev){const fs=ev.target.files;if(!fs.length)return;for(const f of fs){if(f.name.toLowerCase().endsWith('.zip'))await parseZip(f)}ev.target.value=''}
 
 // ===== DRAG/DROP =====
@@ -431,7 +640,6 @@ document.body.addEventListener('drop',e=>{e.preventDefault();const fi=document.g
 
 // ===== INIT =====
 loadCP();
-// Sync check for embedded data (runs immediately, no async needed)
 if(typeof EMBEDDED_DATA!=='undefined'&&EMBEDDED_DATA){
   try{D=EMBEDDED_DATA;hasData=true;
     document.getElementById('welcome').style.display='none';
@@ -441,7 +649,6 @@ if(typeof EMBEDDED_DATA!=='undefined'&&EMBEDDED_DATA){
     buildPB();initP();navStack=[];nav();
   }catch(e){console.error('Init error:',e);document.getElementById('welcome').style.display='flex';document.getElementById('app').style.display='none'}
 }else{
-  // Async path for cache check
   (async()=>{try{
     const cached=await loadCachedData();
     if(cached&&cached.data){
@@ -451,7 +658,6 @@ if(typeof EMBEDDED_DATA!=='undefined'&&EMBEDDED_DATA){
     }
   }catch(e){console.warn('Cache check failed:',e)}})();
 }
-
 </script>
 </body>
 </html>
