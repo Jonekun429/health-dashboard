@@ -211,6 +211,44 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
 
 /* Legal pages */
 #legalPage{display:none;position:fixed;inset:0;z-index:600;background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch}
+
+/* ======== LIFETIME PAGE ======== */
+#lifePage{display:none;position:fixed;inset:0;z-index:600;background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch}
+#lifePage.on{display:block}
+.lf-head{position:sticky;top:0;background:linear-gradient(135deg,#5C8E84,#3E6B62);padding:14px 20px;display:flex;align-items:center;gap:10px;z-index:1;color:#fff}
+.lf-head h2{flex:1;font-size:16px;font-weight:700}
+.lf-close{width:32px;height:32px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff}
+.lf-tabs{display:flex;border-bottom:1px solid var(--bg-e);background:var(--card)}
+.lf-tab{flex:1;padding:12px 4px;text-align:center;font-size:12px;font-weight:600;color:var(--tp);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s}
+.lf-tab.on{color:var(--brand);border-bottom-color:var(--brand);background:var(--bg)}
+.lf-body{padding:20px;max-width:460px;margin:0 auto}
+.lf-ring-wrap{display:flex;justify-content:center;padding:20px 0}
+.lf-countdown{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;background:var(--card2);border-radius:var(--r);padding:16px;margin-bottom:16px}
+.lf-cd-item{text-align:center}
+.lf-cd-num{font-size:24px;font-weight:700;color:var(--td)}
+.lf-cd-label{font-size:10px;color:var(--tp);margin-top:2px}
+.lf-contrib{background:var(--card);border:1px solid var(--bg-e);border-radius:var(--r);padding:14px;margin-bottom:10px}
+.lf-contrib-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.lf-contrib-name{font-size:13px;font-weight:600;color:var(--td)}
+.lf-contrib-val{font-size:14px;font-weight:700}
+.lf-contrib-bar{height:6px;background:var(--bg-e);border-radius:3px;overflow:hidden}
+.lf-contrib-fill{height:100%;border-radius:3px;transition:width .3s}
+.lf-quote{background:var(--card2);border-radius:var(--r);padding:20px;margin:16px 0;text-align:center;font-size:13px;line-height:1.8;color:var(--tm);font-style:italic;position:relative;min-height:60px;transition:opacity .5s}
+.lf-quote::before{content:'"';font-size:40px;color:var(--brand);opacity:.3;position:absolute;top:4px;left:12px;font-style:normal}
+.lf-quote.fade-out{opacity:0}
+.lf-quote.fade-in{opacity:1}
+.lf-bucket{margin-top:16px}
+.lf-bucket-item{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--card);border:1px solid var(--bg-e);border-radius:var(--r2);margin-bottom:8px}
+.lf-bucket-check{width:24px;height:24px;border-radius:50%;border:2px solid var(--bg-e);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all .15s}
+.lf-bucket-check.done{background:var(--brand);border-color:var(--brand)}
+.lf-bucket-text{flex:1;font-size:13px;color:var(--td)}
+.lf-bucket-text.done{text-decoration:line-through;color:var(--tp)}
+.lf-bucket-del{width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--tp);border-radius:6px;transition:all .15s}
+.lf-bucket-del:hover{background:var(--errL);color:var(--err)}
+.lf-add-form{display:flex;gap:6px;margin-top:12px}
+.lf-add-input{flex:1;padding:10px 14px;border:1px solid var(--bg-e);border-radius:var(--r3);font-size:13px;font-family:inherit;background:var(--card);color:var(--td)}
+.lf-add-input:focus{outline:none;border-color:var(--brand)}
+.lf-add-btn{padding:10px 16px;background:var(--brand);color:#fff;border:none;border-radius:var(--r3);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
 #legalPage.on{display:block}
 .lp-head{position:sticky;top:0;background:var(--bg);padding:14px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--bg-e);z-index:1}
 .lp-head h2{flex:1;font-size:16px;font-weight:700}
@@ -355,7 +393,7 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
     </div>
 
     <!-- Slide 3: アップロード → 完了 -->
-    <div class="tut-slide" style="background:linear-gradient(165deg,#2B3830,#3E5548 50%,#4A7A70)">
+    <div class="tut-slide" style="background:linear-gradient(165deg,#4A7A70,#5C8E84 50%,#3E6B62)">
       <h2 style="margin-bottom:20px">ZIPをアップロード</h2>
       <!-- Upload flow illustration -->
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px">
@@ -377,15 +415,19 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
           <div style="font-size:12px;line-height:1.5"><b>自動解析</b>してスコア表示！</div>
         </div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;margin-top:20px;width:100%;max-width:280px">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:20px;width:100%;max-width:280px">
         <div style="background:rgba(255,255,255,.06);padding:10px 4px;border-radius:10px;text-align:center;font-size:10px;font-weight:600;border:1px solid rgba(255,255,255,.05)">
           <svg width="20" height="20" viewBox="0 0 20 20" style="margin-bottom:3px"><circle cx="10" cy="10" r="8" fill="none" stroke="#fff" stroke-width="1.5" opacity=".4"/><circle cx="10" cy="10" r="8" fill="none" stroke="#fff" stroke-width="1.5" stroke-dasharray="35 16" stroke-linecap="round" opacity=".7"/></svg><br>スコア</div>
         <div style="background:rgba(255,255,255,.06);padding:10px 4px;border-radius:10px;text-align:center;font-size:10px;font-weight:600;border:1px solid rgba(255,255,255,.05)">
           <svg width="20" height="20" viewBox="0 0 20 20" style="margin-bottom:3px"><polyline points="3,15 7,9 11,12 17,5" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" opacity=".6"/></svg><br>グラフ</div>
         <div style="background:rgba(255,255,255,.06);padding:10px 4px;border-radius:10px;text-align:center;font-size:10px;font-weight:600;border:1px solid rgba(255,255,255,.05)">
-          <svg width="20" height="20" viewBox="0 0 20 20" style="margin-bottom:3px"><rect x="3" y="4" width="14" height="12" rx="2" fill="none" stroke="#fff" stroke-width="1.5" opacity=".4"/><rect x="5" y="7" width="10" height="1.5" rx=".75" fill="#fff" opacity=".4"/><rect x="5" y="10.5" width="7" height="1.5" rx=".75" fill="#fff" opacity=".4"/></svg><br>詳細</div>
+          <svg width="20" height="20" viewBox="0 0 20 20" style="margin-bottom:3px"><rect x="3" y="4" width="14" height="12" rx="2" fill="none" stroke="#fff" stroke-width="1.5" opacity=".4"/><rect x="5" y="7" width="10" height="1.5" rx=".75" fill="#fff" opacity=".4"/><rect x="5" y="10.5" width="7" height="1.5" rx=".75" fill="#fff" opacity=".4"/></svg><br>日別詳細</div>
         <div style="background:rgba(255,255,255,.06);padding:10px 4px;border-radius:10px;text-align:center;font-size:10px;font-weight:600;border:1px solid rgba(255,255,255,.05)">
-          <svg width="20" height="20" viewBox="0 0 20 20" style="margin-bottom:3px"><circle cx="7" cy="8" r="3.5" fill="none" stroke="#fff" stroke-width="1.2" opacity=".4"/><circle cx="13" cy="8" r="3.5" fill="none" stroke="#fff" stroke-width="1.2" opacity=".4"/><path d="M3 18c0-3 2.5-5 7-5s7 2 7 5" fill="none" stroke="#fff" stroke-width="1.2" opacity=".4"/></svg><br>比較</div>
+          <svg width="20" height="20" viewBox="0 0 20 20" style="margin-bottom:3px"><circle cx="10" cy="10" r="7" fill="none" stroke="#fff" stroke-width="1.2" opacity=".4"/><path d="M10 5v5l3 2" fill="none" stroke="#fff" stroke-width="1.3" stroke-linecap="round" opacity=".7"/></svg><br>寿命予測</div>
+        <div style="background:rgba(255,255,255,.06);padding:10px 4px;border-radius:10px;text-align:center;font-size:10px;font-weight:600;border:1px solid rgba(255,255,255,.05)">
+          <svg width="20" height="20" viewBox="0 0 20 20" style="margin-bottom:3px"><circle cx="7" cy="8" r="3.5" fill="none" stroke="#fff" stroke-width="1.2" opacity=".4"/><circle cx="13" cy="8" r="3.5" fill="none" stroke="#fff" stroke-width="1.2" opacity=".4"/><path d="M3 18c0-3 2.5-5 7-5s7 2 7 5" fill="none" stroke="#fff" stroke-width="1.2" opacity=".4"/></svg><br>同年代比較</div>
+        <div style="background:rgba(255,255,255,.06);padding:10px 4px;border-radius:10px;text-align:center;font-size:10px;font-weight:600;border:1px solid rgba(255,255,255,.05)">
+          <svg width="20" height="20" viewBox="0 0 20 20" style="margin-bottom:3px"><path d="M10 3v4M6 5l2 3M14 5l-2 3M4 10h12M6 15l2-3M14 15l-2-3M10 13v4" stroke="#fff" stroke-width="1" stroke-linecap="round" opacity=".5"/><circle cx="10" cy="10" r="2" fill="#fff" opacity=".5"/></svg><br>思い出リスト</div>
       </div>
       <p style="margin-top:16px;font-size:11px;opacity:.45">データは端末内で処理。サーバーには送信されません。</p>
     </div>
@@ -427,13 +469,24 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
     <div class="dw-item" onclick="closeDrawer();document.getElementById('fi').click()"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M3 12v3h12v-3M9 3v8M6 6l3-3 3 3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> データ追加</div>
     <div class="dw-item" onclick="closeDrawer();toggleEdit()"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M13 1.5l3 3L6 15H3v-3z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg> カテゴリ編集</div>
     <div class="dw-item" onclick="closeDrawer();showTut()"><svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="7" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M9 12v.01M9 6a2 2 0 012 2c0 1-1 1.5-2 2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> 使い方ガイド</div>
+    <div class="dw-item" onclick="closeDrawer();openLife()"><svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M9 5v4l2.5 1.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> LifeTime（寿命計算）</div>
   </div>
   <div class="dw-sep"></div>
   <div class="dw-section">
     <div class="dw-label">プロフィール（同年代比較用）</div>
-    <div style="padding:4px 20px 8px;display:flex;flex-direction:column;gap:6px">
-      <select id="dwSex" onchange="savePFromDrawer()" style="width:100%;padding:10px 12px;border:1px solid var(--bg-e);border-radius:8px;font-size:13px;font-family:inherit;background:var(--card2);color:var(--td)"><option value="">性別を選択</option><option value="m">男性</option><option value="f">女性</option></select>
-      <select id="dwAge" onchange="savePFromDrawer()" style="width:100%;padding:10px 12px;border:1px solid var(--bg-e);border-radius:8px;font-size:13px;font-family:inherit;background:var(--card2);color:var(--td)"><option value="">年齢を選択</option></select>
+    <div style="padding:4px 20px 8px;display:flex;flex-direction:column;gap:8px">
+      <div>
+        <div style="font-size:11px;color:var(--tp);margin-bottom:4px">生年月日</div>
+        <input type="date" id="dwBirth" onchange="savePFromDrawer()" value="1987-04-29" style="width:100%;padding:10px 12px;border:1px solid var(--bg-e);border-radius:8px;font-size:13px;font-family:inherit;background:var(--card2);color:var(--td);-webkit-appearance:none;appearance:none;box-sizing:border-box">
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--tp);margin-bottom:4px">性別</div>
+        <select id="dwSex" onchange="savePFromDrawer()" style="width:100%;padding:10px 12px;border:1px solid var(--bg-e);border-radius:8px;font-size:13px;font-family:inherit;background:var(--card2);color:var(--td);-webkit-appearance:none;appearance:none;box-sizing:border-box"><option value="">選択してください</option><option value="m">男性</option><option value="f">女性</option></select>
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--tp);margin-bottom:4px">年齢</div>
+        <select id="dwAge" onchange="savePFromDrawer()" style="width:100%;padding:10px 12px;border:1px solid var(--bg-e);border-radius:8px;font-size:13px;font-family:inherit;background:var(--card2);color:var(--td);-webkit-appearance:none;appearance:none;box-sizing:border-box"><option value="">選択してください</option></select>
+      </div>
     </div>
   </div>
   <div class="dw-sep"></div>
@@ -445,10 +498,25 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
   <div class="dw-section">
     <div class="dw-label">ABOUT</div>
     <div class="dw-item" onclick="closeDrawer();showLegal('howit')"><svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="7" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6 9l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> データの仕組み</div>
+    <div class="dw-item" onclick="closeDrawer();showLegal('lifelogic')"><svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M9 5v4l2.5 1.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> 寿命計算のロジック</div>
     <div class="dw-item" onclick="closeDrawer();showLegal('terms')"><svg width="18" height="18" viewBox="0 0 18 18"><rect x="3" y="2" width="12" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6 6h6M6 9h6M6 12h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity=".5"/></svg> 利用規約</div>
     <div class="dw-item" onclick="closeDrawer();showLegal('privacy')"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M9 2l5 2v4c0 4-3 6-5 7-2-1-5-3-5-7V4z" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="9" cy="8.5" r="1.5" fill="currentColor" opacity=".5"/></svg> プライバシーポリシー</div>
   </div>
   <div class="dw-footer">Health Dashboard v1.0<br>All data stays on your device.</div>
+</div>
+
+<!-- LIFETIME PAGE -->
+<div id="lifePage">
+  <div class="lf-head">
+    <div class="lf-close" onclick="closeLife()"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M9 2L4 7l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <h2>LifeTime</h2>
+  </div>
+  <div class="lf-tabs">
+    <div class="lf-tab on" onclick="lfTab(0,this)">残り時間</div>
+    <div class="lf-tab" onclick="lfTab(1,this)">寿命貢献度</div>
+    <div class="lf-tab" onclick="lfTab(2,this)">思い出リスト</div>
+  </div>
+  <div class="lf-body" id="lfBody"></div>
 </div>
 
 <!-- LEGAL PAGE -->
@@ -557,7 +625,7 @@ function buildPB(){
 }
 
 // ===== PROFILE =====
-function initP(){const s=document.getElementById('pAge');if(s.options.length<3)for(let a=18;a<=85;a++)s.innerHTML+='<option value="'+a+'">'+a+'歳</option>';try{pSex=localStorage.getItem('hd_s')||'';pAge=parseInt(localStorage.getItem('hd_a'))||0;if(pSex)document.getElementById('pSex').value=pSex;if(pAge)document.getElementById('pAge').value=pAge;uPT()}catch(e){}}
+function initP(){const s=document.getElementById('pAge');if(s.options.length<3)for(let a=18;a<=85;a++)s.innerHTML+='<option value="'+a+'">'+a+'歳</option>';try{pSex=localStorage.getItem('hd_s')||'';pAge=parseInt(localStorage.getItem('hd_a'))||0;pBirth=localStorage.getItem('hd_b')||'1987-04-29';if(pSex)document.getElementById('pSex').value=pSex;if(pAge)document.getElementById('pAge').value=pAge;uPT()}catch(e){}}
 function saveP(){pSex=document.getElementById('pSex').value;pAge=parseInt(document.getElementById('pAge').value)||0;try{localStorage.setItem('hd_s',pSex);localStorage.setItem('hd_a',String(pAge))}catch(e){}uPT();nav()}
 function uPT(){document.getElementById('pTag').textContent=pSex&&pAge?(pSex==='m'?'♂':'♀')+' '+pAge+'歳 · 比較ON':''}
 
@@ -632,7 +700,14 @@ function mkScore(){
 }
 
 // ===== HOME =====
-function rHome(el){var h=mkScore();var cats=catOrder.filter(function(id){return catVis[id]}).map(function(id){return catOf(id)}).filter(Boolean);for(var i=0;i<cats.length;i++)h+=mkSC(cats[i]);if(pSex&&pAge)h+=mkCmp();el.innerHTML=h||'<div style="text-align:center;padding:40px;color:var(--tp)">編集ボタンでカテゴリを表示設定してください</div>'}
+function rHome(el){var h=mkScore();
+  // LifeTime quick link
+  h+='<div onclick="openLife()" style="display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,#2B3830,#3E6B62);border-radius:var(--r);padding:14px 16px;margin-bottom:12px;cursor:pointer;color:#fff">';
+  h+='<div style="display:flex;align-items:center;gap:10px"><svg width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="#fff" stroke-width="1.5" opacity=".7"/><path d="M10 5v5l3 2" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" opacity=".9"/></svg>';
+  h+='<div><div style="font-size:13px;font-weight:600">あなたの残り時間を見る</div>';
+  h+='<div style="font-size:10.5px;opacity:.6;margin-top:1px">LifeTime — 寿命予測・思い出リスト</div></div></div>';
+  h+='<div style="font-size:12px;opacity:.5">›</div></div>';
+  var cats=catOrder.filter(function(id){return catVis[id]}).map(function(id){return catOf(id)}).filter(Boolean);for(var i=0;i<cats.length;i++)h+=mkSC(cats[i]);if(pSex&&pAge)h+=mkCmp();el.innerHTML=h||'<div style="text-align:center;padding:40px;color:var(--tp)">編集ボタンでカテゴリを表示設定してください</div>'}
 
 function mkSC(cat){var id=cat.id;var val='',inf='',delta='',dc='';var sc=calcScores(),itemSc=sc.items[id];
   if(id==='body'){var a=fA(D.bodyMass);if(!a.length)a=D.bodyMass||[];var bm=lstA(a);if(!bm)return'';var bf=lstA(fA(D.bodyFat).length?fA(D.bodyFat):D.bodyFat||[]),bi=lstA(fA(D.bmi).length?fA(D.bmi):D.bmi||[]),lm2=lstA(fA(D.leanMass).length?fA(D.leanMass):D.leanMass||[]);
@@ -776,14 +851,16 @@ if(typeof EMBEDDED_DATA!=='undefined'&&EMBEDDED_DATA){
 
 // ===== DRAWER MENU =====
 function openDrawer(){if(typeof gaEv==='function')gaEv('drawer_open');
-  var ds=document.getElementById('dwSex'),da=document.getElementById('dwAge');
+  var ds=document.getElementById('dwSex'),da=document.getElementById('dwAge'),db=document.getElementById('dwBirth');
   if(ds)ds.value=pSex;
   if(da){if(da.options.length<3)for(var a=18;a<=85;a++)da.innerHTML+='<option value="'+a+'">'+a+'歳</option>';da.value=pAge||''}
+  if(db)db.value=pBirth||'1987-04-29';
   document.getElementById('dw').classList.add('on');document.getElementById('dwBg').classList.add('on');document.body.style.overflow='hidden'}
 function savePFromDrawer(){
-  var ds=document.getElementById('dwSex'),da=document.getElementById('dwAge');
+  var ds=document.getElementById('dwSex'),da=document.getElementById('dwAge'),db=document.getElementById('dwBirth');
   pSex=ds?ds.value:'';pAge=da?parseInt(da.value)||0:0;
-  try{localStorage.setItem('hd_s',pSex);localStorage.setItem('hd_a',String(pAge))}catch(e){}
+  if(db&&db.value)pBirth=db.value;
+  try{localStorage.setItem('hd_s',pSex);localStorage.setItem('hd_a',String(pAge));localStorage.setItem('hd_b',pBirth)}catch(e){}
   nav()}
 function closeDrawer(){document.getElementById('dw').classList.remove('on');document.getElementById('dwBg').classList.remove('on');document.body.style.overflow=''}
 function showTut(){tutIdx=0;updTut();showScreen('tut')}
@@ -825,7 +902,8 @@ function toggleTheme(){
 
 // ===== LEGAL PAGES =====
 var LEGAL={
-howit:{title:'データの仕組み',body:'<h3>どうやってデータを取得しているの？</h3><p>このダッシュボードは、iPhoneの「ヘルスケア」アプリからエクスポートしたXMLデータを解析しています。Apple Watch、RingConnなどのウェアラブルデバイスが記録したデータも、ヘルスケアアプリに集約されていればすべて取り込めます。</p><h3>データの処理フロー</h3><ul><li>ZIPファイルに含まれる <b>export.xml</b> をブラウザ内で展開</li><li>約60万件以上のレコードを種類別（歩数・心拍・睡眠など）に分類</li><li>日付ごとに集計し、ソース重複（Apple Watch + iPhone等）を排除</li><li>時間帯別の詳細データも抽出（心拍・歩数）</li></ul><h3>ソース重複排除（デデュプリケーション）</h3><p>Apple WatchとiPhoneは同じ歩数を別々に記録します。このダッシュボードでは、Apple Watchを優先ソースとし、iPhoneのデータは時間帯が重複しない部分のみ加算します。睡眠データも同様に、RingConnとApple Watchの重複を排除しています。</p><h3>スコア算出基準</h3><ul><li><b>歩数</b>: 8,000歩/日 = 100点（厚労省推奨値）</li><li><b>心拍</b>: 安静時心拍55〜65bpm = 100点</li><li><b>睡眠</b>: 7〜9時間/日 = 100点（WHO推奨）</li><li><b>体重(BMI)</b>: BMI 18.5〜25 = 100点</li><li><b>血中酸素</b>: SpO2 97%以上 = 100点</li><li><b>消費カロリー</b>: 300kcal/日 = 100点</li><li><b>運動</b>: 週3回以上 = 100点</li></ul><h3>データの保存について</h3><p>アップロードされたデータはブラウザのIndexedDBに保存され、次回アクセス時に復元されます。サーバーには一切送信されません。ブラウザのサイトデータを削除すると、保存データも消去されます。</p>'},
+lifelogic:{title:'寿命計算のロジック',body:'<h3>この機能について</h3><p>LifeTimeの寿命予測は、あなたのApple Healthデータと公開されている疫学研究を組み合わせた<b>統計的な目安</b>です。医学的な診断や寿命の保証ではありません。「自分の健康を見つめ直すきっかけ」としてご活用ください。</p><h3>ステップ1: 基準寿命の設定</h3><p>厚生労働省「令和5年簡易生命表」に基づき、性別ごとの平均寿命を基準値とします。</p><ul><li><b>男性</b>: 81年（81.05年）</li><li><b>女性</b>: 87年（87.09年）</li></ul><h3>ステップ2: 健康データの解析</h3><p>アップロードされたヘルスケアデータから、以下の7項目を0〜100点で評価します。各項目には医学的エビデンスに基づいた<b>優先度（重み）</b>が設定されています。</p><h3>評価項目と優先度</h3><ul><li><b>★★★ 歩数</b>（最大 +3年 / -2年）<br>JAMA Internal Medicine 2020: 1日8,000歩以上で全死亡リスクが51%低下。10,000歩以上でさらに改善。4,000歩未満は高リスク。</li><li><b>★★★ 睡眠</b>（最大 +2年 / -2年）<br>European Heart Journal 2018: 7〜8時間の睡眠が最も死亡リスクが低い。6時間未満・9時間以上は心血管リスク上昇。</li><li><b>★★ 安静時心拍</b>（最大 +1.5年 / -1年）<br>Open Heart 2016: 安静時心拍55〜65bpmが最適。75bpm以上で心血管リスク上昇。</li><li><b>★★ BMI・体重</b>（最大 +2年 / -2年）<br>The Lancet 2016: BMI 18.5〜25が最適。25以上で段階的にリスク上昇。18.5未満も高リスク。</li><li><b>★★ 運動習慣</b>（最大 +2年 / -1年）<br>WHO 2020: 週150分以上の中強度運動で慢性疾患リスク低減。週3回以上の定期的な運動が推奨。</li><li><b>★ 血中酸素（SpO2）</b>（最大 +1年 / -1年）<br>Chest 2020: SpO2 97%以上が正常。95%未満は呼吸器系の問題を示唆する可能性。</li><li><b>★ 消費カロリー</b>（最大 +0.5年 / -0.5年）<br>AHA 2018: 1日の活動量の間接指標。基礎代謝を除くアクティブカロリー300kcal以上が目安。</li></ul><h3>ステップ3: スコアから補正年数への変換</h3><p>各項目のスコア（0〜100点）を、以下のルールで寿命補正年数に変換します。</p><ul><li><b>90〜100点</b>: 最大プラス補正（例: 歩数なら+3年）</li><li><b>80〜89点</b>: プラス補正の70%</li><li><b>70〜79点</b>: プラス補正の30%</li><li><b>50〜69点</b>: ±0年（基準寿命そのまま）</li><li><b>30〜49点</b>: マイナス補正の50%</li><li><b>0〜29点</b>: 最大マイナス補正</li></ul><h3>ステップ4: 合算</h3><p>全項目の補正値を合算し、基準寿命に加算して予測寿命を算出します。理論上の補正範囲は <b>-9.5年 〜 +12年</b> です。</p><h3>重要な免責事項</h3><p>この計算には以下の要因が<b>含まれていません</b>：</p><ul><li>遺伝的要因（家族歴、遺伝子変異）</li><li>環境要因（大気汚染、居住地域）</li><li>社会経済的要因（所得、教育、医療アクセス）</li><li>精神的健康（ストレス、メンタルヘルス）</li><li>喫煙・飲酒の習慣</li><li>既往歴・持病</li></ul><p>あくまで「今の生活習慣を続けた場合の統計的な目安」です。健康上の懸念がある場合は、必ず医療専門家にご相談ください。</p><h3>参考文献</h3><ul><li>厚生労働省「令和5年簡易生命表」</li><li>Saint-Maurice PF, et al. JAMA Intern Med. 2020;180(5):659-668</li><li>Cappuccio FP, et al. Eur Heart J. 2018;32(12):1484-1492</li><li>Jensen MT, et al. Open Heart. 2016;3(1):e000365</li><li>Global BMI Mortality Collaboration. Lancet. 2016;388:776-786</li><li>WHO Guidelines on Physical Activity. 2020</li></ul>'},
+howit:{title:'データの仕組み',body:'<h3>どうやってデータを取得しているの？</h3><p>このダッシュボードは、iPhoneの「ヘルスケア」アプリからエクスポートしたXMLデータを解析しています。Apple Watch、RingConnなどのウェアラブルデバイスが記録したデータも、ヘルスケアアプリに集約されていればすべて取り込めます。</p><h3>データの処理フロー</h3><ul><li>ZIPファイルに含まれる <b>export.xml</b> をブラウザ内で展開</li><li>約60万件以上のレコードを種類別（歩数・心拍・睡眠など）に分類</li><li>日付ごとに集計し、ソース重複（Apple Watch + iPhone等）を排除</li><li>時間帯別の詳細データも抽出（心拍・歩数）</li></ul><h3>ソース重複排除（デデュプリケーション）</h3><p>Apple WatchとiPhoneは同じ歩数を別々に記録します。このダッシュボードでは、Apple Watchを優先ソースとし、iPhoneのデータは時間帯が重複しない部分のみ加算します。睡眠データも同様に、RingConnとApple Watchの重複を排除しています。</p><h3>スコア算出基準</h3><ul><li><b>歩数</b>: 8,000歩/日 = 100点（厚労省推奨値）</li><li><b>心拍</b>: 安静時心拍55〜65bpm = 100点</li><li><b>睡眠</b>: 7〜9時間/日 = 100点（WHO推奨）</li><li><b>体重(BMI)</b>: BMI 18.5〜25 = 100点</li><li><b>血中酸素</b>: SpO2 97%以上 = 100点</li><li><b>消費カロリー</b>: 300kcal/日 = 100点</li><li><b>運動</b>: 週3回以上 = 100点</li></ul><h3>データの保存について</h3><p>アップロードされたデータはブラウザのIndexedDBに保存され、次回アクセス時に復元されます。サーバーには一切送信されません。ブラウザのサイトデータを削除すると、保存データも消去されます。</p><h3>LifeTime（寿命予測）について</h3><p>ホーム画面の「あなたの残り時間を見る」またはメニューの「LifeTime」からアクセスできます。</p><ul><li><b>残り時間</b>: 生年月日と予測寿命からリアルタイムカウントダウンを表示</li><li><b>寿命貢献度</b>: 7つの健康カテゴリが寿命にどう影響しているかを、医学論文に基づく重み付きで表示</li><li><b>あなたの判定結果</b>: S〜Eのグレードと、最も貢献している項目・改善ポイントを表示</li><li><b>思い出リスト</b>: 残りの人生でやりたいことを記録・管理</li></ul><p>予測寿命は厚労省の平均寿命を基準に、ヘルスケアデータの解析結果で補正しています。詳細は「寿命計算のロジック」ページをご覧ください。</p>'},
 terms:{title:'利用規約',body:'<h3>本サービスについて</h3><p>Health Dashboard（以下「本サービス」）は、Apple Healthのエクスポートデータを可視化するWebアプリケーションです。個人の健康データの閲覧・分析を目的としています。</p><h3>免責事項</h3><p>本サービスで表示されるスコアや分析結果は、一般的な健康指標に基づく参考値であり、医学的な診断や治療の代替となるものではありません。健康上の懸念がある場合は、必ず医療専門家にご相談ください。</p><h3>データの取り扱い</h3><p>本サービスは健康データの処理をすべてブラウザ内（クライアントサイド）で行います。アップロードされたZIPファイルや解析結果がサーバーに送信されることはありません。より良いUIの提供のため、操作ログ（どのボタンが使われたか等）のみGoogle Analyticsで匿名収集しています。</p><h3>知的財産権</h3><p>本サービスのソースコード、デザイン、UIに関する権利は開発者に帰属します。個人利用の範囲で自由にご使用いただけます。</p><h3>サービスの変更・終了</h3><p>本サービスは予告なく変更・終了する場合があります。保存データの永続性は保証されません。</p><h3>準拠法</h3><p>本規約は日本法に準拠し、解釈されるものとします。</p>'},
 privacy:{title:'プライバシーポリシー',body:'<h3>基本方針</h3><p>Health Dashboardは、ユーザーのプライバシーを最優先に設計されています。収集するデータは最小限とし、すべてユーザーの端末内で処理します。</p><h3>収集するデータ</h3><p>本サービスが取り扱うデータは以下の通りです：</p><ul><li><b>ヘルスケアデータ</b>: ユーザーが自らアップロードしたZIPファイル内のXMLデータ（歩数、心拍数、睡眠、体重、運動記録など）</li><li><b>設定情報</b>: 性別、年齢、カテゴリ表示設定（ブラウザのlocalStorageに保存）</li></ul><h3>データの保存場所</h3><ul><li><b>IndexedDB</b>: 解析済みデータをブラウザ内に保存（オフライン復元用）</li><li><b>localStorage</b>: 表示設定やプロフィール情報</li></ul><p>いずれもユーザーの端末内にのみ保存され、外部サーバーには送信されません。</p><h3>第三者へのデータ提供</h3><p>本サービスは、ユーザーのデータを第三者に提供、販売、共有することは一切ありません。</p><h3>アクセス解析について</h3><p>本サービスでは、UIの改善やユーザー体験の向上を目的として、Google Analyticsを導入しています。取得する情報は以下の通りです：</p><ul><li>ページ閲覧数・滞在時間</li><li>タップされたカテゴリや機能の利用頻度</li><li>デバイスの種類・OS・ブラウザ</li><li>おおまかな地域情報（都道府県レベル）</li></ul><p><b>歩数・心拍・睡眠・体重などの健康データは一切取得しません。</b>これらのデータはブラウザ内で処理されるのみで、Googleを含むいかなるサーバーにも送信されません。</p><p>Google Analyticsの詳細については <b>Google のプライバシーポリシー</b>をご参照ください。</p><h3>外部サービスとの通信</h3><p>本サービスが行う外部通信は以下です：</p><ul><li>Google Analytics（アクセス解析）</li><li>Chart.js / JSZip（ライブラリCDN読み込み）</li><li>Google Fonts（フォント読み込み）</li></ul><p>いずれもユーザーの健康データは送信されません。</p><h3>データの削除</h3><p>ブラウザの「サイトデータを削除」機能を使用することで、保存された全データを完全に削除できます。</p><h3>お問い合わせ</h3><p>プライバシーに関するご質問は、GitHubリポジトリのIssueにてお受けしています。</p>'}
 };
@@ -841,6 +919,353 @@ function closeLegal(){
   document.getElementById('legalPage').classList.remove('on');
   document.body.style.overflow='';
 }
+
+// ===== LIFETIME =====
+var lfTimer=null,lfTabIdx=0,pBirth='1987-04-29';
+var lfQuoteTimer=null,lfCurrentQuote='';
+var bucket=[];
+var lfQuotes=[
+  // 家族・大切な人
+  "最後に親に「ありがとう」と言ったのは、いつですか？",
+  "大切な人と過ごせる時間には、限りがあります。",
+  "家族との食事、あと何回できるだろう。",
+  "親の残り時間を、考えたことがありますか？",
+  "「また今度」が来ない日は、突然やってくる。",
+  "おじいちゃん、おばあちゃんに会いに行きませんか？",
+  // やりたいこと
+  "やりたいことリスト、書き出してみませんか？",
+  "「いつかやろう」の「いつか」は、今日かもしれない。",
+  "5年後の自分が後悔しない選択を、今日しよう。",
+  "行きたかった場所、まだ行けていませんか？",
+  "新しいことを始めるのに、遅すぎることはない。",
+  "死ぬまでに読みたい本、見たい景色、会いたい人。",
+  // 日々の過ごし方
+  "今日という日は、残りの人生の最初の一日。",
+  "スマホを置いて、目の前の人と話してみませんか？",
+  "この1時間を、未来の自分は何に使ってほしいと思う？",
+  "1日は誰にでも平等に24時間。どう使うかは自分次第。",
+  "「なんとなく」で過ごす日を、1日だけ減らしてみよう。",
+  "今日、誰かを笑顔にできましたか？",
+  // 健康
+  "健康な体があってこそ、素晴らしい思い出が作れる。",
+  "今日の散歩が、10年後の自分を救うかもしれない。",
+  "よく眠れていますか？睡眠は未来への投資です。",
+  "体を動かした日は、心も軽くなる。",
+  // 人生の本質
+  "思い出は、人生で最も確かな財産。",
+  "人生の長さは変えられない。でも、深さは変えられる。",
+  "後悔のない人生は無い。でも、後悔を減らすことはできる。",
+  "あなたの時間は有限。誰かの人生を生きるのはもったいない。",
+  "今この瞬間を大切に。二度と戻らない時間だから。",
+  "100年後、誰もあなたの失敗を覚えていない。だから挑戦しよう。"
+];
+
+function initLife(){
+  try{
+    pBirth=localStorage.getItem('hd_b')||'1987-04-29';
+    var bl=localStorage.getItem('hd_bucket');
+    if(bl)bucket=JSON.parse(bl);
+    else bucket=[{id:1,text:'家族で旅行に行く',done:false},{id:2,text:'新しい趣味を始める',done:false}];
+  }catch(e){bucket=[]}
+}
+initLife();
+
+function calcLifeScore(){
+  var sc=calcScores();
+  var base=pSex==='f'?87:81;
+
+  // Weighted scoring: each item has max bonus/penalty based on medical evidence
+  // Priority ★★★=high, ★★=medium, ★=low
+  var rules=[
+    {key:'steps',   w:3, maxP:3,   maxN:-2,  src:'JAMA 2020'},
+    {key:'sleep',   w:3, maxP:2,   maxN:-2,  src:'Eur Heart J 2018'},
+    {key:'heart',   w:2, maxP:1.5, maxN:-1,  src:'Open Heart 2016'},
+    {key:'body',    w:2, maxP:2,   maxN:-2,  src:'Lancet 2016'},
+    {key:'workout', w:2, maxP:2,   maxN:-1,  src:'WHO 2020'},
+    {key:'vitals',  w:1, maxP:1,   maxN:-1,  src:'Chest 2020'},
+    {key:'activity',w:1, maxP:0.5, maxN:-0.5,src:'AHA 2018'}
+  ];
+
+  var bonus=0, details=[];
+  for(var i=0;i<rules.length;i++){
+    var r=rules[i], item=sc.items[r.key];
+    if(!item)continue;
+    var v=item.v, adj=0;
+    // Score → adjustment mapping (sigmoid-like)
+    if(v>=90)      adj=r.maxP;
+    else if(v>=80) adj=r.maxP*0.7;
+    else if(v>=70) adj=r.maxP*0.3;
+    else if(v>=50) adj=0;
+    else if(v>=30) adj=r.maxN*0.5;
+    else           adj=r.maxN;
+    adj=Math.round(adj*10)/10;
+    bonus+=adj;
+    details.push({key:r.key,score:v,adj:adj,weight:r.w,maxP:r.maxP,maxN:r.maxN,src:r.src,lbl:item.lbl});
+  }
+  bonus=Math.round(bonus*10)/10;
+  return{base:base,bonus:bonus,total:Math.round((base+bonus)*10)/10,items:sc.items,score:sc.total,details:details};
+}
+
+function calcTimeLeft(){
+  var life=calcLifeScore();
+  var birth=new Date(pBirth);
+  var end=new Date(pBirth);
+  end.setFullYear(end.getFullYear()+life.total);
+  var now=Date.now(),endT=end.getTime(),birthT=birth.getTime();
+  var diff=endT-now;
+  if(diff<=0)return{years:0,days:0,hours:0,minutes:0,seconds:0,progress:100,life:life};
+  var y=Math.floor(diff/31557600000);
+  var d=Math.floor((diff%31557600000)/86400000);
+  var h=Math.floor((diff%86400000)/3600000);
+  var m=Math.floor((diff%3600000)/60000);
+  var s=Math.floor((diff%60000)/1000);
+  var progress=((now-birthT)/(endT-birthT))*100;
+  return{years:y,days:d,hours:h,minutes:m,seconds:s,progress:Math.min(progress,100),life:life};
+}
+
+function openLife(){
+  initLife();
+  var bd=document.getElementById('dwBirth');
+  if(bd&&bd.value)pBirth=bd.value;
+  document.getElementById('lifePage').classList.add('on');
+  document.body.style.overflow='hidden';
+  lfTabIdx=0;
+  document.querySelectorAll('.lf-tab').forEach(function(t,i){t.className='lf-tab'+(i===0?' on':'')});
+  // Init quote
+  lfCurrentQuote=lfQuotes[Math.floor(Math.random()*lfQuotes.length)];
+  renderLf();
+  lfTimer=setInterval(function(){if(lfTabIdx===0)updateLfCountdown()},1000);
+  // Quote rotation every 10s
+  if(lfQuoteTimer)clearInterval(lfQuoteTimer);
+  lfQuoteTimer=setInterval(rotateQuote,10000);
+  if(typeof gaEv==='function')gaEv('lifetime_open');
+}
+
+function closeLife(){
+  document.getElementById('lifePage').classList.remove('on');
+  document.body.style.overflow='';
+  if(lfTimer){clearInterval(lfTimer);lfTimer=null}
+  if(lfQuoteTimer){clearInterval(lfQuoteTimer);lfQuoteTimer=null}
+}
+
+function rotateQuote(){
+  var el=document.getElementById('lfQuote');
+  if(!el)return;
+  el.classList.add('fade-out');
+  el.classList.remove('fade-in');
+  setTimeout(function(){
+    var newQ;
+    do{newQ=lfQuotes[Math.floor(Math.random()*lfQuotes.length)]}while(newQ===lfCurrentQuote&&lfQuotes.length>1);
+    lfCurrentQuote=newQ;
+    el.textContent=newQ;
+    el.classList.remove('fade-out');
+    el.classList.add('fade-in');
+  },500);
+}
+
+function lfTab(idx,el){
+  lfTabIdx=idx;
+  document.querySelectorAll('.lf-tab').forEach(function(t){t.className='lf-tab'});
+  el.className='lf-tab on';
+  renderLf();
+}
+
+function renderLf(){
+  var body=document.getElementById('lfBody');
+  if(!body)return;
+  if(lfTabIdx===0)renderLfTimer(body);
+  else if(lfTabIdx===1)renderLfContrib(body);
+  else renderLfBucket(body);
+}
+
+function updateLfCountdown(){
+  // Lightweight update - just numbers, no DOM rebuild
+  var tl=calcTimeLeft();
+  var els=['lfY','lfD','lfH','lfM','lfS'];
+  var vals=[tl.years,tl.days,tl.hours,tl.minutes,tl.seconds];
+  for(var i=0;i<els.length;i++){
+    var e=document.getElementById(els[i]);
+    if(e)e.textContent=vals[i];
+  }
+  var pb=document.getElementById('lfPB');
+  if(pb){pb.style.width=tl.progress.toFixed(1)+'%'}
+  var pp=document.getElementById('lfPP');
+  if(pp){pp.textContent=tl.progress.toFixed(1)+'%'}
+}
+
+function renderLfTimer(el){
+  var tl=calcTimeLeft();
+  var life=tl.life;
+  var circ=2*Math.PI*46;
+  var remaining=100-tl.progress;
+  var offset=circ*(1-remaining/100);
+  var ringColor=remaining>50?'#5C8E84':remaining>25?'#E9A400':'#B36060';
+
+  var h='<div class="lf-ring-wrap">';
+  h+='<div style="position:relative;width:140px;height:140px">';
+  h+='<svg width="140" height="140" style="transform:rotate(-90deg)"><circle cx="70" cy="70" r="46" fill="none" stroke="var(--bg-e)" stroke-width="10"/>';
+  h+='<circle cx="70" cy="70" r="46" fill="none" stroke="'+ringColor+'" stroke-width="10" stroke-linecap="round" stroke-dasharray="'+circ.toFixed(1)+'" stroke-dashoffset="'+offset.toFixed(1)+'"/></svg>';
+  h+='<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">';
+  h+='<div style="font-size:36px;font-weight:700;color:var(--td);line-height:1" id="lfY">'+tl.years+'</div>';
+  h+='<div style="font-size:11px;color:var(--tp);margin-top:2px">年</div></div></div></div>';
+
+  h+='<div class="lf-countdown">';
+  h+='<div class="lf-cd-item"><div class="lf-cd-num" id="lfD">'+tl.days+'</div><div class="lf-cd-label">日</div></div>';
+  h+='<div class="lf-cd-item"><div class="lf-cd-num" id="lfH">'+tl.hours+'</div><div class="lf-cd-label">時間</div></div>';
+  h+='<div class="lf-cd-item"><div class="lf-cd-num" id="lfM">'+tl.minutes+'</div><div class="lf-cd-label">分</div></div>';
+  h+='<div class="lf-cd-item"><div class="lf-cd-num" id="lfS">'+tl.seconds+'</div><div class="lf-cd-label">秒</div></div>';
+  h+='</div>';
+
+  // Lifespan summary
+  h+='<div style="background:linear-gradient(135deg,#2B3830,#3E6B62);border-radius:var(--r);padding:16px;color:#fff;margin-bottom:16px">';
+  h+='<div style="display:flex;justify-content:space-between;align-items:center">';
+  h+='<div><div style="font-size:11px;opacity:.7">予測寿命</div><div style="font-size:11px;opacity:.5;margin-top:2px">基準 '+life.base+'年';
+  if(life.bonus!==0)h+=' <span style="color:'+(life.bonus>0?'#6BE0B0':'#E06050')+'">'+( life.bonus>0?'+':'')+life.bonus+'年</span>';
+  h+='</div></div>';
+  h+='<div style="font-size:32px;font-weight:800">'+life.total+'<span style="font-size:14px;font-weight:400;opacity:.7">年</span></div>';
+  h+='</div></div>';
+
+  // Progress
+  h+='<div style="margin-bottom:16px"><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--tp);margin-bottom:4px"><span>人生の進捗</span><span id="lfPP">'+tl.progress.toFixed(1)+'%</span></div>';
+  h+='<div style="height:8px;background:var(--bg-e);border-radius:4px;overflow:hidden"><div style="height:100%;width:'+tl.progress.toFixed(1)+'%;background:'+ringColor+';border-radius:4px;transition:width 1s" id="lfPB"></div></div></div>';
+
+  // === VERDICT ===
+  var vd=life.details.slice().sort(function(a,b){return b.adj-a.adj});
+  var best=vd[0],worst=vd[vd.length-1];
+  var sc=life.score;
+  var grade=sc>=90?'S':sc>=80?'A':sc>=70?'B':sc>=60?'C':sc>=50?'D':'E';
+  var gradeColor=sc>=80?'#5C8E84':sc>=60?'#E9A400':'#B36060';
+  var gradeBg=sc>=80?'var(--card2)':sc>=60?'#FDF6EE':'#FDF2F2';
+  var catNames={steps:'歩数',sleep:'睡眠',heart:'心拍',body:'体重管理',workout:'運動',vitals:'血中酸素',activity:'活動量'};
+
+  // Verdict messages
+  var verdictMsg='';
+  if(sc>=90)verdictMsg='非常に健康的な生活を送っています。この調子を維持しましょう。';
+  else if(sc>=80)verdictMsg='良好な健康状態です。あと少しの改善で最高ランクに到達できます。';
+  else if(sc>=70)verdictMsg='平均以上の健康状態です。いくつかの項目を改善するとさらに良くなります。';
+  else if(sc>=60)verdictMsg='改善の余地があります。特に下記の項目を意識してみましょう。';
+  else verdictMsg='生活習慣の見直しが必要です。できることから少しずつ始めましょう。';
+
+  h+='<div style="background:var(--card);border:1px solid var(--bg-e);border-radius:var(--r);padding:18px;margin-bottom:16px">';
+  // Grade badge + title
+  h+='<div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">';
+  h+='<div style="width:48px;height:48px;border-radius:14px;background:'+gradeBg+';display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;color:'+gradeColor+'">'+grade+'</div>';
+  h+='<div><div style="font-size:14px;font-weight:700;color:var(--td)">あなたの判定結果</div>';
+  h+='<div style="font-size:11px;color:var(--tp);margin-top:2px">ヘルススコア '+sc+'/100</div></div></div>';
+  // Message
+  h+='<div style="font-size:12.5px;color:var(--tm);line-height:1.7;margin-bottom:14px">'+verdictMsg+'</div>';
+  // Best & Worst
+  h+='<div style="display:flex;gap:8px">';
+  if(best&&best.adj>0){
+    h+='<div style="flex:1;background:var(--card2);border-radius:var(--r2);padding:12px">';
+    h+='<div style="font-size:10px;color:var(--tp);margin-bottom:4px">最も貢献</div>';
+    h+='<div style="display:flex;align-items:baseline;gap:6px"><div style="font-size:14px;font-weight:700;color:#5C8E84">'+(catNames[best.key]||best.lbl)+'</div><div style="font-size:11px;color:var(--tp)">'+best.score+'点</div></div>';
+    h+='<div style="font-size:11px;color:#5C8E84;margin-top:2px">+'+best.adj+'年</div>';
+    h+='</div>';
+  }
+  if(worst&&worst.adj<=0){
+    h+='<div style="flex:1;background:var(--card2);border-radius:var(--r2);padding:12px">';
+    h+='<div style="font-size:10px;color:var(--tp);margin-bottom:4px">改善ポイント</div>';
+    h+='<div style="display:flex;align-items:baseline;gap:6px"><div style="font-size:14px;font-weight:700;color:#B36060">'+(catNames[worst.key]||worst.lbl)+'</div><div style="font-size:11px;color:var(--tp)">'+worst.score+'点</div></div>';
+    h+='<div style="font-size:11px;color:#B36060;margin-top:2px">'+(worst.adj>=0?'±0':worst.adj)+'年</div>';
+    h+='</div>';
+  }
+  h+='</div></div>';
+
+  // Quote - random on each open, rotates every 10s with fade
+  h+='<div class="lf-quote fade-in" id="lfQuote">'+lfCurrentQuote+'</div>';
+
+  // Link to calculation logic
+  h+='<div style="text-align:center;margin-top:8px"><span onclick="closeLife();showLegal(\'lifelogic\')" style="font-size:11px;color:var(--brand);cursor:pointer;text-decoration:underline">計算ロジックを見る</span></div>';
+
+  el.innerHTML=h;
+}
+
+function renderLfContrib(el){
+  var life=calcLifeScore();
+  var catNames={steps:'歩数',sleep:'睡眠',heart:'安静時心拍',body:'BMI・体重',workout:'運動習慣',vitals:'血中酸素',activity:'消費カロリー'};
+  var stars={3:'★★★',2:'★★',1:'★'};
+
+  var h='<div style="background:linear-gradient(135deg,#2B3830,#3E6B62);border-radius:var(--r);padding:18px;color:#fff;margin-bottom:16px">';
+  h+='<div style="font-size:11px;opacity:.7;margin-bottom:4px">健康データによる寿命補正</div>';
+  h+='<div style="display:flex;align-items:baseline;gap:8px"><div style="font-size:40px;font-weight:800">'+(life.bonus>=0?'+':'')+life.bonus+'</div><div style="font-size:14px;opacity:.7">年</div></div>';
+  h+='<div style="font-size:11px;opacity:.5;margin-top:6px">基準寿命 '+life.base+'年 → 予測 <b style="opacity:1">'+life.total+'年</b></div>';
+  h+='</div>';
+
+  h+='<div style="font-size:14px;font-weight:700;color:var(--td);margin-bottom:4px">カテゴリ別 寿命への影響</div>';
+  h+='<div style="font-size:11px;color:var(--tp);margin-bottom:14px">優先度の高い項目ほど影響が大きくなります</div>';
+
+  // Sort by weight desc then by adjustment
+  var sorted=life.details.slice().sort(function(a,b){return b.weight-a.weight||Math.abs(b.adj)-Math.abs(a.adj)});
+
+  for(var i=0;i<sorted.length;i++){
+    var d=sorted[i];
+    var adjColor=d.adj>0?'#5C8E84':d.adj<0?'#B36060':'var(--tp)';
+    var adjText=d.adj>0?'+'+d.adj+'年':d.adj<0?d.adj+'年':'±0年';
+    var barW=Math.abs(d.adj)/d.maxP*100;
+
+    h+='<div class="lf-contrib">';
+    // Header: name + priority + adjustment
+    h+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">';
+    h+='<div style="display:flex;align-items:center;gap:8px"><span style="font-size:14px;font-weight:600;color:var(--td)">'+(catNames[d.key]||d.lbl)+'</span><span style="font-size:10px;color:var(--brand);opacity:.7">'+stars[d.weight]+'</span></div>';
+    h+='<div style="font-size:15px;font-weight:700;color:'+adjColor+'">'+adjText+'</div>';
+    h+='</div>';
+    // Score bar
+    h+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">';
+    h+='<div style="font-size:22px;font-weight:700;color:var(--td);width:40px">'+d.score+'</div>';
+    h+='<div style="flex:1"><div class="lf-contrib-bar"><div class="lf-contrib-fill" style="width:'+d.score+'%;background:'+adjColor+'"></div></div></div>';
+    h+='</div>';
+    // Source
+    h+='<div style="font-size:9.5px;color:var(--tp)">出典: '+d.src+' / 最大 '+d.maxP+'年 〜 '+d.maxN+'年</div>';
+    h+='</div>';
+  }
+
+  // Disclaimer
+  h+='<div style="background:var(--card2);border:1px solid var(--bg-e);border-radius:var(--r2);padding:14px;margin-top:16px">';
+  h+='<div style="font-size:12px;font-weight:600;color:var(--td);margin-bottom:6px">ご注意</div>';
+  h+='<div style="font-size:11px;color:var(--tp);line-height:1.7">';
+  h+='この予測寿命は、公開されている疫学研究データに基づく<b style="color:var(--td)">統計的な目安</b>です。個人の遺伝的要因、環境要因、医療へのアクセスなど多くの変数は考慮されていません。医学的な診断や保証ではありませんのでご了承ください。</div>';
+  h+='</div>';
+
+  el.innerHTML=h;
+}
+
+function renderLfBucket(el){
+  var h='<div style="font-size:13px;font-weight:600;color:var(--td);margin-bottom:12px">残りの人生でやりたいこと</div>';
+  var done=bucket.filter(function(x){return x.done}).length;
+  if(bucket.length)h+='<div style="font-size:11px;color:var(--tp);margin-bottom:12px">'+done+' / '+bucket.length+' 達成</div>';
+
+  h+='<div class="lf-bucket">';
+  for(var i=0;i<bucket.length;i++){
+    var b=bucket[i];
+    h+='<div class="lf-bucket-item">';
+    h+='<div class="lf-bucket-check'+(b.done?' done':'')+'" onclick="toggleBucket('+b.id+')"><svg width="12" height="12" viewBox="0 0 12 12" style="display:'+(b.done?'block':'none')+'"><path d="M2 6l3 3 5-5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>';
+    h+='<div class="lf-bucket-text'+(b.done?' done':'')+'">'+b.text+'</div>';
+    h+='<div class="lf-bucket-del" onclick="delBucket('+b.id+')"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>';
+    h+='</div>';
+  }
+  h+='</div>';
+
+  h+='<div class="lf-add-form"><input type="text" id="lfNewItem" class="lf-add-input" placeholder="新しい目標を追加..." onkeydown="if(event.key===\'Enter\')addBucket()"><button class="lf-add-btn" onclick="addBucket()">追加</button></div>';
+
+  el.innerHTML=h;
+}
+
+function toggleBucket(id){
+  for(var i=0;i<bucket.length;i++){if(bucket[i].id===id)bucket[i].done=!bucket[i].done}
+  saveBucket();renderLf();
+}
+function delBucket(id){
+  bucket=bucket.filter(function(x){return x.id!==id});
+  saveBucket();renderLf();
+}
+function addBucket(){
+  var inp=document.getElementById('lfNewItem');
+  if(!inp||!inp.value.trim())return;
+  bucket.push({id:Date.now(),text:inp.value.trim(),done:false});
+  saveBucket();renderLf();
+}
+function saveBucket(){try{localStorage.setItem('hd_bucket',JSON.stringify(bucket))}catch(e){}}
 
 </script>
 </body>
