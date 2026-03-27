@@ -46,7 +46,7 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
 
 /* APP SHELL */
 #app{background:var(--bg)}
-.topbar{position:sticky;top:0;z-index:50;background:rgba(246,247,245,.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--bg-e);padding:14px 20px 10px;display:flex;align-items:center;justify-content:space-between}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(246,247,245,.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--bg-e);padding:14px 20px 10px;display:flex;align-items:center;justify-content:space-between;position:relative}
 .topbar-title{font-size:18px;font-weight:700}
 .topbar-settings{width:34px;height:34px;border-radius:10px;background:var(--card);border:1px solid var(--bg-e);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--tm);transition:all var(--tr)}
 .topbar-settings:hover{background:var(--card2);color:var(--brand)}
@@ -255,6 +255,11 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
 .drawer-sex-btn{flex:1;padding:9px;text-align:center;border:1.5px solid var(--bg-e);border-radius:var(--r3);font-size:13px;font-weight:500;background:var(--bg);color:var(--tp);cursor:pointer;font-family:inherit;transition:all var(--tr)}
 .drawer-sex-btn.on{background:var(--brand);border-color:var(--brand);color:#fff}
 .drawer-sep{height:1px;background:var(--bg-e);margin:0 20px}
+.drawer-save-btn{width:100%;padding:12px;background:var(--brand);border:none;border-radius:var(--r2);font-size:14px;font-weight:700;color:#fff;cursor:pointer;font-family:inherit;margin-top:8px;transition:background var(--tr)}
+.drawer-save-btn:hover{background:var(--brand-mid)}
+.drawer-save-btn:active{transform:scale(.98)}
+.drawer-danger-btn{width:100%;padding:10px;background:transparent;border:1px solid var(--bg-e);border-radius:var(--r2);font-size:12px;font-weight:500;color:var(--err);cursor:pointer;font-family:inherit;margin-top:8px;transition:all var(--tr)}
+.drawer-danger-btn:hover{background:var(--errL)}
 .drawer-close{position:absolute;top:18px;right:14px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;border:none;font-size:14px;transition:background var(--tr)}
 .drawer-close:hover{background:rgba(255,255,255,.25)}
 
@@ -309,9 +314,10 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
 <!-- APP -->
 <div class="screen" id="app">
   <div class="topbar">
-    <div class="topbar-title">TIME</div>
+    <div style="width:34px"></div>
+    <div class="topbar-title" style="position:absolute;left:50%;transform:translateX(-50%)">TIME</div>
     <div class="topbar-settings" onclick="openDrawer()">
-      <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="2.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.1 3.1l1.4 1.4M11.5 11.5l1.4 1.4M3.1 12.9l1.4-1.4M11.5 4.5l1.4-1.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+      <svg width="16" height="16" viewBox="0 0 16 16"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
     </div>
   </div>
   <div class="content">
@@ -435,14 +441,18 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
 <div class="drawer-bg" id="drawer-bg" onclick="closeDrawer()"></div>
 <div class="drawer" id="drawer">
   <button class="drawer-close" onclick="closeDrawer()">✕</button>
-  <div class="drawer-head"><h3>設定</h3><p>プロフィールを変更できます</p></div>
+  <div class="drawer-head"><h3>設定</h3><p>プロフィールを変更・確認できます</p></div>
   <div class="drawer-section">
     <div class="drawer-label">プロフィール</div>
-    <div class="drawer-field"><label>生年月日</label><input type="date" class="drawer-input" id="dw-birth" onchange="saveProfile()"></div>
+    <div class="drawer-field"><label>生年月日</label><input type="date" class="drawer-input" id="dw-birth"></div>
     <div class="drawer-field">
       <label>性別</label>
-      <div class="drawer-sex"><button class="drawer-sex-btn" id="dw-m" onclick="setDrawerSex('m')">男性</button><button class="drawer-sex-btn" id="dw-f" onclick="setDrawerSex('f')">女性</button></div>
+      <div class="drawer-sex">
+        <button class="drawer-sex-btn" id="dw-m" onclick="setDrawerSexTemp('m')">男性</button>
+        <button class="drawer-sex-btn" id="dw-f" onclick="setDrawerSexTemp('f')">女性</button>
+      </div>
     </div>
+    <button class="drawer-save-btn" onclick="saveDrawerProfile()">保存して閉じる</button>
   </div>
   <div class="drawer-sep"></div>
   <div class="drawer-section">
@@ -452,6 +462,7 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
       <span style="font-size:13px;color:var(--brand);font-weight:500">ZIPをアップロード</span>
       <input type="file" accept=".zip" onchange="handleUpload(event)" style="display:none">
     </label>
+    <button class="drawer-danger-btn" onclick="clearHealthData()">健康データを削除</button>
   </div>
 </div>
 
@@ -477,13 +488,30 @@ var QUOTES = [
 
 // ===== INIT =====
 (function init() {
+  // lt_s: プロフィール・バケットリスト
   try {
     var saved = localStorage.getItem('lt_s');
-    if (saved) { var p = JSON.parse(saved); S.birth = p.birth || S.birth; S.sex = p.sex || S.sex; S.bucket = p.bucket || []; }
+    if (saved) {
+      var p = JSON.parse(saved);
+      S.birth  = p.birth  || S.birth;
+      S.sex    = p.sex    || S.sex;
+      S.bucket = Array.isArray(p.bucket) ? p.bucket : [];
+    }
+  } catch (e) { console.warn('lt_s parse error:', e); }
+
+  // lt_hd: ヘルスデータ（容量大のため個別 try-catch）
+  try {
     var hd = localStorage.getItem('lt_hd');
     if (hd) S.healthData = JSON.parse(hd);
-  } catch (e) {}
-  if (localStorage.getItem('lt_ob')) showApp();
+  } catch (e) {
+    console.warn('lt_hd parse error — cleared:', e);
+    try { localStorage.removeItem('lt_hd'); } catch (e2) {}
+  }
+
+  // 登録済みなら即アプリ表示
+  if (localStorage.getItem('lt_ob')) {
+    showApp();
+  }
 })();
 
 function saveState() {
@@ -876,9 +904,10 @@ function buildAlerts(sc) {
   // BMI
   var bA = D.bmi || [];
   if (bA.length) {
-    var bv = bA[bA.length - 1].v;
-    if (bv >= 25) alerts.push(mkAlert('warn', 'BMIが基準値を超えています', 'BMI ' + bv + ' — 厚労省基準の18.5〜25.0を上回っています。体重管理が寿命に影響します。[健康日本21]'));
-    else if (bv < 18.5) alerts.push(mkAlert('warn', 'BMIが低体重の範囲です', 'BMI ' + bv + ' — 低体重（18.5未満）も健康リスクと関連します。[健康日本21]'));
+    var bv = bA[bA.length - 1].v, br = getBMIRange(getAge());
+    if (bv >= br.hi) alerts.push(mkAlert('warn', 'BMIが基準値を超えています', 'BMI ' + bv + ' — 年齢別基準（' + br.lo + '〜' + br.hi + '）を上回っています。 ' + mkSrcLink('bmi')));
+    else if (bv < br.lo) alerts.push(mkAlert('warn', 'BMIが低め（低体重リスク）です', 'BMI ' + bv + ' — 年齢別基準（' + br.lo + '〜' + br.hi + '）を下回っています。 ' + mkSrcLink('bmi')));
+    else alerts.push(mkAlert('good', 'BMIは適正範囲です', 'BMI ' + bv + ' — 年齢別基準（' + br.lo + '〜' + br.hi + '）内です。 ' + mkSrcLink('bmi')));
   }
   // Workout
   var wk = D.workouts || [];
@@ -1154,7 +1183,7 @@ function renderMOH(sc) {
   var stV = Object.values(D.steps || {}), sa = stV.length ? Math.round(av(stV)) : null;
   var slV = Object.values(D.sleep || {}).map(function(x) { return x.total; }), sla = slV.length ? Math.round(av(slV)) : null;
   var rV = Object.values(D.restingHR || {}), ra = rV.length ? Math.round(av(rV)) : null;
-  var bA = D.bmi || [], bv = bA.length ? bA[bA.length - 1].v : null;
+  var bA = D.bmi || [], bv = bA.length ? bA[bA.length - 1].v : null, bmr = getBMIRange(getAge());
   var wk = D.workouts || [], wks2 = Math.max(1, Object.keys(D.steps || {}).length / 7);
   var wpw2 = wk.length ? Math.round(wk.length / wks2 * 10) / 10 : null;
 
@@ -1163,7 +1192,7 @@ function renderMOH(sc) {
   if (sa !== null) rows += mkMOHRow('歩数 ' + fmtNum(sa) + '歩', sa >= moh_steps ? 'good' : 'warn', sa >= moh_steps ? '達成' : '目標 ' + fmtNum(moh_steps) + '歩', 'steps_guide')
   if (sla !== null) { var slr=getSleepRange(getAge()); rows += mkMOHRow('睡眠 ' + fmtMin(sla), sla >= slr.lo && sla <= slr.hi ? 'good' : sla < slr.lo ? 'bad' : 'warn', sla >= slr.lo && sla <= slr.hi ? '達成' : Math.floor(slr.lo/60)+'〜'+Math.floor(slr.hi/60)+'時間推奨（年齢別）', 'sleep_guide') }
   if (ra !== null) rows += mkMOHRow('安静時心拍 ' + ra + 'bpm', ra <= 65 ? 'good' : ra <= 75 ? 'warn' : 'bad', ra <= 65 ? '良好' : '要改善', 'heart')
-  if (bv !== null) rows += mkMOHRow('BMI ' + bv, bv >= 18.5 && bv < 25 ? 'good' : 'warn', bv >= 18.5 && bv < 25 ? '基準内' : '基準 18.5〜25', 'bmi')
+  if (bv !== null) rows += mkMOHRow('BMI ' + bv, bv >= bmr.lo && bv < bmr.hi ? 'good' : 'warn', bv >= bmr.lo && bv < bmr.hi ? '年齢別基準内' : '基準 ' + bmr.lo + '〜' + bmr.hi, 'bmi')
   if (wpw2 !== null) rows += mkMOHRow('運動 週' + wpw2 + '回', wpw2 >= 3 ? 'good' : wpw2 >= 2 ? 'warn' : 'bad', wpw2 >= 3 ? '達成' : '週3回以上推奨', 'workout')
   // 血圧
   var bpA = D.bloodPressure || [];
@@ -1195,255 +1224,6 @@ function srcPriority(src) {
   return 1;
 }
 
-function parseXML(xml) {
-  var nd = {
-    steps: {}, activeEnergy: {}, restingHR: {}, bmi: [], spo2: {}, sleep: {}, workouts: [],
-    bodyFat: [], bodyMass: [], bloodPressure: [], vo2max: [], respRate: {}
-  };
-  function at(t, n) { var m = t.match(new RegExp(n + '="([^"]*)"')); return m ? m[1] : null; }
-  function pDt(s) { return new Date(s.replace(' +', '+').replace(' -', '-')); }
-  var spD = {}, slR = {}, ddS = {};
-  // 優先度付きで最新値を保持する辞書: key -> {v, pri}
-  var rhrD = {}, bpSysD = {}, bpDiaD = {};
-
-  var rR = /<Record\s+([^>]*?)(?:\/>|>)/g, m;
-  while ((m = rR.exec(xml)) !== null) {
-    var t = m[1], tp = at(t, 'type'), vS = at(t, 'value') || '0';
-    var sd = at(t, 'startDate'), ed = at(t, 'endDate'), dk = sd ? sd.slice(0, 10) : null;
-    if (!dk) continue;
-    var v = parseFloat(vS) || 0;
-    var src = at(t, 'sourceName') || '';
-    var pri = srcPriority(src);
-    var isW = pri === 3;
-
-    // 歩数: Watch優先で重複除去（既存ロジック継続）
-    if (tp === 'HKQuantityTypeIdentifierStepCount') {
-      (ddS[dk] || (ddS[dk] = [])).push({ s: sd, e: ed, v: v, w: isW, pri: pri });
-    }
-    // 消費カロリー: 合算（重複しない前提）
-    else if (tp === 'HKQuantityTypeIdentifierActiveEnergyBurned') {
-      nd.activeEnergy[dk] = (nd.activeEnergy[dk] || 0) + v;
-    }
-    // 安静時心拍: 優先度が高いソースを採用
-    else if (tp === 'HKQuantityTypeIdentifierRestingHeartRate') {
-      if (!rhrD[dk] || pri >= rhrD[dk].pri) rhrD[dk] = { v: v, pri: pri };
-    }
-    // BMI
-    else if (tp === 'HKQuantityTypeIdentifierBodyMassIndex') {
-      nd.bmi.push({ d: dk, v: Math.round(v * 10) / 10, pri: pri });
-    }
-    // 体重
-    else if (tp === 'HKQuantityTypeIdentifierBodyMass') {
-      nd.bodyMass.push({ d: dk, v: Math.round(v * 10) / 10, pri: pri });
-    }
-    // 体脂肪率 (% 単位 or 0-1 単位どちらも対応)
-    else if (tp === 'HKQuantityTypeIdentifierBodyFatPercentage') {
-      var fv = v < 1 ? Math.round(v * 1000) / 10 : Math.round(v * 10) / 10;
-      nd.bodyFat.push({ d: dk, v: fv, pri: pri });
-    }
-    // 血中酸素
-    else if (tp === 'HKQuantityTypeIdentifierOxygenSaturation') {
-      (spD[dk] || (spD[dk] = [])).push({ v: v < 1 ? Math.round(v * 10000) / 100 : v, pri: pri });
-    }
-    // 血圧（収縮期）
-    else if (tp === 'HKQuantityTypeIdentifierBloodPressureSystolic') {
-      if (!bpSysD[dk] || pri >= bpSysD[dk].pri) bpSysD[dk] = { v: Math.round(v), pri: pri };
-    }
-    // 血圧（拡張期）
-    else if (tp === 'HKQuantityTypeIdentifierBloodPressureDiastolic') {
-      if (!bpDiaD[dk] || pri >= bpDiaD[dk].pri) bpDiaD[dk] = { v: Math.round(v), pri: pri };
-    }
-    // VO2Max
-    else if (tp === 'HKQuantityTypeIdentifierVO2Max') {
-      nd.vo2max.push({ d: dk, v: Math.round(v * 10) / 10, pri: pri });
-    }
-    // 呼吸数
-    else if (tp === 'HKQuantityTypeIdentifierRespiratoryRate') {
-      if (!nd.respRate[dk] || pri >= (nd.respRate[dk].pri || 0))
-        nd.respRate[dk] = { v: Math.round(v * 10) / 10, pri: pri };
-    }
-    // 睡眠
-    else if (tp === 'HKCategoryTypeIdentifierSleepAnalysis' && sd && ed) {
-      var sh = parseInt(sd.slice(11, 13)), sD = dk;
-      if (sh < 18) { var d3 = new Date(dk); d3.setDate(d3.getDate() - 1); sD = d3.toISOString().slice(0, 10); }
-      (slR[sD] || (slR[sD] = [])).push({
-        dur: Math.max(0, (pDt(ed) - pDt(sd)) / 60000),
-        stg: vS.indexOf('Awake') >= 0 ? 'awake' : vS.indexOf('Deep') >= 0 ? 'deep' : vS.indexOf('REM') >= 0 ? 'rem' : 'core',
-        sd: sd, ed: ed, pri: pri,
-        sT: pDt(sd).getTime(), eT: pDt(ed).getTime()
-      });
-    }
-  }
-
-  // 歩数: Watch優先の時間帯重複除去（既存ロジック）
-  function ddDay(recs) {
-    var w = recs.filter(function(r) { return r.w; }), ph = recs.filter(function(r) { return !r.w; }), total = 0;
-    for (var i = 0; i < w.length; i++) total += w[i].v;
-    if (w.length) {
-      var wt = w.map(function(r) { return { s: pDt(r.s).getTime(), e: pDt(r.e).getTime() }; });
-      for (var i = 0; i < ph.length; i++) {
-        var ps = pDt(ph[i].s).getTime(), pe = pDt(ph[i].e).getTime();
-        if (!wt.some(function(w2) { return ps < w2.e && pe > w2.s; })) total += ph[i].v;
-      }
-    } else { for (var i = 0; i < ph.length; i++) total += ph[i].v; }
-    return total;
-  }
-  for (var k in ddS) nd.steps[k] = Math.round(ddDay(ddS[k]));
-
-  // 安静時心拍: 優先度解決済み辞書から展開
-  for (var k in rhrD) nd.restingHR[k] = rhrD[k].v;
-
-  // 血中酸素: 優先度の高いソースを採用
-  for (var k in spD) {
-    var sList = spD[k];
-    // 最高優先度のみ採用
-    var maxPri = Math.max.apply(null, sList.map(function(x){ return x.pri; }));
-    var best = sList.filter(function(x){ return x.pri === maxPri; });
-    var avgs = best.map(function(x){ return x.v; });
-    nd.spo2[k] = { avg: Math.round(av(avgs) * 10) / 10, min: Math.round(Math.min.apply(null, avgs) * 10) / 10, max: 99 };
-  }
-
-  // 血圧: 収縮期・拡張期を日付でマージ
-  for (var k in bpSysD) {
-    var dia = bpDiaD[k] ? bpDiaD[k].v : null;
-    nd.bloodPressure.push({ d: k, sys: bpSysD[k].v, dia: dia });
-  }
-  nd.bloodPressure.sort(function(a, b) { return a.d.localeCompare(b.d); });
-
-  // 睡眠: ソース優先度+時間帯重複除去
-  for (var sk in slR) {
-    var recs = slR[sk];
-    // ソート: 優先度降順 → 開始時刻昇順
-    recs.sort(function(a, b) { return b.pri - a.pri || a.sT - b.sT; });
-    // 採用済み区間リスト（重複除去）
-    var adopted = [];
-    function overlaps(sT, eT) {
-      return adopted.some(function(a) { return sT < a.eT && eT > a.sT; });
-    }
-    var sc2 = 0, sd2 = 0, sr = 0, sa = 0, earlySD = '~', lateED = '';
-    recs.forEach(function(r) {
-      // 同じ時間帯に低優先度ソースが既にあれば除外
-      if (r.stg !== 'awake' && overlaps(r.sT, r.eT)) return;
-      adopted.push({ sT: r.sT, eT: r.eT });
-      if      (r.stg === 'core') sc2 += r.dur;
-      else if (r.stg === 'deep') sd2 += r.dur;
-      else if (r.stg === 'rem')  sr  += r.dur;
-      else                       sa  += r.dur;
-      if (r.stg !== 'awake') {
-        if (r.sd < earlySD) earlySD = r.sd;
-        if (r.ed > lateED)  lateED  = r.ed;
-      }
-    });
-    var st = sc2 + sd2 + sr;
-    if (st > 0) nd.sleep[sk] = { total: Math.round(st), core: Math.round(sc2), deep: Math.round(sd2), rem: Math.round(sr), awake: Math.round(sa), start: earlySD.slice(11, 16), end: lateED.slice(11, 16) };
-  }
-
-  // ワークアウト
-  var wR = /<Workout\s+([^>]*?)>/g;
-  while ((m = wR.exec(xml)) !== null) {
-    var t2 = m[1], du = parseFloat(at(t2, 'duration') || 0), sd3 = at(t2, 'startDate'), dk3 = sd3 ? sd3.slice(0, 10) : null;
-    if (dk3 && du > 0) nd.workouts.push({ d: dk3, type: (at(t2, 'workoutActivityType') || '').replace('HKWorkoutActivityType', ''), dur: Math.round(du * 10) / 10 });
-  }
-
-  // 配列データ: 同日の重複は優先度が高い方を残す
-  function dedPri(a) {
-    var m = {};
-    a.forEach(function(x) { if (!m[x.d] || x.pri >= m[x.d].pri) m[x.d] = x; });
-    return Object.values(m).sort(function(a, b) { return a.d.localeCompare(b.d); });
-  }
-  nd.bmi      = dedPri(nd.bmi);
-  nd.bodyMass = dedPri(nd.bodyMass);
-  nd.bodyFat  = dedPri(nd.bodyFat);
-  nd.vo2max   = dedPri(nd.vo2max);
-  nd.workouts.sort(function(a, b) { return a.d.localeCompare(b.d); });
-  return nd;
-}
-
-// ===== UPLOAD（ストリーム処理 — 大容量対応） =====
-// XMLを64KBチャンクずつ読みながら必要なタグだけ抽出する。
-// 一度に全文をメモリに乗せないため、iPhoneの低メモリ環境でも動作する。
-
-async function handleUpload(ev) {
-  var files = ev.target.files; if (!files || !files.length) return;
-  var file = files[0];
-  if (!file.name.toLowerCase().endsWith('.zip')) { showToast('ZIPファイルを選択してください'); return; }
-  if (typeof JSZip === 'undefined') { showToast('JSZipの読み込みに失敗しました'); return; }
-  showLdg('ZIP展開中...', 5);
-  try {
-    var zip = await JSZip.loadAsync(file, {
-      // JSZip の進捗コールバック
-      onUpdate: function(meta) {
-        var p = Math.round(meta.percent * 0.25); // 0-25%をZIP展開に割り当て
-        setLdg('ZIP展開中... ' + p + '%', p);
-      }
-    });
-    var xf = null;
-    zip.forEach(function(p, e) { if (p.endsWith('export.xml') && !e.dir) xf = e; });
-    if (!xf) throw new Error('export.xmlが見つかりません');
-
-    setLdg('XMLを読み込み中...', 28);
-
-    // ---- ストリーム処理でXMLを64KBずつ読む ----
-    var nd = parseXMLStream_init();
-    var CHUNK = 65536; // 64KB
-    var totalSize = xf._data ? (xf._data.uncompressedSize || 0) : 0;
-    var processed = 0;
-    var remainder = '';  // 前チャンクの切れ端
-
-    // JSZip の internalStream で uint8array を逐次取得
-    await new Promise(function(resolve, reject) {
-      var decoder = new TextDecoder('utf-8');
-      xf.internalStream('uint8array')
-        .on('data', function(chunk) {
-          processed += chunk.length;
-          var pct = totalSize > 0 ? Math.round(28 + (processed / totalSize) * 55) : 50;
-          setLdg('解析中... ' + pct + '%', pct);
-
-          // バイト列をテキストに変換（不完全なUTF-8文字を跨がないよう stream:true）
-          var text = decoder.decode(chunk, { stream: true });
-          remainder = parseXMLStream_feed(nd, remainder + text);
-        })
-        .on('error', reject)
-        .on('end', function() {
-          // デコーダのフラッシュ（末尾の不完全文字を処理）
-          var tail = decoder.decode(new Uint8Array(0), { stream: false });
-          if (tail) parseXMLStream_feed(nd, remainder + tail);
-          resolve();
-        })
-        .resume();
-    });
-
-    setLdg('集計中...', 85);
-    await new Promise(function(r) { setTimeout(r, 30); }); // UIスレッドに息継ぎ
-    S.healthData = parseXMLStream_finalize(nd);
-
-    setLdg('保存中...', 92);
-    try { localStorage.setItem('lt_hd', JSON.stringify(S.healthData)); } catch (e) {
-      // localStorage が容量不足の場合はメモリのみで続行
-      console.warn('localStorage save failed:', e);
-    }
-    setLdg('完了！', 100);
-    await new Promise(function(r) { setTimeout(r, 400); });
-    hideLdg(); renderHealth(); updateCountdown();
-    if (document.getElementById('drawer').classList.contains('on')) closeDrawer();
-    switchTab('health'); showToast('データを読み込みました！');
-  } catch (e) {
-    hideLdg();
-    var msg = e.message || String(e);
-    if (msg.indexOf('memory') >= 0 || msg.indexOf('メモリ') >= 0) {
-      showToast('データが大きすぎます。PCのブラウザをお試しください');
-    } else {
-      showToast('エラー: ' + msg);
-    }
-    console.error(e);
-  }
-  ev.target.value = '';
-}
-
-// ---- ストリームパーサの3段構成 ----
-// init: 集計用の空データ構造を作る
-// feed: テキストチャンクを受け取り、完全なタグを処理してはみ出た部分を返す
-// finalize: 生データを集約してアプリが使うJSONに変換する
 
 function parseXMLStream_init() {
   return {
@@ -1623,16 +1403,47 @@ function parseXMLStream_finalize(nd) {
 }
 
 // ===== SETTINGS =====
+var drawerTempSex = 'm'; // ドロワー内の一時性別（保存ボタンで確定）
+
 function openDrawer() {
-  document.getElementById('drawer').classList.add('on'); document.getElementById('drawer-bg').classList.add('on');
+  drawerTempSex = S.sex;
+  document.getElementById('drawer').classList.add('on');
+  document.getElementById('drawer-bg').classList.add('on');
   document.body.style.overflow = 'hidden';
   document.getElementById('dw-birth').value = S.birth;
   document.getElementById('dw-m').className = 'drawer-sex-btn' + (S.sex === 'm' ? ' on' : '');
   document.getElementById('dw-f').className = 'drawer-sex-btn' + (S.sex === 'f' ? ' on' : '');
 }
-function closeDrawer() { document.getElementById('drawer').classList.remove('on'); document.getElementById('drawer-bg').classList.remove('on'); document.body.style.overflow = ''; }
-function setDrawerSex(s) { S.sex = s; document.getElementById('dw-m').className = 'drawer-sex-btn' + (s === 'm' ? ' on' : ''); document.getElementById('dw-f').className = 'drawer-sex-btn' + (s === 'f' ? ' on' : ''); saveState(); updateCountdown(); }
-function saveProfile() { var b = document.getElementById('dw-birth').value; if (b) S.birth = b; saveState(); updateCountdown(); }
+function closeDrawer() {
+  document.getElementById('drawer').classList.remove('on');
+  document.getElementById('drawer-bg').classList.remove('on');
+  document.body.style.overflow = '';
+}
+function setDrawerSexTemp(s) {
+  drawerTempSex = s;
+  document.getElementById('dw-m').className = 'drawer-sex-btn' + (s === 'm' ? ' on' : '');
+  document.getElementById('dw-f').className = 'drawer-sex-btn' + (s === 'f' ? ' on' : '');
+}
+function saveDrawerProfile() {
+  var b = document.getElementById('dw-birth').value;
+  if (b) S.birth = b;
+  S.sex = drawerTempSex;
+  saveState();
+  updateCountdown();
+  updateProfileInfo();
+  closeDrawer();
+  showToast('プロフィールを保存しました');
+}
+function clearHealthData() {
+  if (!confirm('健康データを削除しますか？')) return;
+  S.healthData = null;
+  try { localStorage.removeItem('lt_hd'); } catch (e) {}
+  renderHealth(); updateCountdown(); closeDrawer();
+  showToast('健康データを削除しました');
+}
+// 後方互換: setDrawerSex は残す（他箇所からの参照に備えて）
+function setDrawerSex(s) { setDrawerSexTemp(s); }
+function saveProfile() { /* deprecated — saveDrawerProfile() を使用 */ }
 
 // ===== LOADING =====
 function showLdg(t, p) { document.getElementById('ldg').classList.add('on'); setEl('ldg-text', t); document.getElementById('ldg-fill').style.width = p + '%'; }
