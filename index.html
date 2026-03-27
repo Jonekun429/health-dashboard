@@ -1274,31 +1274,267 @@ function parseXML(xml) {
   return nd;
 }
 
-// ===== UPLOAD =====
+// ===== UPLOAD（ストリーム処理 — 大容量対応） =====
+// XMLを64KBチャンクずつ読みながら必要なタグだけ抽出する。
+// 一度に全文をメモリに乗せないため、iPhoneの低メモリ環境でも動作する。
+
 async function handleUpload(ev) {
   var files = ev.target.files; if (!files || !files.length) return;
   var file = files[0];
   if (!file.name.toLowerCase().endsWith('.zip')) { showToast('ZIPファイルを選択してください'); return; }
   if (typeof JSZip === 'undefined') { showToast('JSZipの読み込みに失敗しました'); return; }
-  showLdg('ZIP展開中...', 10);
+  showLdg('ZIP展開中...', 5);
   try {
-    var zip = await JSZip.loadAsync(file);
-    var xf = null; zip.forEach(function(p, e) { if (p.endsWith('export.xml') && !e.dir) xf = e; });
+    var zip = await JSZip.loadAsync(file, {
+      // JSZip の進捗コールバック
+      onUpdate: function(meta) {
+        var p = Math.round(meta.percent * 0.25); // 0-25%をZIP展開に割り当て
+        setLdg('ZIP展開中... ' + p + '%', p);
+      }
+    });
+    var xf = null;
+    zip.forEach(function(p, e) { if (p.endsWith('export.xml') && !e.dir) xf = e; });
     if (!xf) throw new Error('export.xmlが見つかりません');
-    setLdg('XML読み込み中...', 35);
-    var xml = await xf.async('string');
-    setLdg('解析中 (' + Math.round(xml.length / 1048576) + 'MB)...', 60);
-    await new Promise(function(r) { setTimeout(r, 50); });
-    S.healthData = parseXML(xml);
-    setLdg('保存中...', 90);
-    try { localStorage.setItem('lt_hd', JSON.stringify(S.healthData)); } catch (e) {}
+
+    setLdg('XMLを読み込み中...', 28);
+
+    // ---- ストリーム処理でXMLを64KBずつ読む ----
+    var nd = parseXMLStream_init();
+    var CHUNK = 65536; // 64KB
+    var totalSize = xf._data ? (xf._data.uncompressedSize || 0) : 0;
+    var processed = 0;
+    var remainder = '';  // 前チャンクの切れ端
+
+    // JSZip の internalStream で uint8array を逐次取得
+    await new Promise(function(resolve, reject) {
+      var decoder = new TextDecoder('utf-8');
+      xf.internalStream('uint8array')
+        .on('data', function(chunk) {
+          processed += chunk.length;
+          var pct = totalSize > 0 ? Math.round(28 + (processed / totalSize) * 55) : 50;
+          setLdg('解析中... ' + pct + '%', pct);
+
+          // バイト列をテキストに変換（不完全なUTF-8文字を跨がないよう stream:true）
+          var text = decoder.decode(chunk, { stream: true });
+          remainder = parseXMLStream_feed(nd, remainder + text);
+        })
+        .on('error', reject)
+        .on('end', function() {
+          // デコーダのフラッシュ（末尾の不完全文字を処理）
+          var tail = decoder.decode(new Uint8Array(0), { stream: false });
+          if (tail) parseXMLStream_feed(nd, remainder + tail);
+          resolve();
+        })
+        .resume();
+    });
+
+    setLdg('集計中...', 85);
+    await new Promise(function(r) { setTimeout(r, 30); }); // UIスレッドに息継ぎ
+    S.healthData = parseXMLStream_finalize(nd);
+
+    setLdg('保存中...', 92);
+    try { localStorage.setItem('lt_hd', JSON.stringify(S.healthData)); } catch (e) {
+      // localStorage が容量不足の場合はメモリのみで続行
+      console.warn('localStorage save failed:', e);
+    }
     setLdg('完了！', 100);
     await new Promise(function(r) { setTimeout(r, 400); });
     hideLdg(); renderHealth(); updateCountdown();
     if (document.getElementById('drawer').classList.contains('on')) closeDrawer();
     switchTab('health'); showToast('データを読み込みました！');
-  } catch (e) { hideLdg(); showToast('エラー: ' + e.message); console.error(e); }
+  } catch (e) {
+    hideLdg();
+    var msg = e.message || String(e);
+    if (msg.indexOf('memory') >= 0 || msg.indexOf('メモリ') >= 0) {
+      showToast('データが大きすぎます。PCのブラウザをお試しください');
+    } else {
+      showToast('エラー: ' + msg);
+    }
+    console.error(e);
+  }
   ev.target.value = '';
+}
+
+// ---- ストリームパーサの3段構成 ----
+// init: 集計用の空データ構造を作る
+// feed: テキストチャンクを受け取り、完全なタグを処理してはみ出た部分を返す
+// finalize: 生データを集約してアプリが使うJSONに変換する
+
+function parseXMLStream_init() {
+  return {
+    ddS: {}, spD: {}, slR: {}, rhrD: {}, bpSysD: {}, bpDiaD: {},
+    activeEnergy: {}, bmi: [], bodyMass: [], bodyFat: [],
+    vo2max: [], workouts: [], respRate: {}
+  };
+}
+
+function parseXMLStream_feed(nd, text) {
+  // <Record .../> と <Record ...> を抽出（終了タグは不要）
+  // <Workout .../> も同様
+  // 最後の不完全なタグは next チャンクに持ち越す
+
+  // タグの途中でチャンクが切れることがある → 最後の '<' 以降を remainder に残す
+  var lastOpen = text.lastIndexOf('<');
+  var safe, remainder;
+  if (lastOpen >= 0 && text.indexOf('>', lastOpen) < 0) {
+    // '>' が見つからない = タグが途中で切れている
+    safe = text.slice(0, lastOpen);
+    remainder = text.slice(lastOpen);
+  } else {
+    safe = text;
+    remainder = '';
+  }
+
+  // Record タグ
+  var rR = /<Record\s+([^>]*?)(?:\/>|>)/g, m;
+  while ((m = rR.exec(safe)) !== null) {
+    _processRecord(nd, m[1]);
+  }
+  // Workout タグ
+  var wR = /<Workout\s+([^>]*?)>/g;
+  while ((m = wR.exec(safe)) !== null) {
+    _processWorkout(nd, m[1]);
+  }
+
+  return remainder;
+}
+
+function _at(t, n) {
+  var m = t.match(new RegExp(n + '="([^"]*)"'));
+  return m ? m[1] : null;
+}
+function _pDt(s) { return new Date(s.replace(' +', '+').replace(' -', '-')); }
+
+function _processRecord(nd, t) {
+  var tp = _at(t, 'type'), vS = _at(t, 'value') || '0';
+  var sd = _at(t, 'startDate'), ed = _at(t, 'endDate');
+  var dk = sd ? sd.slice(0, 10) : null;
+  if (!dk || !tp) return;
+  var v = parseFloat(vS) || 0;
+  var src = _at(t, 'sourceName') || '';
+  var pri = srcPriority(src);
+  var isW = pri === 3;
+
+  if      (tp === 'HKQuantityTypeIdentifierStepCount')
+    (nd.ddS[dk] || (nd.ddS[dk] = [])).push({ s: sd, e: ed, v: v, w: isW, pri: pri });
+  else if (tp === 'HKQuantityTypeIdentifierActiveEnergyBurned')
+    nd.activeEnergy[dk] = (nd.activeEnergy[dk] || 0) + v;
+  else if (tp === 'HKQuantityTypeIdentifierRestingHeartRate') {
+    if (!nd.rhrD[dk] || pri >= nd.rhrD[dk].pri) nd.rhrD[dk] = { v: v, pri: pri };
+  }
+  else if (tp === 'HKQuantityTypeIdentifierBodyMassIndex')
+    nd.bmi.push({ d: dk, v: Math.round(v * 10) / 10, pri: pri });
+  else if (tp === 'HKQuantityTypeIdentifierBodyMass')
+    nd.bodyMass.push({ d: dk, v: Math.round(v * 10) / 10, pri: pri });
+  else if (tp === 'HKQuantityTypeIdentifierBodyFatPercentage') {
+    var fv = v < 1 ? Math.round(v * 1000) / 10 : Math.round(v * 10) / 10;
+    nd.bodyFat.push({ d: dk, v: fv, pri: pri });
+  }
+  else if (tp === 'HKQuantityTypeIdentifierOxygenSaturation')
+    (nd.spD[dk] || (nd.spD[dk] = [])).push({ v: v < 1 ? Math.round(v * 10000) / 100 : v, pri: pri });
+  else if (tp === 'HKQuantityTypeIdentifierBloodPressureSystolic') {
+    if (!nd.bpSysD[dk] || pri >= nd.bpSysD[dk].pri) nd.bpSysD[dk] = { v: Math.round(v), pri: pri };
+  }
+  else if (tp === 'HKQuantityTypeIdentifierBloodPressureDiastolic') {
+    if (!nd.bpDiaD[dk] || pri >= nd.bpDiaD[dk].pri) nd.bpDiaD[dk] = { v: Math.round(v), pri: pri };
+  }
+  else if (tp === 'HKQuantityTypeIdentifierVO2Max')
+    nd.vo2max.push({ d: dk, v: Math.round(v * 10) / 10, pri: pri });
+  else if (tp === 'HKQuantityTypeIdentifierRespiratoryRate') {
+    if (!nd.respRate[dk] || pri >= (nd.respRate[dk].pri || 0))
+      nd.respRate[dk] = { v: Math.round(v * 10) / 10, pri: pri };
+  }
+  else if (tp === 'HKCategoryTypeIdentifierSleepAnalysis' && sd && ed) {
+    var sh = parseInt(sd.slice(11, 13)), sD = dk;
+    if (sh < 18) { var d3 = new Date(dk); d3.setDate(d3.getDate() - 1); sD = d3.toISOString().slice(0, 10); }
+    (nd.slR[sD] || (nd.slR[sD] = [])).push({
+      dur: Math.max(0, (_pDt(ed) - _pDt(sd)) / 60000),
+      stg: vS.indexOf('Awake') >= 0 ? 'awake' : vS.indexOf('Deep') >= 0 ? 'deep' : vS.indexOf('REM') >= 0 ? 'rem' : 'core',
+      sd: sd, ed: ed, pri: pri,
+      sT: _pDt(sd).getTime(), eT: _pDt(ed).getTime()
+    });
+  }
+}
+
+function _processWorkout(nd, t) {
+  var du = parseFloat(_at(t, 'duration') || 0);
+  var sd3 = _at(t, 'startDate'), dk3 = sd3 ? sd3.slice(0, 10) : null;
+  if (dk3 && du > 0)
+    nd.workouts.push({ d: dk3, type: (_at(t, 'workoutActivityType') || '').replace('HKWorkoutActivityType', ''), dur: Math.round(du * 10) / 10 });
+}
+
+function parseXMLStream_finalize(nd) {
+  var out = { steps: {}, activeEnergy: nd.activeEnergy, restingHR: {}, bmi: [], bodyMass: [], bodyFat: [], spo2: {}, bloodPressure: [], vo2max: [], respRate: {}, sleep: {}, workouts: nd.workouts };
+
+  // 歩数: Watch優先の時間帯重複除去
+  function ddDay(recs) {
+    var w = recs.filter(function(r) { return r.w; }), ph = recs.filter(function(r) { return !r.w; }), total = 0;
+    for (var i = 0; i < w.length; i++) total += w[i].v;
+    if (w.length) {
+      var wt = w.map(function(r) { return { s: _pDt(r.s).getTime(), e: _pDt(r.e).getTime() }; });
+      for (var i = 0; i < ph.length; i++) {
+        var ps = _pDt(ph[i].s).getTime(), pe = _pDt(ph[i].e).getTime();
+        if (!wt.some(function(w2) { return ps < w2.e && pe > w2.s; })) total += ph[i].v;
+      }
+    } else { for (var i = 0; i < ph.length; i++) total += ph[i].v; }
+    return total;
+  }
+  for (var k in nd.ddS) out.steps[k] = Math.round(ddDay(nd.ddS[k]));
+
+  // 安静時心拍
+  for (var k in nd.rhrD) out.restingHR[k] = nd.rhrD[k].v;
+
+  // 血中酸素: 最高優先度ソースの平均
+  for (var k in nd.spD) {
+    var sList = nd.spD[k];
+    var maxPri = Math.max.apply(null, sList.map(function(x) { return x.pri; }));
+    var best = sList.filter(function(x) { return x.pri === maxPri; }).map(function(x) { return x.v; });
+    out.spo2[k] = { avg: Math.round(av(best) * 10) / 10, min: Math.round(Math.min.apply(null, best) * 10) / 10, max: 99 };
+  }
+
+  // 血圧
+  for (var k in nd.bpSysD) {
+    var dia = nd.bpDiaD[k] ? nd.bpDiaD[k].v : null;
+    out.bloodPressure.push({ d: k, sys: nd.bpSysD[k].v, dia: dia });
+  }
+  out.bloodPressure.sort(function(a, b) { return a.d.localeCompare(b.d); });
+
+  // 睡眠: ソース優先度+時間帯重複除去
+  for (var sk in nd.slR) {
+    var recs = nd.slR[sk];
+    recs.sort(function(a, b) { return b.pri - a.pri || a.sT - b.sT; });
+    var adopted = [];
+    function overlaps(sT, eT) { return adopted.some(function(a) { return sT < a.eT && eT > a.sT; }); }
+    var sc2 = 0, sd2 = 0, sr = 0, sa = 0, earlySD = '~', lateED = '';
+    recs.forEach(function(r) {
+      if (r.stg !== 'awake' && overlaps(r.sT, r.eT)) return;
+      adopted.push({ sT: r.sT, eT: r.eT });
+      if      (r.stg === 'core') sc2 += r.dur;
+      else if (r.stg === 'deep') sd2 += r.dur;
+      else if (r.stg === 'rem')  sr  += r.dur;
+      else                       sa  += r.dur;
+      if (r.stg !== 'awake') { if (r.sd < earlySD) earlySD = r.sd; if (r.ed > lateED) lateED = r.ed; }
+    });
+    var st = sc2 + sd2 + sr;
+    if (st > 0) out.sleep[sk] = { total: Math.round(st), core: Math.round(sc2), deep: Math.round(sd2), rem: Math.round(sr), awake: Math.round(sa), start: earlySD.slice(11, 16), end: lateED.slice(11, 16) };
+  }
+
+  // 配列データ: 同日の重複は優先度が高い方を残す
+  function dedPri(a) {
+    var m = {};
+    a.forEach(function(x) { if (!m[x.d] || x.pri >= m[x.d].pri) m[x.d] = x; });
+    return Object.values(m).sort(function(a, b) { return a.d.localeCompare(b.d); });
+  }
+  out.bmi      = dedPri(nd.bmi);
+  out.bodyMass = dedPri(nd.bodyMass);
+  out.bodyFat  = dedPri(nd.bodyFat);
+  out.vo2max   = dedPri(nd.vo2max);
+  out.workouts.sort(function(a, b) { return a.d.localeCompare(b.d); });
+
+  // respRate: pri 不要なのでvだけ残す
+  for (var k in nd.respRate) out.respRate[k] = nd.respRate[k].v;
+
+  return out;
 }
 
 // ===== SETTINGS =====
