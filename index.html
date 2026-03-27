@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#5C8E84">
-<title>LifeTime</title>
+<title>TIME — あなたの残り時間</title>
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-/* ===== RESET & TOKENS ===== */
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
   --brand:#5C8E84;--brand-mid:#3E6B62;
@@ -17,7 +17,7 @@
   --card:#fff;--card2:#EDF4F2;
   --td:#2B3830;--tm:#5A7870;--tp:#8AA89E;
   --err:#B85C5C;--errL:#FDF2F2;
-  --warn:#8A6030;
+  --warn:#8A6030;--warnL:#FDF6EE;
   --r:16px;--r2:12px;--r3:9px;
   --sh:0 1px 8px rgba(43,72,64,.07);
   --sh2:0 4px 20px rgba(43,72,64,.12);
@@ -25,12 +25,10 @@
 }
 html{font-size:16px}
 body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:var(--td);-webkit-font-smoothing:antialiased;min-height:100dvh;overflow-x:hidden}
-
-/* ===== SCREENS ===== */
 .screen{display:none}
 .screen.on{display:flex;flex-direction:column;min-height:100dvh}
 
-/* ===== ONBOARDING ===== */
+/* ONBOARDING */
 #ob{background:linear-gradient(160deg,#EDF4F2 0%,#F6F7F5 60%);align-items:center;justify-content:center;padding:40px 28px 48px}
 .ob-logo{width:76px;height:76px;border-radius:24px;background:linear-gradient(145deg,var(--brand),var(--brand-mid));display:flex;align-items:center;justify-content:center;margin-bottom:24px;box-shadow:0 8px 28px rgba(92,142,132,.3)}
 .ob-title{font-size:30px;font-weight:700;letter-spacing:-.5px;margin-bottom:6px;text-align:center}
@@ -44,24 +42,22 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
 .ob-sex-btn{flex:1;padding:12px;border:1.5px solid var(--bg-e);border-radius:var(--r2);font-size:14px;font-weight:500;background:var(--bg);color:var(--tp);cursor:pointer;font-family:inherit;transition:all var(--tr);text-align:center}
 .ob-sex-btn.on{background:var(--brand);border-color:var(--brand);color:#fff}
 .ob-btn{width:100%;padding:15px;background:linear-gradient(135deg,var(--brand),var(--brand-mid));border:none;border-radius:var(--r2);font-size:15px;font-weight:700;color:#fff;cursor:pointer;font-family:inherit;margin-top:20px;box-shadow:0 4px 16px rgba(92,142,132,.3);transition:all var(--tr)}
-.ob-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(92,142,132,.4)}
-.ob-btn:active{transform:scale(.98)}
+.ob-btn:hover{transform:translateY(-1px)}.ob-btn:active{transform:scale(.98)}
 
-/* ===== APP SHELL ===== */
+/* APP SHELL */
 #app{background:var(--bg)}
 .topbar{position:sticky;top:0;z-index:50;background:rgba(246,247,245,.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--bg-e);padding:14px 20px 10px;display:flex;align-items:center;justify-content:space-between}
 .topbar-title{font-size:18px;font-weight:700}
 .topbar-settings{width:34px;height:34px;border-radius:10px;background:var(--card);border:1px solid var(--bg-e);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--tm);transition:all var(--tr)}
 .topbar-settings:hover{background:var(--card2);color:var(--brand)}
-.tabbar{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--bg-e);display:flex;padding:8px 0 max(12px,env(safe-area-inset-bottom));z-index:50;max-width:460px;margin:0 auto}
+.tabbar{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--bg-e);display:flex;padding:8px 0 max(12px,env(safe-area-inset-bottom));z-index:50;max-width:480px;margin:0 auto}
 .tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px 0}
 .tab-lbl{font-size:10px;font-weight:500;color:var(--tp);transition:color var(--tr)}
 .tab.on .tab-lbl{color:var(--brand)}
-.content{flex:1;padding-bottom:90px;max-width:460px;margin:0 auto;width:100%}
-.panel{display:none}
-.panel.on{display:block}
+.content{flex:1;padding-bottom:90px;max-width:480px;margin:0 auto;width:100%}
+.panel{display:none}.panel.on{display:block}
 
-/* ===== COUNTDOWN ===== */
+/* COUNTDOWN */
 .cd-hero{background:linear-gradient(160deg,#2B3830 0%,#3E5548 100%);padding:28px 20px 24px;text-align:center;position:relative;overflow:hidden}
 .cd-hero::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(92,142,132,.12),transparent 70%);border-radius:50%;pointer-events:none}
 .cd-greeting{font-size:11px;color:rgba(255,255,255,.4);margin-bottom:20px;letter-spacing:.8px;text-transform:uppercase}
@@ -80,6 +76,7 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
 .cd-prog-pct{font-size:11px;font-weight:600;color:rgba(255,255,255,.65)}
 .cd-prog-track{height:5px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden}
 .cd-prog-fill{height:100%;background:linear-gradient(90deg,rgba(92,142,132,.8),rgba(142,200,190,.6));border-radius:3px;transition:width .6s ease}
+
 .life-card{margin:14px 16px 0;background:var(--card);border-radius:var(--r);border:1px solid var(--bg-e);padding:16px;box-shadow:var(--sh)}
 .life-card-row{display:flex;align-items:center;justify-content:space-between}
 .life-card-lbl{font-size:11px;color:var(--tp);font-weight:500;margin-bottom:3px}
@@ -87,42 +84,76 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
 .life-card-num{display:flex;align-items:baseline;gap:4px}
 .life-card-big{font-size:36px;font-weight:700;letter-spacing:-1px}
 .life-card-unit{font-size:13px;color:var(--tp)}
+
+/* PROFILE CHIP & INLINE EDIT */
+.life-card-profile{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:10px;border-top:1px solid var(--bg-e)}
+.life-card-profile-info{font-size:11px;color:var(--tp)}
+.edit-chip{background:var(--card2);border:1px solid var(--bg-e);border-radius:20px;padding:4px 12px;font-size:11px;color:var(--brand);font-weight:600;cursor:pointer;transition:all var(--tr);white-space:nowrap;flex-shrink:0}
+.edit-chip:hover{background:var(--bg-e)}
+.inline-edit{margin:0 16px;background:var(--card2);border:1.5px solid var(--brand);border-radius:var(--r);padding:16px;box-shadow:0 2px 12px rgba(92,142,132,.12)}
+.inline-edit-title{font-size:12px;font-weight:600;color:var(--td);margin-bottom:12px}
+.inline-edit-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.inline-edit-lbl{font-size:11px;color:var(--tm);width:48px;flex-shrink:0}
+.inline-edit-input{flex:1;padding:9px 12px;border:1.5px solid var(--bg-e);border-radius:var(--r3);font-size:13px;font-family:inherit;color:var(--td);background:var(--card);transition:border-color var(--tr);-webkit-appearance:none;appearance:none}
+.inline-edit-input:focus{outline:none;border-color:var(--brand)}
+.inline-edit-sex{display:flex;gap:6px;flex:1}
+.inline-edit-sex-btn{flex:1;padding:9px;text-align:center;border:1.5px solid var(--bg-e);border-radius:var(--r3);font-size:12px;font-weight:500;background:var(--card);color:var(--tp);cursor:pointer;font-family:inherit;transition:all var(--tr)}
+.inline-edit-sex-btn.on{background:var(--brand);border-color:var(--brand);color:#fff}
+.inline-edit-actions{display:flex;gap:8px;margin-top:4px}
+.inline-edit-save{flex:1;padding:10px;background:var(--brand);border:none;border-radius:var(--r2);font-size:13px;font-weight:700;color:#fff;cursor:pointer;font-family:inherit;transition:background var(--tr)}
+.inline-edit-save:hover{background:var(--brand-mid)}
+.inline-edit-cancel{padding:10px 14px;background:transparent;border:1px solid var(--bg-e);border-radius:var(--r2);font-size:12px;color:var(--tp);cursor:pointer;font-family:inherit;transition:all var(--tr)}
+.inline-edit-cancel:hover{background:var(--bg-e)}
+
+/* CONTRIBUTION CARD (countdown tab) */
+.contrib-card{margin:12px 16px 0;background:var(--card);border-radius:var(--r);border:1px solid var(--bg-e);padding:16px;box-shadow:var(--sh)}
+.contrib-title{font-size:11px;font-weight:600;color:var(--tp);letter-spacing:.5px;text-transform:uppercase;margin-bottom:12px}
+.contrib-row{display:flex;align-items:center;gap:8px;margin-bottom:9px}
+.contrib-row:last-child{margin-bottom:0}
+.contrib-name{font-size:12px;font-weight:500;width:56px;flex-shrink:0}
+.contrib-bar-wrap{flex:1;height:5px;background:var(--bg-e);border-radius:3px;overflow:hidden}
+.contrib-bar-fill{height:100%;border-radius:3px;transition:width .5s ease}
+.contrib-adj{font-size:11px;font-weight:700;width:40px;text-align:right;flex-shrink:0}
+.contrib-total{display:flex;justify-content:space-between;align-items:center;padding-top:10px;margin-top:10px;border-top:1px solid var(--bg-e)}
+.contrib-total-lbl{font-size:12px;color:var(--tm)}
+.contrib-total-val{font-size:14px;font-weight:700}
+
+/* ALERT BANNERS */
+.alert-list{margin:12px 16px 0;display:flex;flex-direction:column;gap:8px}
+.alert-item{border-radius:var(--r2);padding:11px 13px;display:flex;gap:10px;align-items:flex-start}
+.alert-item.warn{background:var(--warnL);border:1px solid rgba(138,96,48,.2)}
+.alert-item.good{background:var(--card2);border:1px solid rgba(92,142,132,.2)}
+.alert-item.bad{background:var(--errL);border:1px solid rgba(184,92,92,.2)}
+.alert-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:3px}
+.alert-dot.warn{background:var(--warn)}.alert-dot.good{background:var(--brand)}.alert-dot.bad{background:var(--err)}
+.alert-body{}
+.alert-head{font-size:12px;font-weight:600;margin-bottom:2px}
+.alert-head.warn{color:var(--warn)}.alert-head.good{color:var(--brand)}.alert-head.bad{color:var(--err)}
+.alert-txt{font-size:11px;color:var(--tm);line-height:1.55}
+
+/* CTA */
 .health-cta{margin:12px 16px 0;background:linear-gradient(135deg,var(--brand),var(--brand-mid));border-radius:var(--r);padding:16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;box-shadow:0 4px 16px rgba(92,142,132,.2);transition:all var(--tr)}
-.health-cta:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(92,142,132,.3)}
-.health-cta-title{font-size:14px;font-weight:600;color:#fff}
-.health-cta-sub{font-size:11px;color:rgba(255,255,255,.6);margin-top:2px}
-.health-cta-arrow{color:rgba(255,255,255,.6);font-size:18px}
-.health-score-card{margin:12px 16px 0;background:var(--card);border-radius:var(--r);border:1px solid var(--bg-e);padding:16px;box-shadow:var(--sh)}
-.hsc-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.hsc-title{font-size:13px;font-weight:600}
-.hsc-badge{font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;background:var(--card2);color:var(--brand)}
-.hs-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.hs-row:last-child{margin-bottom:0}
-.hs-name{font-size:11px;color:var(--tm);width:52px;flex-shrink:0}
-.hs-bar-wrap{flex:1;height:5px;background:var(--bg-e);border-radius:3px;overflow:hidden}
-.hs-bar-fill{height:100%;border-radius:3px;transition:width .5s ease}
+.health-cta:hover{transform:translateY(-1px)}.health-cta-title{font-size:14px;font-weight:600;color:#fff}
+.health-cta-sub{font-size:11px;color:rgba(255,255,255,.6);margin-top:2px}.health-cta-arrow{color:rgba(255,255,255,.6);font-size:18px}
 .quote-card{margin:12px 16px 0;background:var(--card2);border-radius:var(--r2);padding:16px;text-align:center;border:1px solid var(--bg-e);min-height:56px}
 .quote-text{font-size:12px;color:var(--tm);line-height:1.8;font-style:italic;transition:opacity .4s}
 .quote-text.fade{opacity:0}
 
-/* ===== BUCKET LIST ===== */
+/* BUCKET LIST */
 .bl-hero{background:linear-gradient(160deg,#2B3830,#3E5548);padding:24px 20px 20px;position:relative;overflow:hidden}
 .bl-hero::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;background:radial-gradient(circle,rgba(92,142,132,.15),transparent 70%);border-radius:50%}
 .bl-hero-title{font-size:20px;font-weight:700;color:#fff;margin-bottom:4px;position:relative;z-index:1}
 .bl-hero-sub{font-size:12px;color:rgba(255,255,255,.45);position:relative;z-index:1}
 .bl-progress-wrap{margin-top:14px;position:relative;z-index:1}
 .bl-prog-row{display:flex;justify-content:space-between;margin-bottom:5px}
-.bl-prog-lbl{font-size:10px;color:rgba(255,255,255,.38)}
-.bl-prog-count{font-size:11px;font-weight:600;color:rgba(255,255,255,.65)}
+.bl-prog-lbl{font-size:10px;color:rgba(255,255,255,.38)}.bl-prog-count{font-size:11px;font-weight:600;color:rgba(255,255,255,.65)}
 .bl-prog-track{height:4px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden}
 .bl-prog-fill{height:100%;background:rgba(92,142,132,.8);border-radius:2px;transition:width .4s ease}
 .bl-list{padding:14px 16px 0;display:flex;flex-direction:column;gap:8px}
 .bl-item{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--bg-e);border-radius:var(--r2);padding:13px 14px;box-shadow:var(--sh)}
 .bl-check{width:24px;height:24px;border-radius:50%;border:2px solid var(--bg-e);flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all var(--tr);background:var(--bg)}
-.bl-check.done{background:var(--brand);border-color:var(--brand)}
-.bl-check:hover:not(.done){border-color:var(--brand);background:var(--card2)}
-.bl-text{flex:1;font-size:13px;transition:all var(--tr)}
-.bl-text.done{color:var(--tp);text-decoration:line-through}
+.bl-check.done{background:var(--brand);border-color:var(--brand)}.bl-check:hover:not(.done){border-color:var(--brand);background:var(--card2)}
+.bl-text{flex:1;font-size:13px;transition:all var(--tr)}.bl-text.done{color:var(--tp);text-decoration:line-through}
 .bl-del{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--bg-e);transition:all var(--tr);flex-shrink:0}
 .bl-del:hover{background:var(--errL);color:var(--err)}
 .bl-add-wrap{padding:12px 16px 0}
@@ -130,10 +161,9 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
 .bl-add-input{flex:1;padding:12px 14px;border:1.5px solid var(--bg-e);border-radius:var(--r2);font-size:13px;font-family:inherit;background:var(--card);color:var(--td);transition:border-color var(--tr)}
 .bl-add-input:focus{outline:none;border-color:var(--brand)}
 .bl-add-btn{padding:12px 18px;background:var(--brand);color:#fff;border:none;border-radius:var(--r2);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:background var(--tr);white-space:nowrap}
-.bl-add-btn:hover{background:var(--brand-mid)}
-.bl-add-btn:active{transform:scale(.97)}
+.bl-add-btn:hover{background:var(--brand-mid)}.bl-add-btn:active{transform:scale(.97)}
 
-/* ===== HEALTH DATA ===== */
+/* HEALTH DATA PANEL */
 .hd-empty{padding:16px}
 .hd-empty-card{background:var(--card);border:2px dashed var(--bg-e);border-radius:var(--r);padding:28px 20px;text-align:center;margin-bottom:14px}
 .hd-empty-icon{margin-bottom:14px;display:flex;justify-content:center}
@@ -147,11 +177,15 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
 .hd-step:last-child{border:none;padding-bottom:0}
 .hd-step-num{width:24px;height:24px;border-radius:50%;background:var(--brand);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;margin-top:1px}
 .hd-step-text{font-size:12.5px;color:var(--tm);line-height:1.55}
-.hd-loaded{padding:16px}
-.hd-loaded-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+
+/* HEALTH LOADED */
+.hd-loaded{padding:0}
+.hd-loaded-header{display:flex;justify-content:space-between;align-items:center;padding:14px 16px 0}
 .hd-loaded-title{font-size:16px;font-weight:700}
 .hd-reload-label{font-size:11px;color:var(--brand);padding:5px 12px;border-radius:20px;background:var(--card2);cursor:pointer;font-weight:600;position:relative;overflow:hidden;display:inline-block}
-.hd-score-big{background:linear-gradient(135deg,#2B3830,#3E5548);border-radius:var(--r);padding:20px;margin-bottom:12px;display:flex;align-items:center;gap:16px;position:relative;overflow:hidden}
+
+/* SCORE BIG */
+.hd-score-big{background:linear-gradient(135deg,#2B3830,#3E5548);border-radius:var(--r);margin:12px 16px 0;padding:20px;display:flex;align-items:center;gap:16px;position:relative;overflow:hidden}
 .hd-score-big::before{content:'';position:absolute;top:-30px;right:-30px;width:100px;height:100px;background:radial-gradient(circle,rgba(92,142,132,.2),transparent 70%);border-radius:50%}
 .hd-score-ring{position:relative;width:72px;height:72px;flex-shrink:0}
 .hd-score-ring svg{width:72px;height:72px;transform:rotate(-90deg)}
@@ -161,25 +195,56 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
 .hd-score-info{flex:1;position:relative;z-index:1}
 .hd-score-grade{font-size:14px;font-weight:700;color:#fff;margin-bottom:3px}
 .hd-score-msg{font-size:11px;color:rgba(255,255,255,.55);line-height:1.5}
-.hd-items-card{background:var(--card);border-radius:var(--r);border:1px solid var(--bg-e);padding:16px;box-shadow:var(--sh)}
-.hd-items-title{font-size:11px;font-weight:600;color:var(--tp);margin-bottom:14px;letter-spacing:.5px;text-transform:uppercase}
-.hd-item-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-.hd-item-row:last-child{margin-bottom:0}
-.hd-item-icon{width:32px;height:32px;border-radius:9px;background:var(--card2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.hd-item-body{flex:1;min-width:0}
-.hd-item-name{font-size:12px;font-weight:600;margin-bottom:4px}
-.hd-item-bar-wrap{height:5px;background:var(--bg-e);border-radius:3px;overflow:hidden}
-.hd-item-bar-fill{height:100%;border-radius:3px;transition:width .6s ease}
-.hd-item-adj{font-size:11px;font-weight:700;width:42px;text-align:right;flex-shrink:0}
 
-/* ===== DRAWER ===== */
+/* PERIOD SELECTOR */
+.period-bar{display:flex;gap:4px;padding:12px 16px 0;overflow-x:auto;scrollbar-width:none}
+.period-bar::-webkit-scrollbar{display:none}
+.period-btn{flex-shrink:0;padding:6px 12px;border:1.5px solid var(--bg-e);border-radius:20px;font-size:11px;font-weight:600;background:var(--card);color:var(--tp);cursor:pointer;font-family:inherit;transition:all var(--tr);white-space:nowrap}
+.period-btn.on{background:var(--brand);border-color:var(--brand);color:#fff}
+
+/* METRIC SECTION */
+.metric-section{margin:12px 16px 0;background:var(--card);border-radius:var(--r);border:1px solid var(--bg-e);padding:16px;box-shadow:var(--sh)}
+.metric-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+.metric-title{font-size:13px;font-weight:600}
+.metric-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px}
+.metric-badge.good{background:var(--card2);color:var(--brand)}
+.metric-badge.warn{background:var(--warnL);color:var(--warn)}
+.metric-badge.bad{background:var(--errL);color:var(--err)}
+.metric-val{font-size:28px;font-weight:700;letter-spacing:-.5px;line-height:1;margin-bottom:2px}
+.metric-sub{font-size:11px;color:var(--tp);margin-bottom:10px}
+.metric-chart{height:100px;position:relative;margin-bottom:8px}
+.metric-moh{font-size:10.5px;color:var(--tm);background:var(--bg);border-radius:8px;padding:7px 10px;line-height:1.5;border:1px solid var(--bg-e)}
+.metric-moh-title{font-weight:600;color:var(--td);display:block;margin-bottom:2px}
+
+/* TODAY VIEW (当日カード) */
+.today-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px 16px 0}
+.today-card{background:var(--card);border-radius:var(--r2);border:1px solid var(--bg-e);padding:13px;box-shadow:var(--sh)}
+.today-card-lbl{font-size:10px;color:var(--tp);font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px}
+.today-card-val{font-size:22px;font-weight:700;color:var(--td);line-height:1}
+.today-card-unit{font-size:11px;color:var(--tp);font-weight:400}
+.today-card-bar{height:4px;background:var(--bg-e);border-radius:2px;overflow:hidden;margin-top:8px}
+.today-card-fill{height:100%;border-radius:2px}
+.today-card-cmp{font-size:10px;color:var(--tm);margin-top:5px}
+
+/* MOH COMPARISON TABLE */
+.moh-card{margin:12px 16px 0;background:var(--card);border-radius:var(--r);border:1px solid var(--bg-e);padding:16px;box-shadow:var(--sh)}
+.moh-title{font-size:11px;font-weight:600;color:var(--tp);letter-spacing:.5px;text-transform:uppercase;margin-bottom:12px}
+.moh-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--bg-e)}
+.moh-row:last-child{border:none;padding-bottom:0}
+.moh-name{font-size:12px;font-weight:500;flex:1}
+.moh-status{font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;white-space:nowrap}
+.moh-status.good{background:var(--card2);color:var(--brand)}
+.moh-status.warn{background:var(--warnL);color:var(--warn)}
+.moh-status.bad{background:var(--errL);color:var(--err)}
+.moh-source{font-size:9px;color:var(--tp);margin-top:10px;line-height:1.5}
+
+/* DRAWER */
 .drawer-bg{display:none;position:fixed;inset:0;background:rgba(43,56,48,.3);backdrop-filter:blur(4px);z-index:200}
 .drawer-bg.on{display:block}
 .drawer{position:fixed;top:0;right:0;bottom:0;width:280px;background:var(--card);z-index:201;transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1);box-shadow:-4px 0 24px rgba(43,56,48,.1);display:flex;flex-direction:column;overflow-y:auto}
 .drawer.on{transform:translateX(0)}
 .drawer-head{background:linear-gradient(135deg,var(--brand),var(--brand-mid));padding:28px 20px 20px;color:#fff;position:relative}
-.drawer-head h3{font-size:16px;font-weight:700;margin-bottom:2px}
-.drawer-head p{font-size:11px;opacity:.6}
+.drawer-head h3{font-size:16px;font-weight:700;margin-bottom:2px}.drawer-head p{font-size:11px;opacity:.6}
 .drawer-section{padding:16px 20px}
 .drawer-label{font-size:11px;font-weight:600;color:var(--tp);letter-spacing:.5px;text-transform:uppercase;margin-bottom:12px}
 .drawer-field{margin-bottom:14px}
@@ -193,7 +258,7 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
 .drawer-close{position:absolute;top:18px;right:14px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;border:none;font-size:14px;transition:background var(--tr)}
 .drawer-close:hover{background:rgba(255,255,255,.25)}
 
-/* ===== LOADING & TOAST ===== */
+/* LOADING & TOAST */
 .ldg{display:none;position:fixed;inset:0;background:rgba(246,247,245,.97);z-index:300;justify-content:center;align-items:center;flex-direction:column;gap:16px;backdrop-filter:blur(8px)}
 .ldg.on{display:flex}
 .ldg-spin{width:44px;height:44px;border:3px solid var(--bg-e);border-top-color:var(--brand);border-radius:50%;animation:spin .6s linear infinite}
@@ -207,24 +272,15 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
 </head>
 <body>
 
-<!-- LOADING -->
-<div class="ldg" id="ldg">
-  <div class="ldg-spin"></div>
-  <div class="ldg-text" id="ldg-text">データを解析中...</div>
-  <div class="ldg-bar"><div class="ldg-fill" id="ldg-fill" style="width:0%"></div></div>
-</div>
+<div class="ldg" id="ldg"><div class="ldg-spin"></div><div class="ldg-text" id="ldg-text">データを解析中...</div><div class="ldg-bar"><div class="ldg-fill" id="ldg-fill" style="width:0%"></div></div></div>
 <div class="toast" id="toast"></div>
 
-<!-- ===== ONBOARDING ===== -->
+<!-- ONBOARDING -->
 <div class="screen on" id="ob">
   <div class="ob-logo">
-    <svg width="38" height="38" viewBox="0 0 38 38">
-      <circle cx="19" cy="19" r="15" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="2"/>
-      <circle cx="19" cy="19" r="15" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="65 30" stroke-linecap="round"/>
-      <path d="M19 10v9l6 3.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
-    </svg>
+    <svg width="38" height="38" viewBox="0 0 38 38"><circle cx="19" cy="19" r="15" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="2"/><circle cx="19" cy="19" r="15" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="65 30" stroke-linecap="round"/><path d="M19 10v9l6 3.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
   </div>
-  <div class="ob-title">LifeTime</div>
+  <div class="ob-title">TIME</div>
   <div class="ob-sub">あなたの残り時間を、<br>リアルに感じよう</div>
   <div class="ob-card">
     <div class="ob-field">
@@ -242,34 +298,23 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
   </div>
 </div>
 
-<!-- ===== APP ===== -->
+<!-- APP -->
 <div class="screen" id="app">
   <div class="topbar">
-    <div class="topbar-title">LifeTime</div>
+    <div class="topbar-title">TIME</div>
     <div class="topbar-settings" onclick="openDrawer()">
-      <svg width="16" height="16" viewBox="0 0 16 16">
-        <circle cx="8" cy="8" r="2.5" fill="none" stroke="currentColor" stroke-width="1.4"/>
-        <path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.1 3.1l1.4 1.4M11.5 11.5l1.4 1.4M3.1 12.9l1.4-1.4M11.5 4.5l1.4-1.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-      </svg>
+      <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="2.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.1 3.1l1.4 1.4M11.5 11.5l1.4 1.4M3.1 12.9l1.4-1.4M11.5 4.5l1.4-1.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
     </div>
   </div>
-
   <div class="content">
 
-    <!-- COUNTDOWN -->
+    <!-- TAB: COUNTDOWN -->
     <div class="panel on" id="p-countdown">
       <div class="cd-hero">
         <div class="cd-greeting">あなたの残り時間</div>
         <div class="cd-ring-wrap">
-          <svg viewBox="0 0 160 160">
-            <circle cx="80" cy="80" r="68" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="10"/>
-            <circle cx="80" cy="80" r="68" fill="none" stroke="rgba(92,142,132,.75)" stroke-width="10"
-              stroke-dasharray="427" id="cd-ring-stroke" stroke-dashoffset="200" stroke-linecap="round"/>
-          </svg>
-          <div class="cd-ring-center">
-            <div class="cd-years" id="cd-years">--</div>
-            <div class="cd-years-lbl">年</div>
-          </div>
+          <svg viewBox="0 0 160 160"><circle cx="80" cy="80" r="68" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="10"/><circle cx="80" cy="80" r="68" fill="none" stroke="rgba(92,142,132,.75)" stroke-width="10" stroke-dasharray="427" id="cd-ring-stroke" stroke-dashoffset="200" stroke-linecap="round"/></svg>
+          <div class="cd-ring-center"><div class="cd-years" id="cd-years">--</div><div class="cd-years-lbl">年</div></div>
         </div>
         <div class="cd-grid">
           <div class="cd-cell"><div class="cd-cell-num" id="cd-days">---</div><div class="cd-cell-lbl">日</div></div>
@@ -277,39 +322,32 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
           <div class="cd-cell"><div class="cd-cell-num" id="cd-mins">--</div><div class="cd-cell-lbl">分</div></div>
         </div>
         <div class="cd-progress">
-          <div class="cd-prog-row">
-            <span class="cd-prog-lbl">人生の進捗</span>
-            <span class="cd-prog-pct" id="cd-pct">--.--%</span>
-          </div>
+          <div class="cd-prog-row"><span class="cd-prog-lbl">人生の進捗</span><span class="cd-prog-pct" id="cd-pct">--.--%</span></div>
           <div class="cd-prog-track"><div class="cd-prog-fill" id="cd-prog-fill" style="width:0%"></div></div>
         </div>
       </div>
-      <div class="life-card">
+      <div class="life-card" id="life-card">
         <div class="life-card-row">
-          <div>
-            <div class="life-card-lbl">予測寿命</div>
-            <div class="life-card-base" id="lc-base">基準 --年</div>
-          </div>
-          <div class="life-card-num">
-            <div class="life-card-big" id="lc-total">--.-</div>
-            <div class="life-card-unit">年</div>
-          </div>
+          <div><div class="life-card-lbl">予測寿命</div><div class="life-card-base" id="lc-base">基準 --年</div></div>
+          <div class="life-card-num"><div class="life-card-big" id="lc-total">--.-</div><div class="life-card-unit">年</div></div>
+        </div>
+        <div class="life-card-profile">
+          <span class="life-card-profile-info" id="lc-profile-info">-- 生まれ</span>
+          <div class="edit-chip" onclick="toggleInlineEdit()">編集</div>
         </div>
       </div>
-      <div id="health-cta-wrap"></div>
+      <div id="inline-edit-wrap"></div>
+      <div id="cd-health-block"></div>
       <div class="quote-card"><div class="quote-text" id="quote-text">　</div></div>
     </div>
 
-    <!-- BUCKET LIST -->
+    <!-- TAB: BUCKET LIST -->
     <div class="panel" id="p-bucket">
       <div class="bl-hero">
         <div class="bl-hero-title">思い出リスト</div>
         <div class="bl-hero-sub">残りの人生でやりたいこと</div>
         <div class="bl-progress-wrap">
-          <div class="bl-prog-row">
-            <span class="bl-prog-lbl">達成率</span>
-            <span class="bl-prog-count" id="bl-count">0 / 0 達成</span>
-          </div>
+          <div class="bl-prog-row"><span class="bl-prog-lbl">達成率</span><span class="bl-prog-count" id="bl-count">0 / 0 達成</span></div>
           <div class="bl-prog-track"><div class="bl-prog-fill" id="bl-prog-fill" style="width:0%"></div></div>
         </div>
       </div>
@@ -322,23 +360,17 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
       </div>
     </div>
 
-    <!-- HEALTH DATA -->
+    <!-- TAB: HEALTH DATA -->
     <div class="panel" id="p-health">
-      <!-- empty state -->
+      <!-- Empty -->
       <div id="hd-empty-view" class="hd-empty">
         <div class="hd-empty-card">
           <div class="hd-empty-icon">
-            <svg width="48" height="48" viewBox="0 0 48 48">
-              <rect x="8" y="14" width="32" height="26" rx="5" fill="none" stroke="var(--brand)" stroke-width="2"/>
-              <path d="M24 22v12M18 28l6-6 6 6" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            <svg width="48" height="48" viewBox="0 0 48 48"><rect x="8" y="14" width="32" height="26" rx="5" fill="none" stroke="var(--brand)" stroke-width="2"/><path d="M24 22v12M18 28l6-6 6 6" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
           <div class="hd-empty-title">ヘルスケアデータを追加</div>
           <div class="hd-empty-sub">iPhoneのヘルスケアアプリからZIPファイルをアップロードして、寿命予測の精度を上げましょう</div>
-          <label class="hd-upload-label">
-            ZIPファイルを選択
-            <input type="file" accept=".zip" onchange="handleUpload(event)" style="display:none">
-          </label>
+          <label class="hd-upload-label">ZIPファイルを選択<input type="file" accept=".zip" onchange="handleUpload(event)" style="display:none"></label>
         </div>
         <div class="hd-steps-card">
           <div class="hd-steps-title">データの書き出し方</div>
@@ -348,96 +380,66 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
           <div class="hd-step"><div class="hd-step-num">4</div><div class="hd-step-text">作成されたZIPファイルをここにアップロード</div></div>
         </div>
       </div>
-      <!-- loaded state -->
-      <div id="hd-loaded-view" class="hd-loaded" style="display:none">
+      <!-- Loaded -->
+      <div id="hd-loaded-view" style="display:none;padding-bottom:20px">
         <div class="hd-loaded-header">
-          <div class="hd-loaded-title">健康スコア</div>
-          <label class="hd-reload-label">
-            データ更新
-            <input type="file" accept=".zip" onchange="handleUpload(event)" style="display:none">
-          </label>
+          <div class="hd-loaded-title">健康ダッシュボード</div>
+          <label class="hd-reload-label">更新<input type="file" accept=".zip" onchange="handleUpload(event)" style="display:none"></label>
         </div>
+        <!-- Score ring -->
         <div class="hd-score-big">
           <div class="hd-score-ring">
-            <svg viewBox="0 0 72 72">
-              <circle cx="36" cy="36" r="30" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="6"/>
-              <circle cx="36" cy="36" r="30" fill="none" stroke="rgba(92,142,132,.85)" stroke-width="6"
-                stroke-dasharray="188" id="hd-ring-stroke" stroke-dashoffset="80" stroke-linecap="round"/>
-            </svg>
-            <div class="hd-score-ring-center">
-              <div class="hd-score-num" id="hd-score-num">--</div>
-              <div class="hd-score-den">/100</div>
-            </div>
+            <svg viewBox="0 0 72 72"><circle cx="36" cy="36" r="30" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="6"/><circle cx="36" cy="36" r="30" fill="none" stroke="rgba(92,142,132,.85)" stroke-width="6" stroke-dasharray="188" id="hd-ring-stroke" stroke-dashoffset="80" stroke-linecap="round"/></svg>
+            <div class="hd-score-ring-center"><div class="hd-score-num" id="hd-score-num">--</div><div class="hd-score-den">/100</div></div>
           </div>
-          <div class="hd-score-info">
-            <div class="hd-score-grade" id="hd-score-grade">-- ランク</div>
-            <div class="hd-score-msg" id="hd-score-msg">計算中...</div>
-          </div>
+          <div class="hd-score-info"><div class="hd-score-grade" id="hd-score-grade">-- ランク</div><div class="hd-score-msg" id="hd-score-msg">計算中...</div></div>
         </div>
-        <div class="hd-items-card">
-          <div class="hd-items-title">カテゴリ別スコア</div>
-          <div id="hd-items-list"></div>
-        </div>
+        <!-- Period selector -->
+        <div class="period-bar" id="period-bar"></div>
+        <!-- Dynamic metric sections -->
+        <div id="hd-metrics"></div>
+        <!-- MOH comparison -->
+        <div class="moh-card" id="moh-card"></div>
+        <div style="height:8px"></div>
       </div>
     </div>
 
   </div><!-- /content -->
 
-  <!-- TAB BAR -->
   <div class="tabbar">
     <div class="tab on" id="tab-countdown" onclick="switchTab('countdown')">
-      <svg width="22" height="22" viewBox="0 0 22 22">
-        <circle cx="11" cy="11" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5" id="ti-c"/>
-        <path d="M11 7v4l3 2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" id="ti-ch"/>
-      </svg>
+      <svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5" id="ti-c"/><path d="M11 7v4l3 2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" id="ti-ch"/></svg>
       <span class="tab-lbl" id="tl-countdown">残り時間</span>
     </div>
     <div class="tab" id="tab-bucket" onclick="switchTab('bucket')">
-      <svg width="22" height="22" viewBox="0 0 22 22">
-        <rect x="4" y="3" width="14" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="1.5" id="ti-b"/>
-        <path d="M8 8h6M8 11h6M8 14h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" id="ti-bh"/>
-      </svg>
+      <svg width="22" height="22" viewBox="0 0 22 22"><rect x="4" y="3" width="14" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="1.5" id="ti-b"/><path d="M8 8h6M8 11h6M8 14h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" id="ti-bh"/></svg>
       <span class="tab-lbl" id="tl-bucket">思い出</span>
     </div>
     <div class="tab" id="tab-health" onclick="switchTab('health')">
-      <svg width="22" height="22" viewBox="0 0 22 22">
-        <path d="M11 18.5s-8-5.5-8-11c0-3 2.2-5 4.5-5 1.8 0 3 1 3.5 2.5C11.5 3.5 12.7 2.5 14.5 2.5c2.3 0 4.5 2 4.5 5 0 5.5-8 11-8 11z" fill="none" stroke="currentColor" stroke-width="1.5" id="ti-h"/>
-      </svg>
+      <svg width="22" height="22" viewBox="0 0 22 22"><path d="M11 18.5s-8-5.5-8-11c0-3 2.2-5 4.5-5 1.8 0 3 1 3.5 2.5C11.5 3.5 12.7 2.5 14.5 2.5c2.3 0 4.5 2 4.5 5 0 5.5-8 11-8 11z" fill="none" stroke="currentColor" stroke-width="1.5" id="ti-h"/></svg>
       <span class="tab-lbl" id="tl-health">健康データ</span>
     </div>
   </div>
 </div><!-- /app -->
 
-<!-- ===== DRAWER ===== -->
+<!-- DRAWER -->
 <div class="drawer-bg" id="drawer-bg" onclick="closeDrawer()"></div>
 <div class="drawer" id="drawer">
   <button class="drawer-close" onclick="closeDrawer()">✕</button>
-  <div class="drawer-head">
-    <h3>設定</h3>
-    <p>プロフィールを変更できます</p>
-  </div>
+  <div class="drawer-head"><h3>設定</h3><p>プロフィールを変更できます</p></div>
   <div class="drawer-section">
     <div class="drawer-label">プロフィール</div>
-    <div class="drawer-field">
-      <label>生年月日</label>
-      <input type="date" class="drawer-input" id="dw-birth" onchange="saveProfile()">
-    </div>
+    <div class="drawer-field"><label>生年月日</label><input type="date" class="drawer-input" id="dw-birth" onchange="saveProfile()"></div>
     <div class="drawer-field">
       <label>性別</label>
-      <div class="drawer-sex">
-        <button class="drawer-sex-btn" id="dw-m" onclick="setDrawerSex('m')">男性</button>
-        <button class="drawer-sex-btn" id="dw-f" onclick="setDrawerSex('f')">女性</button>
-      </div>
+      <div class="drawer-sex"><button class="drawer-sex-btn" id="dw-m" onclick="setDrawerSex('m')">男性</button><button class="drawer-sex-btn" id="dw-f" onclick="setDrawerSex('f')">女性</button></div>
     </div>
   </div>
   <div class="drawer-sep"></div>
   <div class="drawer-section">
     <div class="drawer-label">ヘルスケアデータ</div>
     <label style="display:flex;align-items:center;gap:10px;padding:10px 0;cursor:pointer">
-      <svg width="18" height="18" viewBox="0 0 18 18">
-        <path d="M9 3v9M5 9l4-4 4 4" fill="none" stroke="var(--brand)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M3 14h12" stroke="var(--tp)" stroke-width="1.2" stroke-linecap="round"/>
-      </svg>
+      <svg width="18" height="18" viewBox="0 0 18 18"><path d="M9 3v9M5 9l4-4 4 4" fill="none" stroke="var(--brand)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 14h12" stroke="var(--tp)" stroke-width="1.2" stroke-linecap="round"/></svg>
       <span style="font-size:13px;color:var(--brand);font-weight:500">ZIPをアップロード</span>
       <input type="file" accept=".zip" onchange="handleUpload(event)" style="display:none">
     </label>
@@ -448,6 +450,8 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
 // ===== STATE =====
 var S = { birth: '1990-01-01', sex: 'm', bucket: [], healthData: null };
 var timerID = null, quoteTimerID = null, quoteIdx = 0, obSex = 'm';
+var hdPeriod = 'today'; // today | 1w | 1m | 3m | 1y | all
+var charts = {}; // chart instances keyed by canvas id
 
 var QUOTES = [
   '「今この瞬間は、残りの人生の最初の一日」',
@@ -483,34 +487,56 @@ function setSex(s) {
   document.getElementById('ob-m').className = 'ob-sex-btn' + (s === 'm' ? ' on' : '');
   document.getElementById('ob-f').className = 'ob-sex-btn' + (s === 'f' ? ' on' : '');
 }
-
 function startApp() {
   var b = document.getElementById('ob-birth').value;
   if (!b) { showToast('生年月日を入力してください'); return; }
   S.birth = b; S.sex = obSex;
   saveState(); localStorage.setItem('lt_ob', '1'); showApp();
 }
-
 function showApp() {
   document.getElementById('ob').className = 'screen';
   document.getElementById('app').className = 'screen on';
-  initCountdown(); renderBucket(); renderHealth(); startQuotes();
+  initCountdown(); renderBucket(); renderHealth(); startQuotes(); updateProfileInfo();
   document.getElementById('dw-birth').value = S.birth;
   document.getElementById('dw-m').className = 'drawer-sex-btn' + (S.sex === 'm' ? ' on' : '');
   document.getElementById('dw-f').className = 'drawer-sex-btn' + (S.sex === 'f' ? ' on' : '');
 }
 
-// ===== LIFE CALC =====
+// ===== HELPERS =====
 function av(a) { return a.length ? a.reduce(function(s, v) { return s + v; }, 0) / a.length : 0; }
+function setEl(id, val) { var e = document.getElementById(id); if (e) e.textContent = val; }
+function pad(n) { return n < 10 ? '0' + n : '' + n; }
+function esc(s) { var d = document.createElement('div'); d.appendChild(document.createTextNode(s)); return d.innerHTML; }
+function fmtMin(m) { var h = Math.floor(m / 60), mn = Math.round(m % 60); return h + 'h' + pad(mn) + 'm'; }
+function fmtNum(n) { return Math.round(n).toLocaleString('ja-JP'); }
 
+// Filter data by period
+function filterPeriod(obj, period) {
+  if (period === 'all') return obj;
+  var now = new Date(), days = { today: 1, '1w': 7, '1m': 30, '3m': 90, '1y': 365 }[period] || 30;
+  var cutoff = new Date(now); cutoff.setDate(cutoff.getDate() - days);
+  var cut = cutoff.toISOString().slice(0, 10);
+  var out = {};
+  Object.keys(obj).forEach(function(k) { if (k >= cut) out[k] = obj[k]; });
+  return out;
+}
+function filterPeriodArr(arr, period) {
+  if (period === 'all') return arr;
+  var now = new Date(), days = { today: 1, '1w': 7, '1m': 30, '3m': 90, '1y': 365 }[period] || 30;
+  var cutoff = new Date(now); cutoff.setDate(cutoff.getDate() - days);
+  var cut = cutoff.toISOString().slice(0, 10);
+  return arr.filter(function(x) { return x.d >= cut; });
+}
+
+// ===== LIFE CALC =====
 var LIFE_RULES = [
-  { k: 'steps',    maxP: 3,   maxN: -2   },
-  { k: 'sleep',    maxP: 2,   maxN: -2   },
-  { k: 'heart',    maxP: 1.5, maxN: -1   },
-  { k: 'body',     maxP: 2,   maxN: -2   },
-  { k: 'workout',  maxP: 2,   maxN: -1   },
-  { k: 'vitals',   maxP: 1,   maxN: -1   },
-  { k: 'activity', maxP: 0.5, maxN: -0.5 },
+  { k: 'steps',    n: '歩数',    maxP: 3,   maxN: -2   },
+  { k: 'sleep',    n: '睡眠',    maxP: 2,   maxN: -2   },
+  { k: 'heart',    n: '心拍',    maxP: 1.5, maxN: -1   },
+  { k: 'body',     n: '体重',    maxP: 2,   maxN: -2   },
+  { k: 'workout',  n: '運動',    maxP: 2,   maxN: -1   },
+  { k: 'vitals',   n: '血中酸素', maxP: 1,   maxN: -1   },
+  { k: 'activity', n: '消費Cal', maxP: 0.5, maxN: -0.5 },
 ];
 
 function adjFromScore(v, maxP, maxN) {
@@ -522,14 +548,34 @@ function adjFromScore(v, maxP, maxN) {
   return maxN;
 }
 
+function calcScores() {
+  var D = S.healthData, items = {};
+  var stV = Object.values(D.steps || {});
+  if (stV.length) { var sa = Math.round(av(stV)); items.steps = { v: Math.min(100, Math.round(sa / 8000 * 100)), avg: sa }; }
+  var rV = Object.values(D.restingHR || {});
+  if (rV.length) { var ra = Math.round(av(rV)); items.heart = { v: ra <= 55 ? 85 : ra <= 65 ? 100 : ra <= 75 ? Math.round(100 - (ra - 65) * 3) : Math.max(20, Math.round(70 - (ra - 75) * 2)), avg: ra }; }
+  var slV = Object.values(D.sleep || {}).map(function(x) { return x.total; });
+  if (slV.length) { var sla = Math.round(av(slV)); items.sleep = { v: sla >= 420 && sla <= 540 ? 100 : sla >= 360 ? Math.round(70 + (sla - 360) / 60 * 30) : sla > 540 ? Math.max(60, Math.round(100 - (sla - 540) / 60 * 20)) : Math.max(20, Math.round(sla / 420 * 70)), avg: sla }; }
+  var bA = D.bmi || [];
+  if (bA.length) { var bv = bA[bA.length - 1].v; items.body = { v: bv >= 18.5 && bv < 25 ? 100 : bv >= 25 && bv < 27 ? 75 : bv >= 27 && bv < 30 ? 55 : bv < 18.5 ? 60 : 40, avg: bv }; }
+  var spV = Object.values(D.spo2 || {}).map(function(x) { return x.avg; });
+  if (spV.length) { var spa = Math.round(av(spV) * 10) / 10; items.vitals = { v: spa >= 97 ? 100 : spa >= 96 ? 90 : spa >= 95 ? 75 : spa >= 93 ? 55 : 40, avg: spa }; }
+  var aV = Object.values(D.activeEnergy || {});
+  if (aV.length) { var aa = Math.round(av(aV)); items.activity = { v: Math.min(100, Math.round(aa / 300 * 100)), avg: aa }; }
+  var wk = D.workouts || [];
+  if (wk.length) { var wks = Math.max(1, Object.keys(D.steps || {}).length / 7); var wpw = wk.length / wks; items.workout = { v: Math.min(100, Math.round(wpw / 3 * 100)), avg: Math.round(wpw * 10) / 10 }; }
+  var vals = Object.values(items);
+  return { items: items, total: vals.length ? Math.round(av(vals.map(function(x) { return x.v; }))) : 0 };
+}
+
 function calcLife() {
   var base = S.sex === 'f' ? 87 : 81, bonus = 0;
   if (S.healthData) {
     var sc = calcScores();
-    for (var i = 0; i < LIFE_RULES.length; i++) {
-      var r = LIFE_RULES[i], it = sc.items[r.k];
+    LIFE_RULES.forEach(function(r) {
+      var it = sc.items[r.k];
       if (it) bonus += Math.round(adjFromScore(it.v, r.maxP, r.maxN) * 10) / 10;
-    }
+    });
     bonus = Math.round(bonus * 10) / 10;
   }
   return { base: base, bonus: bonus, total: Math.round((base + bonus) * 10) / 10 };
@@ -537,15 +583,12 @@ function calcLife() {
 
 function calcTimeLeft() {
   var life = calcLife();
-  var end = new Date(S.birth);
-  end.setFullYear(end.getFullYear() + life.total);
+  var end = new Date(S.birth); end.setFullYear(end.getFullYear() + life.total);
   var birth = new Date(S.birth).getTime(), now = Date.now(), endT = end.getTime();
   var diff = Math.max(0, endT - now);
   return {
-    y: Math.floor(diff / 31557600000),
-    d: Math.floor((diff % 31557600000) / 86400000),
-    h: Math.floor((diff % 86400000) / 3600000),
-    m: Math.floor((diff % 3600000) / 60000),
+    y: Math.floor(diff / 31557600000), d: Math.floor((diff % 31557600000) / 86400000),
+    h: Math.floor((diff % 86400000) / 3600000), m: Math.floor((diff % 3600000) / 60000),
     prog: endT > birth ? Math.min(Math.max((now - birth) / (endT - birth) * 100, 0), 100) : 100,
     life: life
   };
@@ -557,25 +600,82 @@ function initCountdown() {
   if (timerID) clearInterval(timerID);
   timerID = setInterval(updateCountdown, 1000);
 }
-
 function updateCountdown() {
   var t = calcTimeLeft(), life = t.life;
-  // ring offset: tracks how much life has passed
   var ring = document.getElementById('cd-ring-stroke');
   if (ring) ring.setAttribute('stroke-dashoffset', (427 * t.prog / 100).toFixed(1));
-  setEl('cd-years', t.y); setEl('cd-days', t.d);
-  setEl('cd-hours', pad(t.h)); setEl('cd-mins', pad(t.m));
+  setEl('cd-years', t.y); setEl('cd-days', t.d); setEl('cd-hours', pad(t.h)); setEl('cd-mins', pad(t.m));
   setEl('cd-pct', t.prog.toFixed(1) + '%');
-  var fill = document.getElementById('cd-prog-fill');
-  if (fill) fill.style.width = t.prog.toFixed(1) + '%';
-  var baseStr = '基準 ' + life.base + '年' + (life.bonus !== 0 ? ' / 補正 ' + (life.bonus > 0 ? '+' : '') + life.bonus + '年' : '');
-  setEl('lc-base', baseStr); setEl('lc-total', life.total.toFixed(1));
-  renderHealthCTA();
+  var fill = document.getElementById('cd-prog-fill'); if (fill) fill.style.width = t.prog.toFixed(1) + '%';
+  setEl('lc-base', '基準 ' + life.base + '年' + (life.bonus !== 0 ? ' / 補正 ' + (life.bonus > 0 ? '+' : '') + life.bonus + '年' : ''));
+  setEl('lc-total', life.total.toFixed(1));
+  updateProfileInfo();
+  renderCDHealthBlock(life);
 }
 
-// ===== HEALTH CTA (countdown panel) =====
-function renderHealthCTA() {
-  var wrap = document.getElementById('health-cta-wrap'); if (!wrap) return;
+// ===== PROFILE INFO & INLINE EDIT =====
+function fmtBirth(b) {
+  if (!b) return '--';
+  var p = b.split('-'); if (p.length < 3) return b;
+  return p[0] + '年' + parseInt(p[1]) + '月' + parseInt(p[2]) + '日';
+}
+function updateProfileInfo() {
+  var sexLabel = S.sex === 'f' ? '女性' : '男性';
+  setEl('lc-profile-info', fmtBirth(S.birth) + ' 生まれ · ' + sexLabel);
+}
+
+var inlineEditSex = 'm';
+var inlineEditOpen = false;
+
+function toggleInlineEdit() {
+  if (inlineEditOpen) { closeInlineEdit(); return; }
+  inlineEditOpen = true;
+  inlineEditSex = S.sex;
+  var wrap = document.getElementById('inline-edit-wrap'); if (!wrap) return;
+  wrap.innerHTML = '<div class="inline-edit" id="inline-edit">'
+    + '<div class="inline-edit-title">プロフィールを編集</div>'
+    + '<div class="inline-edit-row">'
+    + '<span class="inline-edit-lbl">生年月日</span>'
+    + '<input type="date" class="inline-edit-input" id="ie-birth" value="' + S.birth + '">'
+    + '</div>'
+    + '<div class="inline-edit-row">'
+    + '<span class="inline-edit-lbl">性別</span>'
+    + '<div class="inline-edit-sex">'
+    + '<button class="inline-edit-sex-btn' + (inlineEditSex === 'm' ? ' on' : '') + '" id="ie-m" onclick="setIESex('m')">男性</button>'
+    + '<button class="inline-edit-sex-btn' + (inlineEditSex === 'f' ? ' on' : '') + '" id="ie-f" onclick="setIESex('f')">女性</button>'
+    + '</div>'
+    + '</div>'
+    + '<div class="inline-edit-actions">'
+    + '<button class="inline-edit-save" onclick="saveInlineEdit()">保存して更新</button>'
+    + '<button class="inline-edit-cancel" onclick="closeInlineEdit()">キャンセル</button>'
+    + '</div>'
+    + '</div>';
+  wrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function setIESex(s) {
+  inlineEditSex = s;
+  document.getElementById('ie-m').className = 'inline-edit-sex-btn' + (s === 'm' ? ' on' : '');
+  document.getElementById('ie-f').className = 'inline-edit-sex-btn' + (s === 'f' ? ' on' : '');
+}
+
+function saveInlineEdit() {
+  var b = document.getElementById('ie-birth');
+  if (b && b.value) S.birth = b.value;
+  S.sex = inlineEditSex;
+  saveState();
+  closeInlineEdit();
+  updateCountdown();
+  showToast('プロフィールを更新しました');
+}
+
+function closeInlineEdit() {
+  inlineEditOpen = false;
+  var wrap = document.getElementById('inline-edit-wrap'); if (wrap) wrap.innerHTML = '';
+}
+
+function renderCDHealthBlock(life) {
+  var wrap = document.getElementById('cd-health-block'); if (!wrap) return;
   if (!S.healthData) {
     wrap.innerHTML = '<div class="health-cta" onclick="switchTab(\'health\')">'
       + '<div><div class="health-cta-title">健康データを追加する</div>'
@@ -584,17 +684,80 @@ function renderHealthCTA() {
     return;
   }
   var sc = calcScores();
-  var cats = [{ k: 'steps', n: '歩数' }, { k: 'sleep', n: '睡眠' }, { k: 'heart', n: '心拍' }, { k: 'body', n: '体重' }, { k: 'workout', n: '運動' }];
-  var rows = '';
-  for (var i = 0; i < cats.length; i++) {
-    var it = sc.items[cats[i].k]; if (!it) continue;
-    var c = it.v >= 80 ? 'var(--brand)' : it.v >= 60 ? 'var(--warn)' : 'var(--err)';
-    rows += '<div class="hs-row"><span class="hs-name">' + cats[i].n + '</span>'
-      + '<div class="hs-bar-wrap"><div class="hs-bar-fill" style="width:' + it.v + '%;background:' + c + '"></div></div></div>';
+  // Contribution rows
+  var rows = '', totalAdj = 0;
+  LIFE_RULES.forEach(function(r) {
+    var it = sc.items[r.k]; if (!it) return;
+    var adj = Math.round(adjFromScore(it.v, r.maxP, r.maxN) * 10) / 10;
+    totalAdj += adj;
+    var bc = it.v >= 80 ? 'var(--brand)' : it.v >= 60 ? 'var(--warn)' : 'var(--err)';
+    var ac = adj > 0 ? 'var(--brand)' : adj < 0 ? 'var(--err)' : 'var(--tp)';
+    var at = adj > 0 ? '+' + adj + '年' : adj < 0 ? adj + '年' : '±0年';
+    var pct = Math.abs(adj) / Math.max(r.maxP, Math.abs(r.maxN)) * 100;
+    rows += '<div class="contrib-row"><span class="contrib-name">' + r.n + '</span>'
+      + '<div class="contrib-bar-wrap"><div class="contrib-bar-fill" style="width:' + pct.toFixed(0) + '%;background:' + bc + '"></div></div>'
+      + '<span class="contrib-adj" style="color:' + ac + '">' + at + '</span></div>';
+  });
+  totalAdj = Math.round(totalAdj * 10) / 10;
+  var tc = totalAdj > 0 ? 'var(--brand)' : totalAdj < 0 ? 'var(--err)' : 'var(--tp)';
+  var tt = totalAdj > 0 ? '+' + totalAdj + '年' : totalAdj < 0 ? totalAdj + '年' : '±0年';
+  var contribHtml = '<div class="contrib-card"><div class="contrib-title">健康データの寿命貢献</div>' + rows
+    + '<div class="contrib-total"><span class="contrib-total-lbl">合計補正</span><span class="contrib-total-val" style="color:' + tc + '">' + tt + '</span></div></div>';
+
+  // Alert banners
+  var alerts = buildAlerts(sc);
+  var alertHtml = alerts.length ? '<div class="alert-list">' + alerts.join('') + '</div>' : '';
+
+  wrap.innerHTML = contribHtml + alertHtml;
+}
+
+function buildAlerts(sc) {
+  var D = S.healthData, alerts = [];
+  // Steps
+  var stV = Object.values(D.steps || {}), sa = stV.length ? Math.round(av(stV)) : 0;
+  var moh_steps = S.sex === 'm' ? 8000 : 7000;
+  if (sa >= moh_steps) {
+    alerts.push(mkAlert('good', '歩数が目標を達成', '平均 ' + fmtNum(sa) + '歩 — 厚労省推奨' + fmtNum(moh_steps) + '歩を達成しています。この調子を維持しましょう。'));
+  } else if (sa > 0) {
+    alerts.push(mkAlert('warn', '歩数が目標を下回っています', '平均 ' + fmtNum(sa) + '歩 — 厚労省推奨（男性8,000歩 / 女性7,000歩）まであと ' + fmtNum(moh_steps - sa) + '歩。[健康日本21 第三次]'));
   }
-  wrap.innerHTML = '<div class="health-score-card"><div class="hsc-head">'
-    + '<span class="hsc-title">健康スコア</span><span class="hsc-badge">' + sc.total + '/100</span>'
-    + '</div>' + rows + '</div>';
+  // Sleep
+  var slV = Object.values(D.sleep || {}).map(function(x) { return x.total; });
+  if (slV.length) {
+    var sla = Math.round(av(slV));
+    if (sla < 360) alerts.push(mkAlert('bad', '睡眠が深刻に不足しています', '平均 ' + fmtMin(sla) + ' — 厚労省推奨6〜8時間を大幅に下回り、寿命に最大-2年の影響があります。[睡眠指針2023]'));
+    else if (sla < 420) alerts.push(mkAlert('warn', '睡眠がやや不足しています', '平均 ' + fmtMin(sla) + ' — 厚労省推奨の6〜8時間を下回っています。毎日30分早く就寝を試してください。[睡眠指針2023]'));
+    else if (sla <= 540) alerts.push(mkAlert('good', '睡眠時間は良好です', '平均 ' + fmtMin(sla) + ' — 厚労省推奨の6〜8時間を達成しています。[睡眠指針2023]'));
+    else alerts.push(mkAlert('warn', '睡眠時間が長すぎます', '平均 ' + fmtMin(sla) + ' — 9時間以上の睡眠は疾患リスクと関連する場合があります。[睡眠指針2023]'));
+  }
+  // Heart
+  var rV = Object.values(D.restingHR || {});
+  if (rV.length) {
+    var ra = Math.round(av(rV));
+    if (ra > 80) alerts.push(mkAlert('bad', '安静時心拍がやや高めです', '平均 ' + ra + 'bpm — 理想は60〜65bpm。ウォーキングなどの有酸素運動で改善が期待できます。'));
+    else if (ra <= 65) alerts.push(mkAlert('good', '安静時心拍は理想的です', '平均 ' + ra + 'bpm — 健康な心臓のサインです。'));
+  }
+  // BMI
+  var bA = D.bmi || [];
+  if (bA.length) {
+    var bv = bA[bA.length - 1].v;
+    if (bv >= 25) alerts.push(mkAlert('warn', 'BMIが基準値を超えています', 'BMI ' + bv + ' — 厚労省基準の18.5〜25.0を上回っています。体重管理が寿命に影響します。[健康日本21]'));
+    else if (bv < 18.5) alerts.push(mkAlert('warn', 'BMIが低体重の範囲です', 'BMI ' + bv + ' — 低体重（18.5未満）も健康リスクと関連します。[健康日本21]'));
+  }
+  // Workout
+  var wk = D.workouts || [];
+  if (wk.length) {
+    var wks2 = Math.max(1, Object.keys(D.steps || {}).length / 7), wpw2 = Math.round(wk.length / wks2 * 10) / 10;
+    if (wpw2 < 2) alerts.push(mkAlert('warn', '運動頻度が少なめです', '週平均 ' + wpw2 + '回 — 厚労省「身体活動・運動ガイド2023」は週150分以上の中強度運動を推奨。あと週' + (3 - Math.floor(wpw2)) + '回を目標に。'));
+    else alerts.push(mkAlert('good', '運動習慣が身についています', '週平均 ' + wpw2 + '回 — 厚労省推奨の運動頻度を達成しています。[身体活動・運動ガイド2023]'));
+  }
+  return alerts;
+}
+
+function mkAlert(type, head, txt) {
+  return '<div class="alert-item ' + type + '"><div class="alert-dot ' + type + '"></div><div class="alert-body">'
+    + '<div class="alert-head ' + type + '">' + head + '</div>'
+    + '<div class="alert-txt">' + txt + '</div></div></div>';
 }
 
 // ===== QUOTES =====
@@ -604,17 +767,12 @@ function startQuotes() {
   quoteTimerID = setInterval(function() {
     var q2 = document.getElementById('quote-text'); if (!q2) return;
     q2.classList.add('fade');
-    setTimeout(function() {
-      quoteIdx = (quoteIdx + 1) % QUOTES.length;
-      q2.textContent = QUOTES[quoteIdx];
-      q2.classList.remove('fade');
-    }, 400);
+    setTimeout(function() { quoteIdx = (quoteIdx + 1) % QUOTES.length; q2.textContent = QUOTES[quoteIdx]; q2.classList.remove('fade'); }, 400);
   }, 10000);
 }
 
 // ===== TABS =====
 var TAB_ICONS = { countdown: ['ti-c', 'ti-ch'], bucket: ['ti-b', 'ti-bh'], health: ['ti-h'] };
-
 function switchTab(tab) {
   ['countdown', 'bucket', 'health'].forEach(function(k) {
     var active = k === tab;
@@ -634,59 +792,22 @@ function renderBucket() {
   document.getElementById('bl-prog-fill').style.width = (total ? done / total * 100 : 0) + '%';
   if (!total) { list.innerHTML = '<div style="text-align:center;padding:28px;color:var(--tp);font-size:13px">目標を追加してみましょう</div>'; return; }
   list.innerHTML = S.bucket.map(function(b) {
-    return '<div class="bl-item">'
-      + '<div class="bl-check' + (b.done ? ' done' : '') + '" onclick="toggleItem(\'' + b.id + '\')">'
+    return '<div class="bl-item"><div class="bl-check' + (b.done ? ' done' : '') + '" onclick="toggleItem(\'' + b.id + '\')">'
       + (b.done ? '<svg width="11" height="11" viewBox="0 0 11 11"><path d="M2 5.5l2.5 3 4.5-5" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>' : '')
-      + '</div>'
-      + '<span class="bl-text' + (b.done ? ' done' : '') + '">' + esc(b.text) + '</span>'
-      + '<div class="bl-del" onclick="delItem(\'' + b.id + '\')">'
-      + '<svg width="13" height="13" viewBox="0 0 13 13"><path d="M2.5 2.5l8 8M10.5 2.5l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>'
-      + '</div></div>';
+      + '</div><span class="bl-text' + (b.done ? ' done' : '') + '">' + esc(b.text) + '</span>'
+      + '<div class="bl-del" onclick="delItem(\'' + b.id + '\')"><svg width="13" height="13" viewBox="0 0 13 13"><path d="M2.5 2.5l8 8M10.5 2.5l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div></div>';
   }).join('');
 }
+function addItem() { var inp = document.getElementById('bl-input'), t = (inp.value || '').trim(); if (!t) return; S.bucket.push({ id: Date.now() + '', text: t, done: false }); inp.value = ''; saveState(); renderBucket(); }
+function toggleItem(id) { var item = S.bucket.find(function(x) { return x.id === id; }); if (item) item.done = !item.done; saveState(); renderBucket(); }
+function delItem(id) { S.bucket = S.bucket.filter(function(x) { return x.id !== id; }); saveState(); renderBucket(); }
 
-function addItem() {
-  var inp = document.getElementById('bl-input'), t = (inp.value || '').trim();
-  if (!t) return;
-  S.bucket.push({ id: Date.now() + '', text: t, done: false });
-  inp.value = ''; saveState(); renderBucket();
-}
-function toggleItem(id) {
-  var item = S.bucket.find(function(x) { return x.id === id; });
-  if (item) item.done = !item.done;
-  saveState(); renderBucket();
-}
-function delItem(id) {
-  S.bucket = S.bucket.filter(function(x) { return x.id !== id; });
-  saveState(); renderBucket();
-}
-
-// ===== HEALTH SCORES =====
-function calcScores() {
-  var D = S.healthData, items = {};
-  var stV = Object.values(D.steps || {});
-  if (stV.length) { var sa = Math.round(av(stV)); items.steps = { v: Math.min(100, Math.round(sa / 8000 * 100)) }; }
-  var rV = Object.values(D.restingHR || {});
-  if (rV.length) { var ra = Math.round(av(rV)); items.heart = { v: ra <= 55 ? 85 : ra <= 65 ? 100 : ra <= 75 ? Math.round(100 - (ra - 65) * 3) : Math.max(20, Math.round(70 - (ra - 75) * 2)) }; }
-  var slV = Object.values(D.sleep || {}).map(function(x) { return x.total; });
-  if (slV.length) { var sla = Math.round(av(slV)); items.sleep = { v: sla >= 420 && sla <= 540 ? 100 : sla >= 360 ? Math.round(70 + (sla - 360) / 60 * 30) : sla > 540 ? Math.max(60, Math.round(100 - (sla - 540) / 60 * 20)) : Math.max(20, Math.round(sla / 420 * 70)) }; }
-  var bA = D.bmi || [];
-  if (bA.length) { var bv = bA[bA.length - 1].v; items.body = { v: bv >= 18.5 && bv < 25 ? 100 : bv >= 25 && bv < 27 ? 75 : bv >= 27 && bv < 30 ? 55 : bv < 18.5 ? 60 : 40 }; }
-  var spV = Object.values(D.spo2 || {}).map(function(x) { return x.avg; });
-  if (spV.length) { var spa = Math.round(av(spV) * 10) / 10; items.vitals = { v: spa >= 97 ? 100 : spa >= 96 ? 90 : spa >= 95 ? 75 : spa >= 93 ? 55 : 40 }; }
-  var aV = Object.values(D.activeEnergy || {});
-  if (aV.length) { items.activity = { v: Math.min(100, Math.round(av(aV) / 300 * 100)) }; }
-  var wk = D.workouts || [];
-  if (wk.length) { var wks = Math.max(1, Object.keys(D.steps || {}).length / 7); items.workout = { v: Math.min(100, Math.round(wk.length / wks / 3 * 100)) }; }
-  var vals = Object.values(items);
-  return { items: items, total: vals.length ? Math.round(av(vals.map(function(x) { return x.v; }))) : 0 };
-}
-
-// ===== RENDER HEALTH TAB =====
+// ===== HEALTH DASHBOARD =====
 function renderHealth() {
   var empty = document.getElementById('hd-empty-view'), loaded = document.getElementById('hd-loaded-view');
   if (!S.healthData) { empty.style.display = ''; loaded.style.display = 'none'; return; }
   empty.style.display = 'none'; loaded.style.display = '';
+  // Score ring
   var sc = calcScores(), total = sc.total;
   var ring = document.getElementById('hd-ring-stroke');
   if (ring) ring.setAttribute('stroke-dashoffset', (188 * (1 - total / 100)).toFixed(1));
@@ -694,25 +815,207 @@ function renderHealth() {
   var grade = total >= 90 ? 'S' : total >= 80 ? 'A' : total >= 70 ? 'B' : total >= 60 ? 'C' : total >= 50 ? 'D' : 'E';
   var msg = total >= 85 ? '非常に良好な健康状態です' : total >= 70 ? '良好です。改善できる項目があります' : total >= 55 ? 'いくつかの項目に注意が必要です' : '生活習慣の改善が必要です';
   setEl('hd-score-grade', grade + ' ランク'); setEl('hd-score-msg', msg);
-  var il = document.getElementById('hd-items-list'); if (!il) return;
-  il.innerHTML = LIFE_RULES.map(function(r) {
-    var it = sc.items[r.k]; if (!it) return '';
-    var adj = Math.round(adjFromScore(it.v, r.maxP, r.maxN) * 10) / 10;
-    var bc = it.v >= 80 ? 'var(--brand)' : it.v >= 60 ? 'var(--warn)' : 'var(--err)';
-    var ac = adj > 0 ? 'var(--brand)' : adj < 0 ? 'var(--err)' : 'var(--tp)';
-    var at = adj > 0 ? '+' + adj + '年' : adj < 0 ? adj + '年' : '±0年';
-    var name = { steps: '歩数', sleep: '睡眠', heart: '心拍', body: '体重', workout: '運動', vitals: '血中酸素', activity: '消費Cal' }[r.k];
-    return '<div class="hd-item-row">'
-      + '<div class="hd-item-icon" style="color:' + bc + '"><svg width="18" height="18" viewBox="0 0 18 18">'
-      + '<circle cx="9" cy="9" r="7" fill="none" stroke="currentColor" stroke-width="1.4"'
-      + ' stroke-dasharray="' + (it.v / 100 * 44).toFixed(0) + ' 44" stroke-linecap="round"/>'
-      + '</svg></div>'
-      + '<div class="hd-item-body">'
-      + '<div class="hd-item-name">' + name + ' <span style="font-size:10px;font-weight:400;color:var(--tp)">' + it.v + '点</span></div>'
-      + '<div class="hd-item-bar-wrap"><div class="hd-item-bar-fill" style="width:' + it.v + '%;background:' + bc + '"></div></div>'
-      + '</div>'
-      + '<div class="hd-item-adj" style="color:' + ac + '">' + at + '</div></div>';
+  // Period bar
+  buildPeriodBar();
+  // Metrics
+  renderMetrics();
+  // MOH
+  renderMOH(sc);
+}
+
+function buildPeriodBar() {
+  var bar = document.getElementById('period-bar'); if (!bar) return;
+  var periods = [['today', '今日'], ['1w', '1週間'], ['1m', '1ヶ月'], ['3m', '3ヶ月'], ['1y', '1年'], ['all', '全期間']];
+  bar.innerHTML = periods.map(function(p) {
+    return '<button class="period-btn' + (hdPeriod === p[0] ? ' on' : '') + '" onclick="changePeriod(\'' + p[0] + '\')">' + p[1] + '</button>';
   }).join('');
+}
+
+function changePeriod(p) {
+  hdPeriod = p;
+  buildPeriodBar();
+  renderMetrics();
+}
+
+function renderMetrics() {
+  var D = S.healthData, container = document.getElementById('hd-metrics'); if (!container) return;
+  // Destroy existing charts
+  Object.keys(charts).forEach(function(k) { try { charts[k].destroy(); } catch (e) {} });
+  charts = {};
+  container.innerHTML = '';
+
+  var isToday = hdPeriod === 'today';
+
+  if (isToday) {
+    renderTodayView(D, container);
+  } else {
+    renderChartView(D, container);
+  }
+}
+
+function renderTodayView(D, container) {
+  var today = new Date().toISOString().slice(0, 10);
+  var steps = D.steps[today] || 0;
+  var rhr = D.restingHR[today] || null;
+  var sl = D.sleep[today] || null;
+  var bmi = (D.bmi || []).length ? D.bmi[D.bmi.length - 1].v : null;
+  var ae = D.activeEnergy[today] || 0;
+
+  var grid = document.createElement('div'); grid.className = 'today-grid';
+  var moh_steps = S.sex === 'm' ? 8000 : 7000;
+
+  grid.innerHTML = mkTodayCard('歩数', fmtNum(steps), '歩', Math.min(steps / moh_steps * 100, 100), steps >= moh_steps ? 'var(--brand)' : 'var(--warn)', '目標 ' + fmtNum(moh_steps) + '歩')
+    + mkTodayCard('安静時心拍', rhr ? rhr : '--', 'bpm', rhr ? Math.min(rhr / 80 * 100, 100) : 0, rhr && rhr <= 65 ? 'var(--brand)' : 'var(--warn)', '理想 60〜65bpm')
+    + mkTodayCard('睡眠', sl ? fmtMin(sl.total) : '--', '', sl ? Math.min(sl.total / 480 * 100, 100) : 0, sl && sl.total >= 360 && sl.total <= 540 ? 'var(--brand)' : 'var(--warn)', '目標 6〜8時間')
+    + mkTodayCard('BMI', bmi ? bmi : '--', '', bmi ? Math.min(bmi / 30 * 100, 100) : 0, bmi && bmi >= 18.5 && bmi < 25 ? 'var(--brand)' : 'var(--warn)', '基準 18.5〜25.0')
+    + mkTodayCard('消費カロリー', fmtNum(ae), 'kcal', Math.min(ae / 400 * 100, 100), ae >= 300 ? 'var(--brand)' : 'var(--warn)', '目標 300kcal以上')
+    + (sl ? mkTodayCard('深い睡眠', sl.deep ? fmtMin(sl.deep) : '--', '', sl.deep ? Math.min(sl.deep / 90 * 100, 100) : 0, sl.deep >= 60 ? 'var(--brand)' : 'var(--warn)', '目標 60分以上') : '');
+
+  container.appendChild(grid);
+}
+
+function mkTodayCard(lbl, val, unit, pct, color, cmp) {
+  return '<div class="today-card"><div class="today-card-lbl">' + lbl + '</div>'
+    + '<div class="today-card-val">' + val + '<span class="today-card-unit"> ' + unit + '</span></div>'
+    + '<div class="today-card-bar"><div class="today-card-fill" style="width:' + pct.toFixed(0) + '%;background:' + color + '"></div></div>'
+    + '<div class="today-card-cmp">' + cmp + '</div></div>';
+}
+
+function renderChartView(D, container) {
+  var metrics = [
+    { key: 'steps',    label: '歩数',    unit: '歩',    color: '#5C8E84', moh: S.sex === 'm' ? 8000 : 7000, mohLabel: '厚労省推奨 ' + (S.sex === 'm' ? '8,000' : '7,000') + '歩 [健康日本21 第三次]', extract: function(v) { return v; } },
+    { key: 'sleep',    label: '睡眠',    unit: 'h',     color: '#6B5EA8', moh: 7,   mohLabel: '厚労省推奨 6〜8時間 [睡眠指針2023]',          extract: function(v) { return Math.round(v.total / 60 * 10) / 10; } },
+    { key: 'rhr',      label: '安静時心拍', unit: 'bpm', color: '#B85C5C', moh: 65,  mohLabel: '理想 60〜65bpm（低いほど良好）',              extract: null },
+    { key: 'bmi',      label: 'BMI',     unit: '',      color: '#8A6030', moh: 22,  mohLabel: '厚労省基準 18.5〜25.0 [健康日本21]',           extract: null, isArr: true },
+    { key: 'activity', label: '消費カロリー', unit: 'kcal', color: '#3E7A6A', moh: 300, mohLabel: '1日の活動目安 300kcal以上',               extract: function(v) { return Math.round(v); } },
+  ];
+
+  metrics.forEach(function(m, idx) {
+    var pairs = [];
+    if (m.isArr) {
+      filterPeriodArr(D.bmi || [], hdPeriod).forEach(function(x) { pairs.push({ d: x.d, v: x.v }); });
+    } else if (m.key === 'rhr') {
+      var obj = filterPeriod(D.restingHR || {}, hdPeriod);
+      Object.keys(obj).sort().forEach(function(k) { pairs.push({ d: k, v: obj[k] }); });
+    } else if (m.key === 'sleep') {
+      var obj2 = filterPeriod(D.sleep || {}, hdPeriod);
+      Object.keys(obj2).sort().forEach(function(k) { pairs.push({ d: k, v: m.extract(obj2[k]) }); });
+    } else {
+      var obj3 = filterPeriod(D[m.key] || {}, hdPeriod);
+      Object.keys(obj3).sort().forEach(function(k) { pairs.push({ d: k, v: m.extract ? m.extract(obj3[k]) : obj3[k] }); });
+    }
+    if (!pairs.length) return;
+
+    var vals = pairs.map(function(p) { return p.v; });
+    var avgVal = Math.round(av(vals) * 10) / 10;
+    var latestVal = vals[vals.length - 1];
+
+    // Score badge
+    var score = scoreMetric(m.key, avgVal);
+    var badgeClass = score >= 80 ? 'good' : score >= 60 ? 'warn' : 'bad';
+    var badgeLabel = score >= 80 ? '良好' : score >= 60 ? '要改善' : '改善必要';
+
+    var sec = document.createElement('div'); sec.className = 'metric-section';
+    var canvasId = 'chart-' + m.key + '-' + idx;
+    sec.innerHTML = '<div class="metric-head">'
+      + '<div class="metric-title">' + m.label + '</div>'
+      + '<span class="metric-badge ' + badgeClass + '">' + badgeLabel + '</span></div>'
+      + '<div class="metric-val">' + (m.unit === 'h' ? fmtMin(avgVal * 60) : (m.key === 'steps' ? fmtNum(avgVal) : avgVal)) + '<span style="font-size:13px;font-weight:400;color:var(--tp)"> ' + m.unit + '</span></div>'
+      + '<div class="metric-sub">期間平均</div>'
+      + '<div class="metric-chart"><canvas id="' + canvasId + '"></canvas></div>'
+      + '<div class="metric-moh"><span class="metric-moh-title">厚労省基準との比較</span>' + m.mohLabel + '</div>';
+    container.appendChild(sec);
+
+    // Draw chart after DOM insertion
+    setTimeout(function() {
+      var canvas = document.getElementById(canvasId); if (!canvas) return;
+      var labels = pairs.map(function(p) { return p.d.slice(5); }); // MM-DD
+      var data = pairs.map(function(p) { return p.v; });
+      // Thin out labels if too many
+      var maxLabels = 8;
+      var step = Math.ceil(labels.length / maxLabels);
+      var dispLabels = labels.map(function(l, i) { return i % step === 0 ? l : ''; });
+
+      var chartColor = m.color;
+      charts[canvasId] = new Chart(canvas, {
+        type: 'line',
+        data: {
+          labels: dispLabels,
+          datasets: [{
+            data: data,
+            borderColor: chartColor,
+            backgroundColor: chartColor + '18',
+            fill: true,
+            tension: 0.4,
+            pointRadius: data.length < 30 ? 3 : 0,
+            pointHoverRadius: 5,
+            borderWidth: 2,
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { intersect: false, mode: 'index' },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: '#2B3830',
+              padding: 10, cornerRadius: 8, displayColors: false,
+              callbacks: { label: function(ctx) { return ctx.parsed.y + ' ' + m.unit; } }
+            },
+            annotation: m.moh ? {
+              annotations: {
+                mohLine: {
+                  type: 'line', yMin: m.moh, yMax: m.moh,
+                  borderColor: '#5C8E84', borderWidth: 1.5, borderDash: [4, 4],
+                  label: { display: false }
+                }
+              }
+            } : {}
+          },
+          scales: {
+            x: { grid: { display: false }, border: { display: false }, ticks: { font: { size: 9 }, color: '#8AA89E', maxRotation: 0 } },
+            y: { grid: { color: '#DDE9E5' }, border: { display: false }, ticks: { font: { size: 9 }, color: '#8AA89E' } }
+          }
+        }
+      });
+    }, 50);
+  });
+}
+
+function scoreMetric(key, val) {
+  if (key === 'steps') return Math.min(100, Math.round(val / (S.sex === 'm' ? 8000 : 7000) * 100));
+  if (key === 'sleep') { var m = val * 60; return m >= 360 && m <= 540 ? 100 : m >= 300 ? 60 : 30; }
+  if (key === 'rhr') { return val <= 55 ? 85 : val <= 65 ? 100 : val <= 75 ? Math.round(100 - (val - 65) * 3) : 30; }
+  if (key === 'bmi') { return val >= 18.5 && val < 25 ? 100 : val >= 25 && val < 27 ? 75 : 50; }
+  if (key === 'activity') return Math.min(100, Math.round(val / 300 * 100));
+  return 50;
+}
+
+function renderMOH(sc) {
+  var card = document.getElementById('moh-card'); if (!card) return;
+  var D = S.healthData;
+  var stV = Object.values(D.steps || {}), sa = stV.length ? Math.round(av(stV)) : null;
+  var slV = Object.values(D.sleep || {}).map(function(x) { return x.total; }), sla = slV.length ? Math.round(av(slV)) : null;
+  var rV = Object.values(D.restingHR || {}), ra = rV.length ? Math.round(av(rV)) : null;
+  var bA = D.bmi || [], bv = bA.length ? bA[bA.length - 1].v : null;
+  var wk = D.workouts || [], wks2 = Math.max(1, Object.keys(D.steps || {}).length / 7);
+  var wpw2 = wk.length ? Math.round(wk.length / wks2 * 10) / 10 : null;
+
+  var rows = '';
+  var moh_steps = S.sex === 'm' ? 8000 : 7000;
+  if (sa !== null) rows += mkMOHRow('歩数 ' + fmtNum(sa) + '歩', sa >= moh_steps ? 'good' : 'warn', sa >= moh_steps ? '達成' : '目標 ' + fmtNum(moh_steps) + '歩');
+  if (sla !== null) rows += mkMOHRow('睡眠 ' + fmtMin(sla), sla >= 360 && sla <= 540 ? 'good' : sla < 360 ? 'bad' : 'warn', sla >= 360 && sla <= 540 ? '達成' : '6〜8時間推奨');
+  if (ra !== null) rows += mkMOHRow('安静時心拍 ' + ra + 'bpm', ra <= 65 ? 'good' : ra <= 75 ? 'warn' : 'bad', ra <= 65 ? '良好' : '要改善');
+  if (bv !== null) rows += mkMOHRow('BMI ' + bv, bv >= 18.5 && bv < 25 ? 'good' : 'warn', bv >= 18.5 && bv < 25 ? '基準内' : '基準 18.5〜25');
+  if (wpw2 !== null) rows += mkMOHRow('運動 週' + wpw2 + '回', wpw2 >= 3 ? 'good' : wpw2 >= 2 ? 'warn' : 'bad', wpw2 >= 3 ? '達成' : '週3回以上推奨');
+
+  card.innerHTML = '<div class="moh-title">厚労省基準との比較</div>' + rows
+    + '<div class="moh-source">出典: 健康日本21（第三次）/ 睡眠指針2023 / 身体活動・運動ガイド2023</div>';
+}
+
+function mkMOHRow(name, status, statusLabel) {
+  return '<div class="moh-row"><span class="moh-name">' + name + '</span><span class="moh-status ' + status + '">' + statusLabel + '</span></div>';
 }
 
 // ===== XML PARSE =====
@@ -720,14 +1023,14 @@ function parseXML(xml) {
   var nd = { steps: {}, activeEnergy: {}, restingHR: {}, bmi: [], spo2: {}, sleep: {}, workouts: [] };
   function at(t, n) { var m = t.match(new RegExp(n + '="([^"]*)"')); return m ? m[1] : null; }
   function pDt(s) { return new Date(s.replace(' +', '+').replace(' -', '-')); }
-  var hrD = {}, spD = {}, slR = {}, ddS = {};
+  var spD = {}, slR = {}, ddS = {};
   var rR = /<Record\s+([^>]*?)(?:\/>|>)/g, m;
   while ((m = rR.exec(xml)) !== null) {
     var t = m[1], tp = at(t, 'type'), vS = at(t, 'value') || '0';
     var sd = at(t, 'startDate'), ed = at(t, 'endDate'), dk = sd ? sd.slice(0, 10) : null;
     if (!dk) continue;
     var v = parseFloat(vS) || 0, isW = (at(t, 'sourceName') || '').indexOf('Watch') >= 0;
-    if      (tp === 'HKQuantityTypeIdentifierStepCount')         (ddS[dk] || (ddS[dk] = [])).push({ s: sd, e: ed, v: v, w: isW });
+    if      (tp === 'HKQuantityTypeIdentifierStepCount')          (ddS[dk] || (ddS[dk] = [])).push({ s: sd, e: ed, v: v, w: isW });
     else if (tp === 'HKQuantityTypeIdentifierActiveEnergyBurned') nd.activeEnergy[dk] = (nd.activeEnergy[dk] || 0) + v;
     else if (tp === 'HKQuantityTypeIdentifierRestingHeartRate')   nd.restingHR[dk] = v;
     else if (tp === 'HKQuantityTypeIdentifierBodyMassIndex')      nd.bmi.push({ d: dk, v: Math.round(v * 10) / 10 });
@@ -735,49 +1038,34 @@ function parseXML(xml) {
     else if (tp === 'HKCategoryTypeIdentifierSleepAnalysis' && sd && ed) {
       var sh = parseInt(sd.slice(11, 13)), sD = dk;
       if (sh < 18) { var d3 = new Date(dk); d3.setDate(d3.getDate() - 1); sD = d3.toISOString().slice(0, 10); }
-      (slR[sD] || (slR[sD] = [])).push({
-        dur: Math.max(0, (pDt(ed) - pDt(sd)) / 60000),
-        stg: vS.indexOf('Awake') >= 0 ? 'awake' : vS.indexOf('Deep') >= 0 ? 'deep' : vS.indexOf('REM') >= 0 ? 'rem' : 'core',
-        sd: sd, ed: ed
-      });
+      (slR[sD] || (slR[sD] = [])).push({ dur: Math.max(0, (pDt(ed) - pDt(sd)) / 60000), stg: vS.indexOf('Awake') >= 0 ? 'awake' : vS.indexOf('Deep') >= 0 ? 'deep' : vS.indexOf('REM') >= 0 ? 'rem' : 'core', sd: sd, ed: ed });
     }
   }
-  // Deduplicate steps (Watch wins over iPhone)
   function ddDay(recs) {
     var w = recs.filter(function(r) { return r.w; }), ph = recs.filter(function(r) { return !r.w; }), total = 0;
     for (var i = 0; i < w.length; i++) total += w[i].v;
     if (w.length) {
       var wt = w.map(function(r) { return { s: pDt(r.s).getTime(), e: pDt(r.e).getTime() }; });
-      for (var i = 0; i < ph.length; i++) {
-        var ps = pDt(ph[i].s).getTime(), pe = pDt(ph[i].e).getTime();
-        if (!wt.some(function(w2) { return ps < w2.e && pe > w2.s; })) total += ph[i].v;
-      }
+      for (var i = 0; i < ph.length; i++) { var ps = pDt(ph[i].s).getTime(), pe = pDt(ph[i].e).getTime(); if (!wt.some(function(w2) { return ps < w2.e && pe > w2.s; })) total += ph[i].v; }
     } else { for (var i = 0; i < ph.length; i++) total += ph[i].v; }
     return total;
   }
   for (var k in ddS) nd.steps[k] = Math.round(ddDay(ddS[k]));
   for (var k in spD) { var vs = spD[k]; nd.spo2[k] = { avg: Math.round(av(vs) * 10) / 10, min: Math.round(Math.min.apply(null, vs) * 10) / 10, max: 99 }; }
-  // Sleep aggregation
   for (var sk in slR) {
     var recs = slR[sk], sc2 = 0, sd2 = 0, sr = 0, sa = 0, earlySD = '~', lateED = '';
-    for (var i = 0; i < recs.length; i++) {
-      var r = recs[i];
-      if      (r.stg === 'core') sc2 += r.dur;
-      else if (r.stg === 'deep') sd2 += r.dur;
-      else if (r.stg === 'rem')  sr  += r.dur;
-      else                       sa  += r.dur;
+    recs.forEach(function(r) {
+      if (r.stg === 'core') sc2 += r.dur; else if (r.stg === 'deep') sd2 += r.dur; else if (r.stg === 'rem') sr += r.dur; else sa += r.dur;
       if (r.stg !== 'awake') { if (r.sd < earlySD) earlySD = r.sd; if (r.ed > lateED) lateED = r.ed; }
-    }
+    });
     var st = sc2 + sd2 + sr;
     if (st > 0) nd.sleep[sk] = { total: Math.round(st), core: Math.round(sc2), deep: Math.round(sd2), rem: Math.round(sr), awake: Math.round(sa), start: earlySD.slice(11, 16), end: lateED.slice(11, 16) };
   }
-  // Workouts
   var wR = /<Workout\s+([^>]*?)>/g;
   while ((m = wR.exec(xml)) !== null) {
     var t2 = m[1], du = parseFloat(at(t2, 'duration') || 0), sd3 = at(t2, 'startDate'), dk3 = sd3 ? sd3.slice(0, 10) : null;
     if (dk3 && du > 0) nd.workouts.push({ d: dk3, type: (at(t2, 'workoutActivityType') || '').replace('HKWorkoutActivityType', ''), dur: Math.round(du * 10) / 10 });
   }
-  // Deduplicate arrays by date (keep last)
   function ded(a) { var m = {}; a.forEach(function(x) { m[x.d] = x; }); return Object.values(m).sort(function(a, b) { return a.d.localeCompare(b.d); }); }
   nd.bmi = ded(nd.bmi);
   nd.workouts.sort(function(a, b) { return a.d.localeCompare(b.d); });
@@ -813,23 +1101,14 @@ async function handleUpload(ev) {
 
 // ===== SETTINGS =====
 function openDrawer() {
-  document.getElementById('drawer').classList.add('on');
-  document.getElementById('drawer-bg').classList.add('on');
+  document.getElementById('drawer').classList.add('on'); document.getElementById('drawer-bg').classList.add('on');
   document.body.style.overflow = 'hidden';
   document.getElementById('dw-birth').value = S.birth;
   document.getElementById('dw-m').className = 'drawer-sex-btn' + (S.sex === 'm' ? ' on' : '');
   document.getElementById('dw-f').className = 'drawer-sex-btn' + (S.sex === 'f' ? ' on' : '');
 }
-function closeDrawer() {
-  document.getElementById('drawer').classList.remove('on');
-  document.getElementById('drawer-bg').classList.remove('on');
-  document.body.style.overflow = '';
-}
-function setDrawerSex(s) { S.sex = s; setDrawerSex_UI(s); saveState(); updateCountdown(); }
-function setDrawerSex_UI(s) {
-  document.getElementById('dw-m').className = 'drawer-sex-btn' + (s === 'm' ? ' on' : '');
-  document.getElementById('dw-f').className = 'drawer-sex-btn' + (s === 'f' ? ' on' : '');
-}
+function closeDrawer() { document.getElementById('drawer').classList.remove('on'); document.getElementById('drawer-bg').classList.remove('on'); document.body.style.overflow = ''; }
+function setDrawerSex(s) { S.sex = s; document.getElementById('dw-m').className = 'drawer-sex-btn' + (s === 'm' ? ' on' : ''); document.getElementById('dw-f').className = 'drawer-sex-btn' + (s === 'f' ? ' on' : ''); saveState(); updateCountdown(); }
 function saveProfile() { var b = document.getElementById('dw-birth').value; if (b) S.birth = b; saveState(); updateCountdown(); }
 
 // ===== LOADING =====
@@ -839,16 +1118,7 @@ function hideLdg() { document.getElementById('ldg').classList.remove('on'); }
 
 // ===== TOAST =====
 var toastTimer = null;
-function showToast(msg) {
-  var t = document.getElementById('toast'); t.textContent = msg; t.classList.add('on');
-  if (toastTimer) clearTimeout(toastTimer);
-  toastTimer = setTimeout(function() { t.classList.remove('on'); }, 2500);
-}
-
-// ===== HELPERS =====
-function setEl(id, val) { var e = document.getElementById(id); if (e) e.textContent = val; }
-function pad(n) { return n < 10 ? '0' + n : '' + n; }
-function esc(s) { var d = document.createElement('div'); d.appendChild(document.createTextNode(s)); return d.innerHTML; }
+function showToast(msg) { var t = document.getElementById('toast'); t.textContent = msg; t.classList.add('on'); if (toastTimer) clearTimeout(toastTimer); toastTimer = setTimeout(function() { t.classList.remove('on'); }, 2500); }
 </script>
 </body>
 </html>
