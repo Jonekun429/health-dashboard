@@ -285,7 +285,7 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
 .toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--td);color:#fff;padding:10px 20px;border-radius:24px;font-size:13px;font-weight:500;opacity:0;transition:all .3s;z-index:400;white-space:nowrap;pointer-events:none}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 /* 算出根拠リンク */
-.src-link{display:inline-flex;align-items:center;gap:3px;font-size:10px;color:var(--brand);text-decoration:none;font-weight:600;padding:2px 7px;background:var(--card2);border-radius:10px;border:1px solid var(--bg-e);transition:all var(--tr);white-space:nowrap;flex-shrink:0}
+.src-link{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--brand);text-decoration:none;font-weight:600;padding:4px 10px;background:var(--card2);border-radius:10px;border:1px solid var(--bg-e);transition:all var(--tr);white-space:nowrap;flex-shrink:0}
 .src-link:hover{background:var(--bg-e)}
 .src-link svg{flex-shrink:0}
 .moh-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--bg-e);flex-wrap:wrap}
@@ -588,6 +588,7 @@ function filterPeriodArr(arr, period) {
 
 // ===== 算出根拠 URL マスタ =====
 var SRC_URLS = {
+  'ref_all': { name: '算出根拠を見る', url: 'https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/kenkou/kenkounippon21_00006.html' },
   'steps':   { name: '健康日本21（第三次）', url: 'https://www.mhlw.go.jp/content/001194020.pdf' },
   'sleep':   { name: '睡眠指針2023',         url: 'https://www.mhlw.go.jp/content/10904750/001181265.pdf' },
   'bmi':     { name: '健康日本21（第三次）',  url: 'https://www.mhlw.go.jp/content/001194020.pdf' },
@@ -639,9 +640,12 @@ function getStepTarget(age) { return age >= 65 ? 6000 : 8000; }
 
 // BMI適正範囲: 厚労省・日本肥満学会
 // 65歳以上は低体重リスクがあるため下限を緩和（21.5〜27.5）
+// BMI目標範囲: 日本人の食事摂取基準2020（厚労省）
+// 18-49歳: 18.5〜24.9 / 50-64歳: 20.0〜24.9 / 65歳以上: 21.5〜24.9（フレイル予防）
 function getBMIRange(age) {
-  if (age >= 65) return { lo: 21.5, hi: 27.5 }; // 高齢者BMI推奨範囲（日本老年医学会）
-  return { lo: 18.5, hi: 25.0 };
+  if (age >= 65) return { lo: 21.5, hi: 24.9 };
+  if (age >= 50) return { lo: 20.0, hi: 24.9 };
+  return { lo: 18.5, hi: 24.9 };
 }
 
 // VO2Max 良好の目安: ACSM年齢・性別別
@@ -661,11 +665,13 @@ function getFatRange(age, sex) {
   return age >= 65 ? { lo: 22, hi: 33 } : { lo: 20, hi: 30 };
 }
 
-// 睡眠推奨時間: 睡眠指針2023 年齢別（分単位）
+// 睡眠推奨時間: 健康づくりのための睡眠ガイド2023（厚労省）
+// 小学生: 9〜12h / 中高生: 8〜10h / 成人(18-59): 6h以上9h未満 / 60歳以上: 6h以上8h未満
 function getSleepRange(age) {
-  if (age < 18)  return { lo: 480, hi: 570 }; // 子ども: 8〜9.5h
-  if (age < 65)  return { lo: 360, hi: 480 }; // 成人: 6〜8h
-  return          { lo: 360, hi: 450 };        // 高齢者: 6〜7.5h（深睡眠減少を考慮）
+  if (age < 13)  return { lo: 540, hi: 720 };
+  if (age < 18)  return { lo: 480, hi: 600 };
+  if (age < 60)  return { lo: 360, hi: 540 };
+  return          { lo: 360, hi: 480 };
 }
 
 // 各指標を 0-100 スコアに変換（厚労省・各ガイドライン準拠）
@@ -875,13 +881,15 @@ function renderCDHealthBlock(life) {
     rows += '<div class="contrib-row"><span class="contrib-name">' + r.n + '</span>'
       + '<div class="contrib-bar-wrap"><div class="contrib-bar-fill" style="width:' + pct.toFixed(0) + '%;background:' + bc + '"></div></div>'
       + '<span class="contrib-adj" style="color:' + ac + '">' + at + '</span>'
-      + mkSrcLink(r.k) + '</div>';
+      + '</div>';
   });
   totalAdj = Math.round(totalAdj * 10) / 10;
   var tc = totalAdj > 0 ? 'var(--brand)' : totalAdj < 0 ? 'var(--err)' : 'var(--tp)';
   var tt = totalAdj > 0 ? '+' + totalAdj + '年' : totalAdj < 0 ? totalAdj + '年' : '±0年';
   var contribHtml = '<div class="contrib-card"><div class="contrib-title">健康データの寿命貢献</div>' + rows
-    + '<div class="contrib-total"><span class="contrib-total-lbl">合計補正</span><span class="contrib-total-val" style="color:' + tc + '">' + tt + '</span></div></div>';
+    + '<div class="contrib-total"><span class="contrib-total-lbl">合計補正</span><span class="contrib-total-val" style="color:' + tc + '">' + tt + '</span></div>'
+    + '<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--bg-e)">' + '</div>'
+    + '</div>';
 
   // Alert banners
   var alerts = buildAlerts(sc);
@@ -896,9 +904,9 @@ function buildAlerts(sc) {
   var stV = Object.values(D.steps || {}), sa = stV.length ? Math.round(av(stV)) : 0;
   var moh_steps = getStepTarget(getAge());
   if (sa >= moh_steps) {
-    alerts.push(mkAlert('good', '歩数が目標を達成', '平均 ' + fmtNum(sa) + '歩 — 年齢別目標' + fmtNum(moh_steps) + '歩を達成しています。' + mkSrcLink('steps_guide')));
+    alerts.push(mkAlert('good', '歩数が目標を達成', '平均 ' + fmtNum(sa) + '歩 — 年齢別目標' + fmtNum(moh_steps) + '歩を達成しています。'));
   } else if (sa > 0) {
-    alerts.push(mkAlert('warn', '歩数が目標を下回っています', '平均 ' + fmtNum(sa) + '歩 — 年齢別目標まであと ' + fmtNum(moh_steps - sa) + '歩。 ' + mkSrcLink('steps_guide')));
+    alerts.push(mkAlert('warn', '歩数が目標を下回っています', '平均 ' + fmtNum(sa) + '歩 — 年齢別目標まであと ' + fmtNum(moh_steps - sa) + '歩。'));
   }
   // Sleep
   var slV = Object.values(D.sleep || {}).map(function(x) { return x.total; });
@@ -906,9 +914,9 @@ function buildAlerts(sc) {
     var sla = Math.round(av(slV));
     var slRange = getSleepRange(getAge());
     var slLoLbl = Math.floor(slRange.lo/60), slHiLbl = Math.floor(slRange.hi/60);
-    if (sla < slRange.lo - 60) alerts.push(mkAlert('bad', '睡眠が深刻に不足しています', '平均 ' + fmtMin(sla) + ' — 年齢別推奨（' + slLoLbl + '〜' + slHiLbl + '時間）を大幅に下回っています。 ' + mkSrcLink('sleep_guide')));
-    else if (sla < slRange.lo) alerts.push(mkAlert('warn', '睡眠がやや不足しています', '平均 ' + fmtMin(sla) + ' — 年齢別推奨の' + slLoLbl + '〜' + slHiLbl + '時間を下回っています。 ' + mkSrcLink('sleep_guide')));
-    else if (sla <= slRange.hi) alerts.push(mkAlert('good', '睡眠時間は良好です', '平均 ' + fmtMin(sla) + ' — 年齢別推奨の' + slLoLbl + '〜' + slHiLbl + '時間を達成しています。 ' + mkSrcLink('sleep_guide')));
+    if (sla < slRange.lo - 60) alerts.push(mkAlert('bad', '睡眠が深刻に不足しています', '平均 ' + fmtMin(sla) + ' — 年齢別推奨（' + slLoLbl + '〜' + slHiLbl + '時間）を大幅に下回っています。'));
+    else if (sla < slRange.lo) alerts.push(mkAlert('warn', '睡眠がやや不足しています', '平均 ' + fmtMin(sla) + ' — 年齢別推奨の' + slLoLbl + '〜' + slHiLbl + '時間を下回っています。'));
+    else if (sla <= slRange.hi) alerts.push(mkAlert('good', '睡眠時間は良好です', '平均 ' + fmtMin(sla) + ' — 年齢別推奨の' + slLoLbl + '〜' + slHiLbl + '時間を達成しています。'));
     else alerts.push(mkAlert('warn', '睡眠時間が長めです', '平均 ' + fmtMin(sla) + ' — 推奨上限を超えています。睡眠の質の低下や疾患リスクと関連する場合があります。[睡眠指針2023]'));
   }
   // Heart
@@ -922,16 +930,16 @@ function buildAlerts(sc) {
   var bA = D.bmi || [];
   if (bA.length) {
     var bv = bA[bA.length - 1].v, br = getBMIRange(getAge());
-    if (bv >= br.hi) alerts.push(mkAlert('warn', 'BMIが基準値を超えています', 'BMI ' + bv + ' — 年齢別基準（' + br.lo + '〜' + br.hi + '）を上回っています。 ' + mkSrcLink('bmi')));
-    else if (bv < br.lo) alerts.push(mkAlert('warn', 'BMIが低め（低体重リスク）です', 'BMI ' + bv + ' — 年齢別基準（' + br.lo + '〜' + br.hi + '）を下回っています。 ' + mkSrcLink('bmi')));
-    else alerts.push(mkAlert('good', 'BMIは適正範囲です', 'BMI ' + bv + ' — 年齢別基準（' + br.lo + '〜' + br.hi + '）内です。 ' + mkSrcLink('bmi')));
+    if (bv >= br.hi) alerts.push(mkAlert('warn', 'BMIが基準値を超えています', 'BMI ' + bv + ' — 年齢別基準（' + br.lo + '〜' + br.hi + '）を上回っています。'));
+    else if (bv < br.lo) alerts.push(mkAlert('warn', 'BMIが低め（低体重リスク）です', 'BMI ' + bv + ' — 年齢別基準（' + br.lo + '〜' + br.hi + '）を下回っています。'));
+    else alerts.push(mkAlert('good', 'BMIは適正範囲です', 'BMI ' + bv + ' — 年齢別基準（' + br.lo + '〜' + br.hi + '）内です。'));
   }
   // Workout
   var wk = D.workouts || [];
   if (wk.length) {
     var wks2 = Math.max(1, Object.keys(D.steps || {}).length / 7), wpw2 = Math.round(wk.length / wks2 * 10) / 10;
-    if (wpw2 < 2) alerts.push(mkAlert('warn', '運動頻度が少なめです', '週平均 ' + wpw2 + '回 — 週150分以上の中強度運動を推奨。あと週' + (3 - Math.floor(wpw2)) + '回を目標に。 ' + mkSrcLink('workout')));
-    else alerts.push(mkAlert('good', '運動習慣が身についています', '週平均 ' + wpw2 + '回 — 厚労省推奨の運動頻度を達成しています。 ' + mkSrcLink('workout')));
+    if (wpw2 < 2) alerts.push(mkAlert('warn', '運動頻度が少なめです', '週平均 ' + wpw2 + '回 — 週150分以上の中強度運動を推奨。あと週' + (3 - Math.floor(wpw2)) + '回を目標に。'));
+    else alerts.push(mkAlert('good', '運動習慣が身についています', '週平均 ' + wpw2 + '回 — 厚労省推奨の運動頻度を達成しています。'));
   }
   return alerts;
 }
@@ -1077,15 +1085,15 @@ function mkTodayCard(lbl, val, unit, pct, color, cmp) {
 
 function renderChartView(D, container) {
   var metrics = [
-    { key: 'steps',    label: '歩数',       unit: '歩',       color: '#5C8E84', moh: S.sex === 'm' ? 8000 : 7000, mohLabel: '目標 ' + getStepTarget(getAge()).toLocaleString('ja-JP') + '歩（年齢・性別考慮） ' + mkSrcLink('steps_guide'),  extract: function(v) { return v; } },
-    { key: 'sleep',    label: '睡眠',       unit: 'h',        color: '#6B5EA8', moh: 7,   mohLabel: '年齢別推奨 ' + (function(){var sr=getSleepRange(getAge()); return Math.floor(sr.lo/60)+'〜'+Math.floor(sr.hi/60);}()) + '時間 ' + mkSrcLink('sleep_guide'),               extract: function(v) { return Math.round(v.total / 60 * 10) / 10; } },
-    { key: 'rhr',      label: '安静時心拍',  unit: 'bpm',      color: '#B85C5C', moh: 65,  mohLabel: '理想 60〜65bpm（低いほど良好） ' + mkSrcLink('heart'),          extract: null },
-    { key: 'bmi',      label: 'BMI',        unit: '',         color: '#8A6030', moh: 22,  mohLabel: (function(){var br=getBMIRange(getAge()); return '基準 '+br.lo+'〜'+br.hi+' ' + mkSrcLink('bmi');}()),                extract: null, isArr: true },
-    { key: 'activity', label: '消費カロリー', unit: 'kcal',    color: '#3E7A6A', moh: 300, mohLabel: '1日の活動目安 300kcal以上 ' + mkSrcLink('activity'),    extract: function(v) { return Math.round(v); } },
+    { key: 'steps',    label: '歩数',       unit: '歩',       color: '#5C8E84', moh: S.sex === 'm' ? 8000 : 7000, mohLabel: '目標 ' + getStepTarget(getAge()).toLocaleString('ja-JP') + '歩（年齢・性別考慮） ',  extract: function(v) { return v; } },
+    { key: 'sleep',    label: '睡眠',       unit: 'h',        color: '#6B5EA8', moh: 7,   mohLabel: '年齢別推奨 ' + (function(){var sr=getSleepRange(getAge()); return Math.floor(sr.lo/60)+'〜'+Math.floor(sr.hi/60);}()) + '時間 ',               extract: function(v) { return Math.round(v.total / 60 * 10) / 10; } },
+    { key: 'rhr',      label: '安静時心拍',  unit: 'bpm',      color: '#B85C5C', moh: 65,  mohLabel: '理想 60〜65bpm（低いほど良好） ',          extract: null },
+    { key: 'bmi',      label: 'BMI',        unit: '',         color: '#8A6030', moh: 22,  mohLabel: (function(){var br=getBMIRange(getAge()); return '基準 '+br.lo+'〜'+br.hi+' ';}()),                extract: null, isArr: true },
+    { key: 'activity', label: '消費カロリー', unit: 'kcal',    color: '#3E7A6A', moh: 300, mohLabel: '1日の活動目安 300kcal以上 ',    extract: function(v) { return Math.round(v); } },
     { key: 'bodyMass', label: '体重',        unit: 'kg',      color: '#7A5C8E', moh: null, mohLabel: '推移を確認してください',                           extract: null, isArr: true },
-    { key: 'bodyFat',  label: '体脂肪率',   unit: '%',        color: '#C47A2A', moh: S.sex === 'm' ? 15 : 25, mohLabel: (function(){var fr=getFatRange(getAge(),S.sex); return '年齢別理想 '+fr.lo+'〜'+fr.hi+'% ' + mkSrcLink('fat');}()), extract: null, isArr: true },
-    { key: 'bp',       label: '血圧（収縮期）', unit: 'mmHg',  color: '#C44A4A', moh: 120, mohLabel: '基準 120mmHg未満 ' + mkSrcLink('bp'),    extract: null, isBP: true },
-    { key: 'vo2max',   label: 'VO2Max',     unit: 'ml/kg/min', color: '#2A7A9A', moh: S.sex === 'm' ? 43 : 34, mohLabel: '年齢別良好 ' + getVO2Target(getAge(), S.sex) + '以上 ' + mkSrcLink('vo2'), extract: null, isArr: true },
+    { key: 'bodyFat',  label: '体脂肪率',   unit: '%',        color: '#C47A2A', moh: S.sex === 'm' ? 15 : 25, mohLabel: (function(){var fr=getFatRange(getAge(),S.sex); return '年齢別理想 '+fr.lo+'〜'+fr.hi+'% ';}()), extract: null, isArr: true },
+    { key: 'bp',       label: '血圧（収縮期）', unit: 'mmHg',  color: '#C44A4A', moh: 120, mohLabel: '基準 120mmHg未満 ',    extract: null, isBP: true },
+    { key: 'vo2max',   label: 'VO2Max',     unit: 'ml/kg/min', color: '#2A7A9A', moh: S.sex === 'm' ? 43 : 34, mohLabel: '年齢別良好 ' + getVO2Target(getAge(), S.sex) + '以上（ACSM基準）', extract: null, isArr: true },
   ];
 
   metrics.forEach(function(m, idx) {
@@ -1209,12 +1217,12 @@ function renderMOH(sc) {
   var moh_steps = S.sex === 'm' ? 8000 : 7000;
   if (sa !== null) rows += mkMOHRow('歩数 ' + fmtNum(sa) + '歩', sa >= moh_steps ? 'good' : 'warn', sa >= moh_steps ? '達成' : '目標 ' + fmtNum(moh_steps) + '歩', 'steps_guide')
   if (sla !== null) { var slr=getSleepRange(getAge()); rows += mkMOHRow('睡眠 ' + fmtMin(sla), sla >= slr.lo && sla <= slr.hi ? 'good' : sla < slr.lo ? 'bad' : 'warn', sla >= slr.lo && sla <= slr.hi ? '達成' : Math.floor(slr.lo/60)+'〜'+Math.floor(slr.hi/60)+'時間推奨（年齢別）', 'sleep_guide') }
-  if (ra !== null) rows += mkMOHRow('安静時心拍 ' + ra + 'bpm', ra <= 65 ? 'good' : ra <= 75 ? 'warn' : 'bad', ra <= 65 ? '良好' : '要改善', 'heart')
-  if (bv !== null) rows += mkMOHRow('BMI ' + bv, bv >= bmr.lo && bv < bmr.hi ? 'good' : 'warn', bv >= bmr.lo && bv < bmr.hi ? '年齢別基準内' : '基準 ' + bmr.lo + '〜' + bmr.hi, 'bmi')
-  if (wpw2 !== null) rows += mkMOHRow('運動 週' + wpw2 + '回', wpw2 >= 3 ? 'good' : wpw2 >= 2 ? 'warn' : 'bad', wpw2 >= 3 ? '達成' : '週3回以上推奨', 'workout')
+  if (ra !== null) rows += mkMOHRow('安静時心拍 ' + ra + 'bpm', ra <= 65 ? 'good' : ra <= 75 ? 'warn' : 'bad', ra <= 65 ? '良好' : '要改善')
+  if (bv !== null) rows += mkMOHRow('BMI ' + bv, bv >= bmr.lo && bv < bmr.hi ? 'good' : 'warn', bv >= bmr.lo && bv < bmr.hi ? '年齢別基準内' : '基準 ' + bmr.lo + '〜' + bmr.hi)
+  if (wpw2 !== null) rows += mkMOHRow('運動 週' + wpw2 + '回', wpw2 >= 3 ? 'good' : wpw2 >= 2 ? 'warn' : 'bad', wpw2 >= 3 ? '達成' : '週3回以上推奨')
   // 血圧
   var bpA = D.bloodPressure || [];
-  if (bpA.length) { var bpv = bpA[bpA.length-1].sys; rows += mkMOHRow('血圧（収縮期） ' + bpv + 'mmHg', bpv < 120 ? 'good' : bpv < 140 ? 'warn' : 'bad', bpv < 120 ? '正常域' : bpv < 140 ? '要注意' : '高血圧', 'bp') }
+  if (bpA.length) { var bpv = bpA[bpA.length-1].sys; rows += mkMOHRow('血圧（収縮期） ' + bpv + 'mmHg', bpv < 120 ? 'good' : bpv < 140 ? 'warn' : 'bad', bpv < 120 ? '正常域' : bpv < 140 ? '要注意' : '高血圧') }
   // 体脂肪率
   var bfA = D.bodyFat || [];
   if (bfA.length) { var bfv = bfA[bfA.length-1].v; var bfOK = S.sex === 'm' ? (bfv >= 10 && bfv <= 20) : (bfv >= 20 && bfv <= 30); rows += mkMOHRow('体脂肪率 ' + bfv + '%', bfOK ? 'good' : 'warn', bfOK ? '理想範囲内' : (S.sex === 'm' ? '理想 10〜20%' : '理想 20〜30%'), 'fat') }
@@ -1223,13 +1231,12 @@ function renderMOH(sc) {
   if (voA.length) { var vov = voA[voA.length-1].v; var voGood = S.sex === 'm' ? 43 : 34; rows += mkMOHRow('VO2Max ' + vov + ' ml/kg/min', vov >= voGood ? 'good' : vov >= voGood * 0.8 ? 'warn' : 'bad', vov >= voGood ? '良好（ACSM基準）' : '改善余地あり', 'vo2') }
 
   card.innerHTML = '<div class="moh-title">厚労省・各学会基準との比較</div>' + rows
-    + '<div class="moh-source">出典: 健康日本21（第三次）/ 睡眠指針2023 / 身体活動ガイド2023 / 高血圧治療ガイドライン2019 / 日本肥満学会 / ACSM基準</div>';
+    + '<div class="moh-source" style="display:flex;justify-content:space-between;align-items:center"><span>出典: 健康日本21 第三次 / 睡眠ガイド2023 / 食事摂取基準2020</span>' + mkSrcLink('ref_all') + '</div>';
 }
 
-function mkMOHRow(name, status, statusLabel, srcKey) {
+function mkMOHRow(name, status, statusLabel) {
   return '<div class="moh-row"><span class="moh-name">' + name + '</span>'
     + '<span class="moh-status ' + status + '">' + statusLabel + '</span>'
-    + (srcKey ? mkSrcLink(srcKey) : '')
     + '</div>';
 }
 
