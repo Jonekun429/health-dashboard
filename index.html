@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#5C8E84">
 <title>TIME — あなたの残り時間</title>
 <!-- Google Analytics — ID を G-XXXXXXXXXX から実際の測定IDに変更してください -->
@@ -284,6 +286,22 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
 .ldg-fill{height:100%;background:var(--brand);border-radius:2px;transition:width .25s}
 .toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--td);color:#fff;padding:10px 20px;border-radius:24px;font-size:13px;font-weight:500;opacity:0;transition:all .3s;z-index:400;white-space:nowrap;pointer-events:none}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+/* 分析中オーバーレイ */
+.ob-analyzing{display:none;position:fixed;inset:0;z-index:500;background:linear-gradient(160deg,#2B3830 0%,#3E5548 100%);flex-direction:column;align-items:center;justify-content:center;gap:28px}
+.ob-analyzing.on{display:flex}
+.ob-analy-ring{width:80px;height:80px;position:relative}
+.ob-analy-ring svg{width:80px;height:80px;animation:analyRing 1.8s linear infinite}
+@keyframes analyRing{to{transform:rotate(360deg)}}
+.ob-analy-steps{display:flex;flex-direction:column;gap:10px;width:240px}
+.ob-analy-step{display:flex;align-items:center;gap:12px;opacity:0;transform:translateY(6px);transition:opacity .4s ease, transform .4s ease}
+.ob-analy-step.show{opacity:1;transform:none}
+.ob-analy-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3);flex-shrink:0;transition:background .3s}
+.ob-analy-step.show .ob-analy-dot{background:var(--brand)}
+.ob-analy-step.done .ob-analy-dot{background:#6fcf97}
+.ob-analy-text{font-size:13px;color:rgba(255,255,255,.6);transition:color .3s}
+.ob-analy-step.show .ob-analy-text{color:rgba(255,255,255,.9)}
+.ob-analy-step.done .ob-analy-text{color:rgba(255,255,255,.45)}
+.ob-analy-title{font-size:15px;font-weight:700;color:#fff;text-align:center;letter-spacing:.3px}
 /* 算出根拠リンク */
 .src-link{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--brand);text-decoration:none;font-weight:600;padding:4px 10px;background:var(--card2);border-radius:10px;border:1px solid var(--bg-e);transition:all var(--tr);white-space:nowrap;flex-shrink:0}
 .src-link:hover{background:var(--bg-e)}
@@ -295,6 +313,24 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
 </style>
 </head>
 <body>
+
+<!-- 分析中オーバーレイ（初回登録時） -->
+<div class="ob-analyzing" id="ob-analyzing">
+  <div class="ob-analy-ring">
+    <svg viewBox="0 0 80 80">
+      <circle cx="40" cy="40" r="34" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="5"/>
+      <circle cx="40" cy="40" r="34" fill="none" stroke="#5C8E84" stroke-width="5"
+        stroke-dasharray="80 134" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <div class="ob-analy-title" id="ob-analy-title">分析しています...</div>
+  <div class="ob-analy-steps">
+    <div class="ob-analy-step" id="oas-1"><div class="ob-analy-dot"></div><span class="ob-analy-text">生年月日を確認</span></div>
+    <div class="ob-analy-step" id="oas-2"><div class="ob-analy-dot"></div><span class="ob-analy-text">基準寿命を算出</span></div>
+    <div class="ob-analy-step" id="oas-3"><div class="ob-analy-dot"></div><span class="ob-analy-text">残り時間を計算</span></div>
+    <div class="ob-analy-step" id="oas-4"><div class="ob-analy-dot"></div><span class="ob-analy-text">ダッシュボードを準備</span></div>
+  </div>
+</div>
 
 <div class="ldg" id="ldg"><div class="ldg-spin"></div><div class="ldg-text" id="ldg-text">データを解析中...</div><div class="ldg-bar"><div class="ldg-fill" id="ldg-fill" style="width:0%"></div></div></div>
 <div class="toast" id="toast"></div>
@@ -498,7 +534,7 @@ var QUOTES = [
 ];
 
 // ===== INIT =====
-(function init() {
+document.addEventListener('DOMContentLoaded', function() {
   // lt_s: プロフィール・バケットリスト
   try {
     var saved = localStorage.getItem('lt_s');
@@ -510,20 +546,14 @@ var QUOTES = [
     }
   } catch (e) { console.warn('lt_s parse error:', e); }
 
-  // lt_hd: ヘルスデータ（容量大のため個別 try-catch）
-  try {
-    var hd = localStorage.getItem('lt_hd');
-    if (hd) S.healthData = JSON.parse(hd);
-  } catch (e) {
-    console.warn('lt_hd parse error — cleared:', e);
-    try { localStorage.removeItem('lt_hd'); } catch (e2) {}
-  }
+  // 健康データはメモリのみ（セッションごとに再アップロード）
+  try { localStorage.removeItem('lt_hd'); } catch (e) {}
 
-  // 登録済みなら即アプリ表示
+  // 登録済みなら即アプリ表示（rAFで描画サイクル後に実行してフリーズ防止）
   if (localStorage.getItem('lt_ob')) {
-    showApp();
+    requestAnimationFrame(function() { showApp(); });
   }
-})();
+});
 
 function saveState() {
   try { localStorage.setItem('lt_s', JSON.stringify({ birth: S.birth, sex: S.sex, bucket: S.bucket })); } catch (e) {}
@@ -541,7 +571,33 @@ function startApp() {
   S.birth = b; S.sex = obSex;
   saveState(); localStorage.setItem('lt_ob', '1');
   gaEvent('onboarding_complete', { sex: S.sex });
-  showApp();
+  showAnalyzing();
+}
+
+function showAnalyzing() {
+  var ov = document.getElementById('ob-analyzing');
+  ov.classList.add('on');
+  var steps = ['oas-1','oas-2','oas-3','oas-4'];
+  var titles = ['分析しています...', '寿命を算出中...', '残り時間を計算中...', '準備完了！'];
+  var delays = [0, 600, 1100, 1600];
+  var doneDel = [500, 1000, 1500, 2000];
+
+  steps.forEach(function(id, i) {
+    setTimeout(function() {
+      document.getElementById(id).classList.add('show');
+      var t = document.getElementById('ob-analy-title');
+      if (t) t.textContent = titles[i];
+    }, delays[i]);
+    setTimeout(function() {
+      document.getElementById(id).classList.add('done');
+    }, doneDel[i]);
+  });
+
+  // アニメーション完了後にアプリ表示
+  setTimeout(function() {
+    ov.classList.remove('on');
+    showApp();
+  }, 2400);
 }
 function showApp() {
   document.getElementById('ob').className = 'screen';
@@ -1003,8 +1059,8 @@ function renderHealth() {
   var ring = document.getElementById('hd-ring-stroke');
   if (ring) ring.setAttribute('stroke-dashoffset', (188 * (1 - total / 100)).toFixed(1));
   setEl('hd-score-num', total);
-  var grade = total >= 90 ? 'S' : total >= 80 ? 'A' : total >= 70 ? 'B' : total >= 60 ? 'C' : total >= 50 ? 'D' : 'E';
-  var msg = total >= 85 ? '非常に良好な健康状態です' : total >= 70 ? '良好です。改善できる項目があります' : total >= 55 ? 'いくつかの項目に注意が必要です' : '生活習慣の改善が必要です';
+  var grade = total >= 80 ? 'A' : total >= 65 ? 'B' : total >= 50 ? 'C' : 'D';
+  var msg = total >= 80 ? '良好な健康状態です' : total >= 65 ? 'いくつか改善できる項目があります' : total >= 50 ? '生活習慣の見直しをおすすめします' : '積極的な改善が必要です';
   setEl('hd-score-grade', grade + ' ランク'); setEl('hd-score-msg', msg);
   // Period bar
   buildPeriodBar();
@@ -1060,18 +1116,19 @@ function renderTodayView(D, container) {
   var bf = (D.bodyFat || []).length ? D.bodyFat[D.bodyFat.length - 1].v : null;
   var bp = (D.bloodPressure || []).length ? D.bloodPressure[D.bloodPressure.length - 1] : null;
   var vo = (D.vo2max || []).length ? D.vo2max[D.vo2max.length - 1].v : null;
-  var fatOK = bf !== null ? (S.sex === 'm' ? (bf >= 10 && bf <= 20) : (bf >= 20 && bf <= 30)) : false;
+  var _fr = getFatRange(getAge(), S.sex);
+  var fatOK = bf !== null ? (bf >= _fr.lo && bf <= _fr.hi) : false;
 
   grid.innerHTML = mkTodayCard('歩数', fmtNum(steps), '歩', Math.min(steps / moh_steps * 100, 100), steps >= moh_steps ? 'var(--brand)' : 'var(--warn)', '目標 ' + fmtNum(moh_steps) + '歩（健康日本21）')
     + mkTodayCard('安静時心拍', rhr ? rhr : '--', 'bpm', rhr ? Math.min(rhr / 80 * 100, 100) : 0, rhr && rhr <= 65 ? 'var(--brand)' : rhr && rhr <= 75 ? 'var(--warn)' : 'var(--err)', '理想 60〜65bpm')
-    + mkTodayCard('睡眠', sl ? fmtMin(sl.total) : '--', '', sl ? Math.min(sl.total / 480 * 100, 100) : 0, sl && sl.total >= getSleepRange(getAge()).lo && sl.total <= getSleepRange(getAge()).hi ? 'var(--brand)' : 'var(--warn)', (function(){var sr=getSleepRange(getAge());return '推奨 '+Math.floor(sr.lo/60)+'〜'+Math.floor(sr.hi/60)+'時間（睡眠指針2023）';})())
-    + mkTodayCard('BMI', bmi ? bmi : '--', '', bmi ? Math.min(bmi / 30 * 100, 100) : 0, bmi && bmi >= 18.5 && bmi < 25 ? 'var(--brand)' : 'var(--warn)', '基準 18.5〜25.0（健康日本21）')
+    + mkTodayCard('睡眠', sl ? fmtMin(sl.total) : '--', '', (function(){var sr=getSleepRange(getAge());return sl ? Math.min(sl.total / sr.hi * 100, 100) : 0;}()), sl && sl.total >= getSleepRange(getAge()).lo && sl.total <= getSleepRange(getAge()).hi ? 'var(--brand)' : 'var(--warn)', (function(){var sr=getSleepRange(getAge());return '推奨 '+Math.floor(sr.lo/60)+'〜'+Math.floor(sr.hi/60)+'時間（睡眠ガイド2023）';})())
+    + (function(){var _br=getBMIRange(getAge()); return mkTodayCard('BMI', bmi ? bmi : '--', '', bmi ? Math.min((bmi - _br.lo) / (_br.hi - _br.lo) * 100, 100) : 0, bmi && bmi >= _br.lo && bmi < _br.hi ? 'var(--brand)' : 'var(--warn)', '基準 '+_br.lo+'〜'+_br.hi+'（食事摂取基準2020）'); }())
     + mkTodayCard('消費カロリー', fmtNum(ae), 'kcal', Math.min(ae / 400 * 100, 100), ae >= 300 ? 'var(--brand)' : 'var(--warn)', '目標 300kcal以上')
     + (sl ? mkTodayCard('深い睡眠', sl.deep ? fmtMin(sl.deep) : '--', '', sl && sl.deep ? Math.min(sl.deep / 90 * 100, 100) : 0, sl && sl.deep >= 60 ? 'var(--brand)' : 'var(--warn)', '目標 60分以上') : '')
     + (bm !== null ? mkTodayCard('体重', bm, 'kg', Math.min(bm / 100 * 100, 100), 'var(--tp)', '最新値') : '')
-    + (bf !== null ? mkTodayCard('体脂肪率', bf, '%', Math.min(bf / 40 * 100, 100), fatOK ? 'var(--brand)' : 'var(--warn)', S.sex === 'm' ? '理想 10〜20%' : '理想 20〜30%') : '')
+    + (bf !== null ? mkTodayCard('体脂肪率', bf, '%', Math.min(bf / _fr.hi * 100, 100), fatOK ? 'var(--brand)' : 'var(--warn)', '年齢別理想 '+_fr.lo+'〜'+_fr.hi+'%（日本肥満学会）') : '')
     + (bp !== null ? mkTodayCard('血圧（収縮期）', bp.sys, 'mmHg', Math.min(bp.sys / 180 * 100, 100), bp.sys < 120 ? 'var(--brand)' : bp.sys < 140 ? 'var(--warn)' : 'var(--err)', '基準 120mmHg未満（高血圧GL2019）') : '')
-    + (vo !== null ? mkTodayCard('VO2Max', vo, 'ml/kg/min', Math.min(vo / 60 * 100, 100), vo >= (S.sex === 'm' ? 43 : 34) ? 'var(--brand)' : 'var(--warn)', S.sex === 'm' ? '良好 43以上（ACSM）' : '良好 34以上（ACSM）') : '');
+    + (vo !== null ? (function(){var _vt=getVO2Target(getAge(),S.sex); return mkTodayCard('VO2Max', vo, 'ml/kg/min', Math.min(vo / _vt * 100, 100), vo >= _vt ? 'var(--brand)' : 'var(--warn)', '年齢別良好 '+_vt+'以上（ACSM）');}()) : '');
 
   container.appendChild(grid);
 }
@@ -1085,7 +1142,7 @@ function mkTodayCard(lbl, val, unit, pct, color, cmp) {
 
 function renderChartView(D, container) {
   var metrics = [
-    { key: 'steps',    label: '歩数',       unit: '歩',       color: '#5C8E84', moh: S.sex === 'm' ? 8000 : 7000, mohLabel: '目標 ' + getStepTarget(getAge()).toLocaleString('ja-JP') + '歩（年齢・性別考慮） ',  extract: function(v) { return v; } },
+    { key: 'steps',    label: '歩数',       unit: '歩',       color: '#5C8E84', moh: getStepTarget(getAge()), mohLabel: '目標 ' + getStepTarget(getAge()).toLocaleString('ja-JP') + '歩（年齢別） ',  extract: function(v) { return v; } },
     { key: 'sleep',    label: '睡眠',       unit: 'h',        color: '#6B5EA8', moh: 7,   mohLabel: '年齢別推奨 ' + (function(){var sr=getSleepRange(getAge()); return Math.floor(sr.lo/60)+'〜'+Math.floor(sr.hi/60);}()) + '時間 ',               extract: function(v) { return Math.round(v.total / 60 * 10) / 10; } },
     { key: 'rhr',      label: '安静時心拍',  unit: 'bpm',      color: '#B85C5C', moh: 65,  mohLabel: '理想 60〜65bpm（低いほど良好） ',          extract: null },
     { key: 'bmi',      label: 'BMI',        unit: '',         color: '#8A6030', moh: 22,  mohLabel: (function(){var br=getBMIRange(getAge()); return '基準 '+br.lo+'〜'+br.hi+' ';}()),                extract: null, isArr: true },
@@ -1192,14 +1249,14 @@ function renderChartView(D, container) {
 }
 
 function scoreMetric(key, val) {
-  if (key === 'steps') return Math.min(100, Math.round(val / (S.sex === 'm' ? 8000 : 7000) * 100));
-  if (key === 'sleep') { var sm = val * 60; return (sm >= 360 && sm <= 480) ? 100 : (sm >= 300) ? 65 : 30; }
+  if (key === 'steps') { var _tgt = getStepTarget(getAge()); return val >= _tgt * 1.2 ? 100 : val >= _tgt ? 90 : val >= _tgt * 0.75 ? 70 : val >= _tgt * 0.5 ? 50 : 25; }
+  if (key === 'sleep') { var sm = val * 60, sr2 = getSleepRange(getAge()); return (sm >= sr2.lo && sm <= sr2.hi) ? 100 : (sm >= sr2.lo - 60 && sm < sr2.lo) ? 65 : (sm > sr2.hi && sm <= sr2.hi + 60) ? 80 : sm > sr2.hi + 60 ? 50 : sm >= sr2.lo - 120 ? 35 : 15; }
   if (key === 'rhr') { return val <= 55 ? 90 : val <= 65 ? 100 : val <= 70 ? 80 : val <= 75 ? 60 : val <= 80 ? 40 : 20; }
-  if (key === 'bmi') { return (val >= 18.5 && val < 25) ? 100 : (val >= 25 && val < 27) ? 72 : 50; }
+  if (key === 'bmi') { var _br2 = getBMIRange(getAge()); return (val >= _br2.lo && val < _br2.hi) ? 100 : (val >= _br2.hi && val < _br2.hi + 2) ? 72 : (val < _br2.lo && val >= _br2.lo - 1.5) ? 65 : 40; }
   if (key === 'activity') return Math.min(100, Math.round(val / 300 * 100));
-  if (key === 'bodyFat') { var ok = S.sex === 'm' ? (val >= 10 && val <= 20) : (val >= 20 && val <= 30); return ok ? 100 : 50; }
+  if (key === 'bodyFat') { var _fr2 = getFatRange(getAge(), S.sex); return (val >= _fr2.lo && val <= _fr2.hi) ? 100 : (val > _fr2.hi && val <= _fr2.hi + 5) ? 65 : (val > _fr2.hi + 5) ? 35 : (val < _fr2.lo && val >= _fr2.lo - 3) ? 70 : 40; }
   if (key === 'bp') { return val < 120 ? 100 : val < 130 ? 85 : val < 140 ? 65 : 35; }
-  if (key === 'vo2max') { var g = S.sex === 'm' ? 43 : 34; return val >= g * 1.2 ? 100 : val >= g ? 85 : val >= g * 0.8 ? 60 : 35; }
+  if (key === 'vo2max') { var _vg = getVO2Target(getAge(), S.sex); return val >= _vg * 1.2 ? 100 : val >= _vg ? 85 : val >= _vg * 0.8 ? 60 : 35; }
   return 50;
 }
 
@@ -1214,9 +1271,9 @@ function renderMOH(sc) {
   var wpw2 = wk.length ? Math.round(wk.length / wks2 * 10) / 10 : null;
 
   var rows = '';
-  var moh_steps = S.sex === 'm' ? 8000 : 7000;
-  if (sa !== null) rows += mkMOHRow('歩数 ' + fmtNum(sa) + '歩', sa >= moh_steps ? 'good' : 'warn', sa >= moh_steps ? '達成' : '目標 ' + fmtNum(moh_steps) + '歩', 'steps_guide')
-  if (sla !== null) { var slr=getSleepRange(getAge()); rows += mkMOHRow('睡眠 ' + fmtMin(sla), sla >= slr.lo && sla <= slr.hi ? 'good' : sla < slr.lo ? 'bad' : 'warn', sla >= slr.lo && sla <= slr.hi ? '達成' : Math.floor(slr.lo/60)+'〜'+Math.floor(slr.hi/60)+'時間推奨（年齢別）', 'sleep_guide') }
+  var moh_steps = getStepTarget(getAge());
+  if (sa !== null) rows += mkMOHRow('歩数 ' + fmtNum(sa) + '歩', sa >= moh_steps ? 'good' : 'warn', sa >= moh_steps ? '達成' : '目標 ' + fmtNum(moh_steps) + '歩')
+  if (sla !== null) { var slr=getSleepRange(getAge()); rows += mkMOHRow('睡眠 ' + fmtMin(sla), sla >= slr.lo && sla <= slr.hi ? 'good' : sla < slr.lo ? 'bad' : 'warn', sla >= slr.lo && sla <= slr.hi ? '達成' : Math.floor(slr.lo/60)+'〜'+Math.floor(slr.hi/60)+'時間推奨（年齢別）') }
   if (ra !== null) rows += mkMOHRow('安静時心拍 ' + ra + 'bpm', ra <= 65 ? 'good' : ra <= 75 ? 'warn' : 'bad', ra <= 65 ? '良好' : '要改善')
   if (bv !== null) rows += mkMOHRow('BMI ' + bv, bv >= bmr.lo && bv < bmr.hi ? 'good' : 'warn', bv >= bmr.lo && bv < bmr.hi ? '年齢別基準内' : '基準 ' + bmr.lo + '〜' + bmr.hi)
   if (wpw2 !== null) rows += mkMOHRow('運動 週' + wpw2 + '回', wpw2 >= 3 ? 'good' : wpw2 >= 2 ? 'warn' : 'bad', wpw2 >= 3 ? '達成' : '週3回以上推奨')
@@ -1225,10 +1282,10 @@ function renderMOH(sc) {
   if (bpA.length) { var bpv = bpA[bpA.length-1].sys; rows += mkMOHRow('血圧（収縮期） ' + bpv + 'mmHg', bpv < 120 ? 'good' : bpv < 140 ? 'warn' : 'bad', bpv < 120 ? '正常域' : bpv < 140 ? '要注意' : '高血圧') }
   // 体脂肪率
   var bfA = D.bodyFat || [];
-  if (bfA.length) { var bfv = bfA[bfA.length-1].v; var bfOK = S.sex === 'm' ? (bfv >= 10 && bfv <= 20) : (bfv >= 20 && bfv <= 30); rows += mkMOHRow('体脂肪率 ' + bfv + '%', bfOK ? 'good' : 'warn', bfOK ? '理想範囲内' : (S.sex === 'm' ? '理想 10〜20%' : '理想 20〜30%'), 'fat') }
+  if (bfA.length) { var bfv = bfA[bfA.length-1].v, _bfr = getFatRange(getAge(), S.sex); var bfOK = bfv >= _bfr.lo && bfv <= _bfr.hi; rows += mkMOHRow('体脂肪率 ' + bfv + '%', bfOK ? 'good' : 'warn', bfOK ? '年齢別理想範囲内' : '理想 '+_bfr.lo+'〜'+_bfr.hi+'%') }
   // VO2Max
   var voA = D.vo2max || [];
-  if (voA.length) { var vov = voA[voA.length-1].v; var voGood = S.sex === 'm' ? 43 : 34; rows += mkMOHRow('VO2Max ' + vov + ' ml/kg/min', vov >= voGood ? 'good' : vov >= voGood * 0.8 ? 'warn' : 'bad', vov >= voGood ? '良好（ACSM基準）' : '改善余地あり', 'vo2') }
+  if (voA.length) { var vov = voA[voA.length-1].v, _vg2 = getVO2Target(getAge(), S.sex); rows += mkMOHRow('VO2Max ' + vov + ' ml/kg/min', vov >= _vg2 ? 'good' : vov >= _vg2 * 0.8 ? 'warn' : 'bad', vov >= _vg2 ? '年齢別良好（ACSM）' : '改善余地あり') }
 
   card.innerHTML = '<div class="moh-title">厚労省・各学会基準との比較</div>' + rows
     + '<div class="moh-source" style="display:flex;justify-content:space-between;align-items:center"><span>出典: 健康日本21 第三次 / 睡眠ガイド2023 / 食事摂取基準2020</span>' + mkSrcLink('ref_all') + '</div>';
@@ -1468,9 +1525,8 @@ async function handleUpload(ev) {
     await new Promise(function(r) { setTimeout(r, 30); });
     S.healthData = parseXMLStream_finalize(nd);
     setLdg('保存中...', 92);
-    try { localStorage.setItem('lt_hd', JSON.stringify(S.healthData)); } catch (e) {
-      console.warn('localStorage save failed:', e);
-    }
+    // 健康データはメモリのみ保持（localStorage には保存しない）
+    // 理由: データが大きすぎてiOS SafariのlocalStorage上限(5MB)を超える場合がある
     setLdg('完了！', 100);
     await new Promise(function(r) { setTimeout(r, 400); });
     hideLdg(); renderHealth(); updateCountdown();
@@ -1531,7 +1587,6 @@ function saveDrawerProfile() {
 function clearHealthData() {
   if (!confirm('健康データを削除しますか？')) return;
   S.healthData = null;
-  try { localStorage.removeItem('lt_hd'); } catch (e) {}
   renderHealth(); updateCountdown(); closeDrawer();
   showToast('健康データを削除しました');
 }
