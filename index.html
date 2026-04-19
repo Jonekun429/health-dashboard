@@ -61,11 +61,11 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
 .ob-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px color-mix(in srgb,var(--brand) 40%,transparent)}
 .ob-btn:active{transform:scale(.98)}
 #app{background:var(--bg)}
-.topbar{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(20px) saturate(1.4);-webkit-backdrop-filter:blur(20px) saturate(1.4);border-bottom:1px solid color-mix(in srgb,var(--bg-e) 60%,transparent);padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
-.topbar-title{font-size:17px;font-weight:700;letter-spacing:-.3px}
-.topbar-settings{width:36px;height:36px;border-radius:12px;background:var(--card);border:1px solid var(--bg-e);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--tm);transition:all var(--tr)}
+.topbar{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(20px) saturate(1.4);-webkit-backdrop-filter:blur(20px) saturate(1.4);border-bottom:1px solid color-mix(in srgb,var(--bg-e) 60%,transparent);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.topbar-title{font-size:17px;font-weight:700;letter-spacing:-.3px;flex-shrink:0}
+.topbar-settings{width:36px;height:36px;border-radius:12px;background:var(--card);border:1px solid var(--bg-e);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--tm);transition:all var(--tr);flex-shrink:0}
 .topbar-settings:hover{background:var(--card2);color:var(--brand)}
-.topbar-upload{display:flex;align-items:center;gap:5px;padding:8px 14px;border-radius:20px;background:var(--brand);color:#fff;font-size:11px;font-weight:700;cursor:pointer;border:none;font-family:inherit;box-shadow:0 3px 12px color-mix(in srgb,var(--brand) 30%,transparent);transition:all var(--tr);white-space:nowrap;position:relative}
+.topbar-upload{display:flex;align-items:center;gap:5px;padding:8px 12px;border-radius:20px;background:var(--brand);color:#fff;font-size:11px;font-weight:700;cursor:pointer;border:none;font-family:inherit;box-shadow:0 3px 12px color-mix(in srgb,var(--brand) 30%,transparent);transition:all var(--tr);white-space:nowrap;position:relative;flex-shrink:0}
 .topbar-upload:hover{transform:translateY(-1px)}
 .topbar-upload:active{transform:scale(.95)}
 .topbar-upload svg{flex-shrink:0}
@@ -151,13 +151,6 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
 .health-cta{margin:14px 16px 0;background:linear-gradient(135deg,var(--brand),var(--brand-mid));border-radius:var(--r);padding:18px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;box-shadow:0 6px 20px color-mix(in srgb,var(--brand) 25%,transparent);transition:all var(--tr)}
 .health-cta:hover{transform:translateY(-2px)}.health-cta-title{font-size:14px;font-weight:700;color:#fff}
 .health-cta-sub{font-size:11px;color:rgba(255,255,255,.6);margin-top:3px}.health-cta-arrow{color:rgba(255,255,255,.6);font-size:18px}
-.update-cta{margin:14px 16px 0;background:var(--card);border:1.5px solid var(--brand);border-radius:var(--r);padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all var(--tr)}
-.update-cta:hover{background:var(--card2)}.update-cta:active{transform:scale(.98)}
-.update-cta-icon{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--brand-mid));display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
-.update-cta-body{flex:1;min-width:0}
-.update-cta-title{font-size:13px;font-weight:700;color:var(--td);margin-bottom:2px}
-.update-cta-sub{font-size:11px;color:var(--tm);line-height:1.5}
-.update-cta-arrow{color:var(--brand);font-size:20px;font-weight:700;flex-shrink:0}
 .health-update-card{margin:14px 16px 0;background:var(--card);border-radius:var(--r);border:1.5px solid var(--brand);padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all var(--tr);box-shadow:var(--sh);position:relative;overflow:hidden}
 .health-update-card:hover{background:var(--card2)}
 .health-update-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--brand)}
@@ -168,13 +161,6 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
 .health-update-badge.fresh{background:var(--card2);color:var(--brand)}
 .health-update-sub{font-size:11px;color:var(--tm);line-height:1.45}
 .health-update-arrow{color:var(--brand);font-size:20px;font-weight:700;flex-shrink:0}
-.hd-update-big{margin:14px 16px 0;background:linear-gradient(135deg,var(--brand),var(--brand-mid));border-radius:var(--r);padding:16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all var(--tr)}
-.hd-update-big:hover{transform:translateY(-1px)}
-.hd-update-big-icon{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.hd-update-big-body{flex:1;min-width:0}
-.hd-update-big-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:2px}
-.hd-update-big-sub{font-size:11px;color:rgba(255,255,255,.7);line-height:1.4}
-.hd-update-big-arrow{color:rgba(255,255,255,.8);font-size:18px;font-weight:700}
 .quote-card{margin:14px 16px 0;background:var(--card2);border-radius:var(--r2);padding:18px 20px;text-align:center;border:1px solid var(--bg-e);min-height:56px}
 .quote-text{font-size:12.5px;color:var(--tm);line-height:1.85;font-style:italic;transition:opacity .4s}
 .quote-text.fade{opacity:0}
@@ -331,19 +317,6 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
 .theme-swatch span{flex:1}
 .theme-name{font-size:10px;text-align:center;padding:6px 0;color:var(--tm);background:var(--bg);font-weight:600}
 .theme-card.on .theme-name{color:var(--brand);font-weight:700}
-.zip-update-cta{margin:14px 16px 0;background:linear-gradient(135deg,var(--brand),var(--brand-mid));border-radius:var(--r);padding:16px;display:flex;align-items:center;gap:12px;cursor:pointer;box-shadow:0 6px 20px color-mix(in srgb,var(--brand) 22%,transparent);transition:all var(--tr);position:relative;overflow:hidden}
-.zip-update-cta:hover{transform:translateY(-2px)}
-.zip-update-cta:active{transform:scale(.99)}
-.zip-update-cta::before{content:'';position:absolute;top:-30px;right:-30px;width:100px;height:100px;background:radial-gradient(circle,rgba(255,255,255,.12),transparent 70%);border-radius:50%;pointer-events:none}
-.zip-update-cta-icon{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff;position:relative;z-index:1}
-.zip-update-cta-body{flex:1;position:relative;z-index:1;min-width:0}
-.zip-update-cta-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:2px}
-.zip-update-cta-sub{font-size:10.5px;color:rgba(255,255,255,.7);line-height:1.45}
-.zip-update-cta-arrow{color:rgba(255,255,255,.7);font-size:18px;font-weight:700;position:relative;z-index:1}
-.zip-update-cta input[type="file"]{display:none}
-.home-zip-quick{display:flex;align-items:center;justify-content:center;gap:6px;margin:12px 16px 0;padding:10px;background:var(--card2);border:1px dashed var(--brand);border-radius:var(--r2);font-size:11px;font-weight:700;color:var(--brand);cursor:pointer;transition:all var(--tr)}
-.home-zip-quick:hover{background:var(--bg-e)}
-.home-zip-quick input[type="file"]{display:none}
 .ldg{display:none;position:fixed;inset:0;background:color-mix(in srgb,var(--bg) 96%,transparent);z-index:300;justify-content:center;align-items:center;flex-direction:column;gap:18px;backdrop-filter:blur(12px)}
 .ldg.on{display:flex}
 .ldg-spin{width:44px;height:44px;border:3px solid var(--bg-e);border-top-color:var(--brand);border-radius:50%;animation:spin .6s linear infinite}
@@ -477,16 +450,15 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
 <!-- ONBOARDING -->
 <div class="screen on" id="ob"><div class="ob-logo"><svg width="38" height="38" viewBox="0 0 38 38"><circle cx="19" cy="19" r="15" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="2"/><circle cx="19" cy="19" r="15" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="65 30" stroke-linecap="round"/><path d="M19 10v9l6 3.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div><div class="ob-title">TIME</div><div class="ob-sub">あなたの残り時間を、<br>リアルに感じよう</div><div class="ob-card"><div class="ob-field"><label>生年月日</label><input type="date" class="ob-input" id="ob-birth" value="1990-01-01"></div><div class="ob-field"><label>性別</label><div class="ob-sex"><button class="ob-sex-btn on" id="ob-m" onclick="setSex('m')">男性</button><button class="ob-sex-btn" id="ob-f" onclick="setSex('f')">女性</button></div></div><button class="ob-btn" onclick="startApp()">残り時間を見る →</button></div></div>
 <!-- APP -->
-<div class="screen" id="app"><div class="topbar"><div class="topbar-settings" onclick="openDrawer()"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topbar-title" style="position:absolute;left:50%;transform:translateX(-50%);cursor:pointer" onclick="goHome()" title="ホームに戻る">TIME</div><label class="topbar-upload" id="topbar-upload-btn" title="ヘルスケアZIPをアップロード"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 2v7M3.5 5l3-3 3 3" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 10h9" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg>更新<input type="file" accept=".zip" onchange="handleUpload(event)" style="display:none"></label></div><div class="content">
+<div class="screen" id="app"><div class="topbar"><div class="topbar-settings" onclick="openDrawer()"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topbar-title" style="cursor:pointer" onclick="goHome()" title="ホームに戻る">TIME</div><label class="topbar-upload" id="topbar-upload-btn" title="ヘルスケアZIPをアップロード"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 2v7M3.5 5l3-3 3 3" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 10h9" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg>最新データに更新<input type="file" accept=".zip" onchange="handleUpload(event)" style="display:none"></label></div><div class="content">
 <div class="panel on" id="p-countdown"><div class="cd-hero"><div class="cd-greeting">あなたの残り時間</div><div class="cd-ring-wrap"><svg viewBox="0 0 160 160"><circle cx="80" cy="80" r="68" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="10"/><circle cx="80" cy="80" r="68" fill="none" stroke="var(--brand)" stroke-width="10" stroke-dasharray="427" id="cd-ring-stroke" stroke-dashoffset="200" stroke-linecap="round"/></svg><div class="cd-ring-center"><div class="cd-years" id="cd-years">--</div><div class="cd-years-lbl">年</div></div></div><div class="cd-grid"><div class="cd-cell"><div class="cd-cell-num" id="cd-days">---</div><div class="cd-cell-lbl">日</div></div><div class="cd-cell"><div class="cd-cell-num" id="cd-hours">--</div><div class="cd-cell-lbl">時間</div></div><div class="cd-cell"><div class="cd-cell-num" id="cd-mins">--</div><div class="cd-cell-lbl">分</div></div><div class="cd-cell"><div class="cd-cell-num" id="cd-secs">--</div><div class="cd-cell-lbl">秒</div></div></div><div class="cd-progress"><div class="cd-prog-row"><span class="cd-prog-lbl">人生の進捗</span><span class="cd-prog-pct" id="cd-pct">--.--%</span></div><div class="cd-prog-track"><div class="cd-prog-fill" id="cd-prog-fill" style="width:0%"></div></div></div></div><div class="life-card" id="life-card"><div class="life-card-row"><div><div class="life-card-lbl">予測寿命</div><div class="life-card-base" id="lc-base">基準 --年</div></div><div class="life-card-num"><div class="life-card-big" id="lc-total">--.-</div><div class="life-card-unit">年</div></div></div><div class="life-card-profile"><span class="life-card-profile-info" id="lc-profile-info">-- 生まれ</span><div class="edit-chip" onclick="toggleInlineEdit()">編集</div></div></div><div id="inline-edit-wrap"></div><div id="cd-health-block"></div><div class="quote-card"><div class="quote-text" id="quote-text">　</div></div></div>
 <div class="panel" id="p-bucket"><div class="bl-hero"><div class="bl-hero-title">やりたい事リスト</div><div class="bl-hero-sub">残りの人生でやりたいこと</div><div class="bl-progress-wrap"><div class="bl-prog-row"><span class="bl-prog-lbl">達成率</span><span class="bl-prog-count" id="bl-count">0 / 0 達成</span></div><div class="bl-prog-track"><div class="bl-prog-fill" id="bl-prog-fill" style="width:0%"></div></div></div></div><button class="bl-suggest-btn" onclick="openSuggestModal()"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v2M7 11v2M1 7h2M11 7h2M2.5 2.5l1.5 1.5M10 10l1.5 1.5M2.5 11.5l1.5-1.5M10 4l1.5-1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="7" cy="7" r="2" stroke="currentColor" stroke-width="1.3"/></svg> 人気の項目から選ぶ</button><div class="bl-list" id="bl-list"></div><div class="bl-add-wrap"><div class="bl-add-row"><input type="text" class="bl-add-input" id="bl-input" placeholder="新しい目標を追加..." onkeydown="if(event.key==='Enter')addItem()"><button class="bl-add-btn" onclick="addItem()">追加</button></div></div></div>
 <div class="panel" id="p-health"><div id="hd-empty-view" class="hd-empty"><div class="hd-empty-card"><div class="hd-empty-icon"><svg width="48" height="48" viewBox="0 0 48 48"><rect x="8" y="14" width="32" height="26" rx="5" fill="none" stroke="var(--brand)" stroke-width="2"/><path d="M24 22v12M18 28l6-6 6 6" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="hd-empty-title">ヘルスケアデータを追加</div><div class="hd-empty-sub">iPhoneのヘルスケアアプリからZIPファイルをアップロードして、寿命予測の精度を上げましょう</div><label class="hd-upload-label">ZIPファイルを選択<input type="file" accept=".zip" onchange="handleUpload(event)" style="display:none"></label></div>
 <!-- ★追加: ZIPなしでも運動手入力できるCTA -->
 <div class="workout-manual-cta" onclick="openWorkoutModal()" style="margin:0 0 14px"><div class="workout-manual-cta-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.2" stroke-linecap="round"/></svg></div><div class="workout-manual-cta-body"><div class="workout-manual-cta-title">運動を手入力で記録</div><div class="workout-manual-cta-sub">ヘルスケアに反映されない運動を追加</div></div><div class="workout-manual-cta-arrow">›</div></div>
 <div class="hd-steps-card"><div class="hd-steps-title">データの書き出し方</div><div class="hd-step"><div class="hd-step-num">1</div><div class="hd-step-text">iPhoneの「ヘルスケア」アプリを開く</div></div><div class="hd-step"><div class="hd-step-num">2</div><div class="hd-step-text">右上の「…（もっと見る）」をタップ</div></div><div class="hd-step"><div class="hd-step-num">3</div><div class="hd-step-text">「すべてのヘルスケアデータを書き出す」を選択してZIPを作成</div></div><div class="hd-step"><div class="hd-step-num">4</div><div class="hd-step-text">作成されたZIPファイルをここにアップロード</div></div></div></div>
-<div id="hd-loaded-view" style="display:none;padding-bottom:20px"><div class="hd-loaded-header"><div class="hd-loaded-title">健康ダッシュボード</div></div>
-<!-- ★更新: 大型ZIPアップロードCTA(常設・目立つ位置) -->
-<label class="zip-update-cta"><div class="zip-update-cta-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3v9M6 9l4-4 4 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 14v2a1 1 0 001 1h12a1 1 0 001-1v-2" stroke="white" stroke-width="2" stroke-linecap="round"/></svg></div><div class="zip-update-cta-body"><div class="zip-update-cta-title">最新データに更新する</div><div class="zip-update-cta-sub" id="zip-last-updated">タップしてヘルスケアZIPをアップロード</div></div><div class="zip-update-cta-arrow">›</div><input type="file" accept=".zip" onchange="handleUpload(event)"></label><div class="hd-score-big"><div class="hd-score-ring"><svg viewBox="0 0 72 72"><circle cx="36" cy="36" r="30" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="6"/><circle cx="36" cy="36" r="30" fill="none" stroke="var(--brand)" stroke-width="6" stroke-dasharray="188" id="hd-ring-stroke" stroke-dashoffset="80" stroke-linecap="round"/></svg><div class="hd-score-ring-center"><div class="hd-score-num" id="hd-score-num">--</div><div class="hd-score-den">/100</div></div></div><div class="hd-score-info"><div class="hd-score-grade" id="hd-score-grade">-- ランク</div><div class="hd-score-msg" id="hd-score-msg">計算中...</div></div></div>
+<!-- ★修正: 重複していた大型ZIPアップロードCTAを削除。スコアカードを最上部に配置 -->
+<div id="hd-loaded-view" style="display:none;padding-bottom:20px"><div class="hd-loaded-header"><div class="hd-loaded-title">健康ダッシュボード</div></div><div class="hd-score-big"><div class="hd-score-ring"><svg viewBox="0 0 72 72"><circle cx="36" cy="36" r="30" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="6"/><circle cx="36" cy="36" r="30" fill="none" stroke="var(--brand)" stroke-width="6" stroke-dasharray="188" id="hd-ring-stroke" stroke-dashoffset="80" stroke-linecap="round"/></svg><div class="hd-score-ring-center"><div class="hd-score-num" id="hd-score-num">--</div><div class="hd-score-den">/100</div></div></div><div class="hd-score-info"><div class="hd-score-grade" id="hd-score-grade">-- ランク</div><div class="hd-score-msg" id="hd-score-msg">計算中...</div></div></div>
 <!-- ★追加: ロード済みでも手入力CTA表示 -->
 <div class="workout-manual-cta" onclick="openWorkoutModal()"><div class="workout-manual-cta-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.2" stroke-linecap="round"/></svg></div><div class="workout-manual-cta-body"><div class="workout-manual-cta-title">運動を手入力で追加</div><div class="workout-manual-cta-sub" id="manual-workout-count">ジムや屋外運動など、未記録の活動を追加</div></div><div class="workout-manual-cta-arrow">›</div></div>
 <div class="period-bar" id="period-bar"></div><div id="hd-metrics"></div><div class="moh-card" id="moh-card"></div><div style="height:8px"></div></div></div>
@@ -540,13 +512,11 @@ var SUGGESTIONS={
 
 document.addEventListener('DOMContentLoaded',function(){
   try{var saved=localStorage.getItem('lt_s');if(saved){var p=JSON.parse(saved);S.birth=p.birth||S.birth;S.sex=p.sex||S.sex;S.bucket=Array.isArray(p.bucket)?p.bucket:[];S.manualWorkouts=Array.isArray(p.manualWorkouts)?p.manualWorkouts:[];S.theme=p.theme||'natural';S.lastHealthUpdate=p.lastHealthUpdate||null;}}catch(e){}
-  // ★修正: ヘルスケアデータも復元
   try{var hd=localStorage.getItem('lt_hd');if(hd){S.healthData=JSON.parse(hd);}}catch(e){console.warn('healthData復元失敗',e);}
   applyTheme(S.theme);
   if(localStorage.getItem('lt_ob')){requestAnimationFrame(function(){showApp();});}
 });
 function saveState(){try{localStorage.setItem('lt_s',JSON.stringify({birth:S.birth,sex:S.sex,bucket:S.bucket,manualWorkouts:S.manualWorkouts,theme:S.theme,lastHealthUpdate:S.lastHealthUpdate}));}catch(e){}}
-// ★追加: ヘルスケアデータの保存(容量超過時は自動でフォールバック)
 function saveHealthData(){
   if(!S.healthData){try{localStorage.removeItem('lt_hd');}catch(e){}return true;}
   try{
@@ -559,7 +529,6 @@ function saveHealthData(){
   }
 }
 
-// ★追加: テーマ適用
 function applyTheme(themeId){
   S.theme=themeId;
   document.body.setAttribute('data-theme',themeId);
@@ -619,13 +588,11 @@ function getVO2Target(age,sex){var tbl=VO2_MASTER[sex]||VO2_MASTER['m'];var deca
 function getFatRange(age,sex){if(sex==='m')return age>=65?{lo:15,hi:25}:{lo:10,hi:20};return age>=65?{lo:22,hi:33}:{lo:20,hi:30};}
 function getSleepRange(age){if(age<13)return{lo:540,hi:720};if(age<18)return{lo:480,hi:600};if(age<60)return{lo:360,hi:540};return{lo:360,hi:480};}
 
-// ★修正: workouts に手入力をマージするヘルパー
 function getMergedWorkouts(){
   var auto=(S.healthData&&S.healthData.workouts)?S.healthData.workouts:[];
   var manual=(S.manualWorkouts||[]).map(function(w){return {d:w.d,type:w.type,dur:w.dur,manual:true};});
   return auto.concat(manual);
 }
-// ★修正: ステップ数の日数推定 (ZIPなくても手入力分のみで動くよう調整)
 function getActiveDays(){
   if(S.healthData&&S.healthData.steps)return Math.max(1,Object.keys(S.healthData.steps).length);
   if(S.manualWorkouts.length){
@@ -640,7 +607,6 @@ function scoreForKey(key,D){var sex=S.sex;var age=getAge();
   if(key==='sleep'){var svals=Object.values(D.sleep||{}).map(function(x){return x.total;});if(!svals.length)return null;var sm=Math.round(av(svals)),sr=getSleepRange(age);return(sm>=sr.lo&&sm<=sr.hi)?100:(sm>=sr.lo-60&&sm<sr.lo)?65:(sm>sr.hi&&sm<=sr.hi+60)?80:sm>sr.hi+60?50:sm>=sr.lo-120?35:15;}
   if(key==='heart'){var hvals=Object.values(D.restingHR||{});if(!hvals.length)return null;var hr=Math.round(av(hvals));return hr<=55?90:hr<=65?100:hr<=70?80:hr<=75?60:hr<=80?40:20;}
   if(key==='bmi'){var ba=D.bmi||[];if(!ba.length)return null;var bv=ba[ba.length-1].v,br=getBMIRange(age);return(bv>=br.lo&&bv<br.hi)?100:(bv>=br.hi&&bv<br.hi+2)?72:(bv>=br.hi+2&&bv<br.hi+5)?50:(bv<br.lo&&bv>=br.lo-1.5)?65:bv<br.lo-1.5?30:35;}
-  // ★修正: workout は手入力分も含める
   if(key==='workout'){var wk=getMergedWorkouts();if(!wk.length)return null;var wks=Math.max(1,getActiveDays()/7),wpw=wk.length/wks;return wpw>=5?100:wpw>=3?85:wpw>=2?65:wpw>=1?40:15;}
   if(key==='spo2'){var spvals=Object.values(D.spo2||{}).map(function(x){return x.avg;});if(!spvals.length)return null;var sp=Math.round(av(spvals)*10)/10;return sp>=98?100:sp>=97?90:sp>=96?75:sp>=95?55:sp>=93?35:15;}
   if(key==='activity'){var avals=Object.values(D.activeEnergy||{});if(!avals.length)return null;var ae=Math.round(av(avals));return ae>=400?100:ae>=300?85:ae>=200?65:ae>=100?40:20;}
@@ -651,14 +617,12 @@ function scoreForKey(key,D){var sex=S.sex;var age=getAge();
 function adjFromScore(v,maxP,maxN){if(v>=90)return maxP;if(v>=80)return maxP*0.7;if(v>=70)return maxP*0.3;if(v>=50)return 0;if(v>=30)return maxN*0.5;return maxN;}
 function calcScores(){var D=S.healthData||{steps:{},sleep:{},restingHR:{},spo2:{},activeEnergy:{},bloodPressure:[],bmi:[],bodyMass:[],bodyFat:[],vo2max:[],workouts:[]},items={};LIFE_RULES.forEach(function(r){var v=scoreForKey(r.k,D);if(v!==null)items[r.k]={v:v};});var vals=Object.values(items);return{items:items,total:vals.length?Math.round(av(vals.map(function(x){return x.v;}))):0};}
 function calcLife(){var base=S.sex==='f'?87:81,bonus=0;
-  // ★修正: ZIPなしでも手入力運動分だけで補正反映
   var hasAnyData=S.healthData||S.manualWorkouts.length>0;
   if(hasAnyData){var sc=calcScores();LIFE_RULES.forEach(function(r){var it=sc.items[r.k];if(it)bonus+=Math.round(adjFromScore(it.v,r.maxP,r.maxN)*10)/10;});bonus=Math.round(bonus*10)/10;}
   return{base:base,bonus:bonus,total:Math.round((base+bonus)*10)/10};}
 function calcTimeLeft(){var life=calcLife();var end=new Date(S.birth);end.setFullYear(end.getFullYear()+life.total);var birth=new Date(S.birth).getTime(),now=Date.now(),endT=end.getTime();var diff=Math.max(0,endT-now);return{y:Math.floor(diff/31557600000),d:Math.floor((diff%31557600000)/86400000),h:Math.floor((diff%86400000)/3600000),m:Math.floor((diff%3600000)/60000),s:Math.floor((diff%60000)/1000),prog:endT>birth?Math.min(Math.max((now-birth)/(endT-birth)*100,0),100):100,life:life};}
 function initCountdown(){updateCountdown();if(timerID)clearInterval(timerID);timerID=setInterval(updateCountdown,1000);}
 function updateCountdown(){var t=calcTimeLeft(),life=t.life;var ring=document.getElementById('cd-ring-stroke');if(ring)ring.setAttribute('stroke-dashoffset',(427*t.prog/100).toFixed(1));setEl('cd-years',t.y);setEl('cd-days',t.d);setEl('cd-hours',pad(t.h));setEl('cd-mins',pad(t.m));setEl('cd-secs',pad(t.s));setEl('cd-pct',t.prog.toFixed(1)+'%');var fill=document.getElementById('cd-prog-fill');if(fill)fill.style.width=t.prog.toFixed(1)+'%';setEl('lc-base','基準 '+life.base+'年'+(life.bonus!==0?' / 補正 '+(life.bonus>0?'+':'')+life.bonus+'年':''));setEl('lc-total',life.total.toFixed(1));updateProfileInfo();renderCDHealthBlock(life);updateTopbarUploadBadge();}
-// ★追加: トップバー更新ボタンの古いデータ通知
 function updateTopbarUploadBadge(){
   var btn=document.getElementById('topbar-upload-btn');if(!btn)return;
   if(!S.healthData||!S.lastHealthUpdate){btn.classList.remove('stale');return;}
@@ -676,7 +640,6 @@ function closeInlineEdit(){inlineEditOpen=false;var wrap=document.getElementById
 function renderCDHealthBlock(life){var wrap=document.getElementById('cd-health-block');if(!wrap)return;
   var hasAnyData=S.healthData||S.manualWorkouts.length>0;
   if(!hasAnyData){wrap.innerHTML='<div class="health-cta" onclick="switchTab(\'health\')"><div><div class="health-cta-title">健康データを追加する</div><div class="health-cta-sub">寿命予測の精度がさらに上がります</div></div><div class="health-cta-arrow">›</div></div>';return;}
-  // ★追加: データ更新カード(目立つように先頭に表示)
   var updateCardHtml='';
   if(S.healthData){
     var lastUpdate=S.lastHealthUpdate?formatLastUpdate(S.lastHealthUpdate):null;
@@ -696,7 +659,6 @@ function renderCDHealthBlock(life){var wrap=document.getElementById('cd-health-b
   }
   var sc=calcScores();var rows='',totalAdj=0;LIFE_RULES.forEach(function(r){var it=sc.items[r.k];if(!it)return;var adj=Math.round(adjFromScore(it.v,r.maxP,r.maxN)*10)/10;totalAdj+=adj;var bc=it.v>=80?'var(--brand)':it.v>=60?'var(--warn)':'var(--err)';var ac=adj>0?'var(--brand)':adj<0?'var(--err)':'var(--tp)';var at=adj>0?'+'+adj+'年':adj<0?adj+'年':'±0年';var pct=Math.abs(adj)/Math.max(r.maxP,Math.abs(r.maxN))*100;rows+='<div class="contrib-row"><span class="contrib-name">'+r.n+'</span><div class="contrib-bar-wrap"><div class="contrib-bar-fill" style="width:'+pct.toFixed(0)+'%;background:'+bc+'"></div></div><span class="contrib-adj" style="color:'+ac+'">'+at+'</span></div>';});totalAdj=Math.round(totalAdj*10)/10;var tc=totalAdj>0?'var(--brand)':totalAdj<0?'var(--err)':'var(--tp)';var tt=totalAdj>0?'+'+totalAdj+'年':totalAdj<0?totalAdj+'年':'±0年';var contribHtml='<div class="contrib-card"><div class="contrib-title">健康データの寿命貢献</div>'+rows+'<div class="contrib-total"><span class="contrib-total-lbl">合計補正</span><span class="contrib-total-val" style="color:'+tc+'">'+tt+'</span></div></div>';var alerts=buildAlerts(sc);var alertHtml=alerts.length?'<div class="alert-list">'+alerts.join('')+'</div>':'';wrap.innerHTML=updateCardHtml+contribHtml+alertHtml;}
 
-// ★追加: 最終更新日時のフォーマット
 function formatLastUpdate(ts){
   var d=new Date(ts);
   var now=new Date();
@@ -711,7 +673,6 @@ function formatLastUpdate(ts){
   return (d.getMonth()+1)+'月'+d.getDate()+'日';
 }
 function buildAlerts(sc){var D=S.healthData||{steps:{},sleep:{},restingHR:{},bmi:[]},alerts=[];var stV=Object.values(D.steps||{}),sa=stV.length?Math.round(av(stV)):0;var moh_steps=getStepTarget(getAge());if(sa>=moh_steps){alerts.push(mkAlert('good','歩数が目標を達成','平均 '+fmtNum(sa)+'歩 — 年齢別目標'+fmtNum(moh_steps)+'歩を達成しています。'));}else if(sa>0){alerts.push(mkAlert('warn','歩数が目標を下回っています','平均 '+fmtNum(sa)+'歩 — 年齢別目標まであと '+fmtNum(moh_steps-sa)+'歩。'));}var slV=Object.values(D.sleep||{}).map(function(x){return x.total;});if(slV.length){var sla=Math.round(av(slV));var slRange=getSleepRange(getAge());var slLoLbl=Math.floor(slRange.lo/60),slHiLbl=Math.floor(slRange.hi/60);if(sla<slRange.lo-60)alerts.push(mkAlert('bad','睡眠が深刻に不足しています','平均 '+fmtMin(sla)+' — 年齢別推奨（'+slLoLbl+'〜'+slHiLbl+'時間）を大幅に下回っています。'));else if(sla<slRange.lo)alerts.push(mkAlert('warn','睡眠がやや不足しています','平均 '+fmtMin(sla)+' — 年齢別推奨の'+slLoLbl+'〜'+slHiLbl+'時間を下回っています。'));else if(sla<=slRange.hi)alerts.push(mkAlert('good','睡眠時間は良好です','平均 '+fmtMin(sla)+' — 年齢別推奨の'+slLoLbl+'〜'+slHiLbl+'時間を達成しています。'));else alerts.push(mkAlert('warn','睡眠時間が長めです','平均 '+fmtMin(sla)+' — 推奨上限を超えています。'));}var rV=Object.values(D.restingHR||{});if(rV.length){var ra=Math.round(av(rV));if(ra>80)alerts.push(mkAlert('bad','安静時心拍がやや高めです','平均 '+ra+'bpm — 理想は60〜65bpm。'));else if(ra<=65)alerts.push(mkAlert('good','安静時心拍は理想的です','平均 '+ra+'bpm — 健康な心臓のサインです。'));}var bA=D.bmi||[];if(bA.length){var bv=bA[bA.length-1].v,br=getBMIRange(getAge());if(bv>=br.hi)alerts.push(mkAlert('warn','BMIが基準値を超えています','BMI '+bv+' — 年齢別基準（'+br.lo+'〜'+br.hi+'）を上回っています。'));else if(bv<br.lo)alerts.push(mkAlert('warn','BMIが低めです','BMI '+bv+' — 年齢別基準（'+br.lo+'〜'+br.hi+'）を下回っています。'));else alerts.push(mkAlert('good','BMIは適正範囲です','BMI '+bv+' — 年齢別基準（'+br.lo+'〜'+br.hi+'）内です。'));}
-  // ★修正: workout 集計に手入力分を含める
   var wk=getMergedWorkouts();if(wk.length){var wks2=Math.max(1,getActiveDays()/7),wpw2=Math.round(wk.length/wks2*10)/10;
     var manualCount=S.manualWorkouts.length;
     var sourceLabel=manualCount>0?'（手入力 '+manualCount+'件含む）':'';
@@ -726,7 +687,6 @@ function addItem(){var inp=document.getElementById('bl-input'),t=(inp.value||'')
 function toggleItem(id){var item=S.bucket.find(function(x){return x.id===id;});if(item){item.done=!item.done;gaEvent('bucket_toggle',{done:item.done});}saveState();renderBucket();}
 function delItem(id){S.bucket=S.bucket.filter(function(x){return x.id!==id;});saveState();renderBucket();}
 
-// ★追加: サジェストモーダル
 var selectedSuggestions=[];
 function openSuggestModal(){
   selectedSuggestions=[];
@@ -770,7 +730,6 @@ function closeSuggestModal(){
   selectedSuggestions=[];
 }
 
-// ★追加: 運動手入力モーダル
 function openWorkoutModal(){
   var today=new Date().toISOString().slice(0,10);
   document.getElementById('wo-date').value=today;
@@ -894,13 +853,13 @@ function hideLdg(){document.getElementById('ldg').classList.remove('on');}
 var toastTimer=null;
 function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');if(toastTimer)clearTimeout(toastTimer);toastTimer=setTimeout(function(){t.classList.remove('on');},2500);}
 
-// ★追加: スワイプジェスチャーでドロワー開閉
+// スワイプジェスチャーでドロワー開閉
 (function(){
   var touchStartX=0,touchStartY=0,touchStartTime=0,drawerEl=null,isSwiping=false;
-  var EDGE_WIDTH=30;       // 左端からこの幅内でタッチ開始した場合のみ反応
-  var SWIPE_THRESHOLD=60;  // この距離以上スワイプで開く
-  var SWIPE_CLOSE_THRESHOLD=50; // ドロワー上で左スワイプこの距離以上で閉じる
-  var MAX_TIME=400;        // ms以内のスワイプのみ
+  var EDGE_WIDTH=30;
+  var SWIPE_THRESHOLD=60;
+  var SWIPE_CLOSE_THRESHOLD=50;
+  var MAX_TIME=400;
 
   document.addEventListener('touchstart',function(e){
     var touch=e.touches[0];
@@ -908,7 +867,6 @@ function showToast(msg){var t=document.getElementById('toast');t.textContent=msg
     touchStartY=touch.clientY;
     touchStartTime=Date.now();
     drawerEl=document.getElementById('drawer');
-    // 左端タッチ or ドロワーが開いている場合に追跡開始
     if(touchStartX<=EDGE_WIDTH || (drawerEl&&drawerEl.classList.contains('on'))){
       isSwiping=true;
     }else{
@@ -923,15 +881,12 @@ function showToast(msg){var t=document.getElementById('toast');t.textContent=msg
     var dx=touch.clientX-touchStartX;
     var dy=touch.clientY-touchStartY;
     var dt=Date.now()-touchStartTime;
-    // 横方向の移動が縦方向より大きい場合のみ(誤爆防止)
     if(Math.abs(dx)<Math.abs(dy)*1.2)return;
     if(dt>MAX_TIME)return;
     var isOpen=drawerEl&&drawerEl.classList.contains('on');
-    // 右スワイプ(左端から) → ドロワーを開く
     if(!isOpen&&touchStartX<=EDGE_WIDTH&&dx>=SWIPE_THRESHOLD){
       openDrawer();
     }
-    // 左スワイプ(ドロワー上で) → ドロワーを閉じる
     if(isOpen&&dx<=-SWIPE_CLOSE_THRESHOLD){
       closeDrawer();
     }
