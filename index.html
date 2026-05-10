@@ -378,6 +378,213 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
 .workout-item-del{width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--bg-e);flex-shrink:0;background:transparent;border:none}
 .workout-item-del:hover{background:var(--errL);color:var(--err)}
 .workout-empty{text-align:center;padding:18px;font-size:12px;color:var(--tp);font-weight:500}
+
+/* =========================================
+   RESPONSIVE - タブレット (600px以上)
+   ========================================= */
+@media (min-width: 600px){
+  /* コンテンツ幅を拡大 */
+  .content{max-width:720px}
+  .tabbar{max-width:720px}
+  .modal{max-width:600px;border-radius:28px;margin-bottom:24px}
+  .modal-bg{align-items:center}
+
+  /* オンボーディング: より広く、上品に */
+  .ob-card{max-width:440px;padding:36px}
+  .ob-title{font-size:38px}
+  .ob-sub{font-size:15px}
+
+  /* ヒーロー: 余裕のあるパディング */
+  .cd-hero{padding:48px 32px 36px}
+  .cd-ring-wrap{width:200px;height:200px;margin-bottom:24px}
+  .cd-ring-wrap svg{width:200px;height:200px}
+  .cd-years{font-size:72px}
+  .cd-grid{padding:0 32px;gap:14px}
+  .cd-cell{padding:18px 8px}
+  .cd-cell-num{font-size:28px}
+  .cd-progress{padding:24px 32px 0}
+
+  /* カード類: 左右マージンを増やす */
+  .life-card,.contrib-card,.alert-list,.health-cta,.health-update-card,
+  .workout-manual-cta,.metric-section,.moh-card,.hd-score-big,.quote-card{
+    margin-left:24px;margin-right:24px;
+  }
+  .inline-edit{margin-left:24px;margin-right:24px}
+  .bl-list,.bl-add-wrap,.period-bar{padding-left:24px;padding-right:24px}
+  .bl-suggest-btn{margin-left:24px;margin-right:24px;width:calc(100% - 48px)}
+  .hd-empty{padding:24px}
+  .hd-loaded-header{padding-left:24px;padding-right:24px;padding-top:24px}
+
+  /* Todayビュー: 3列に */
+  .today-grid{grid-template-columns:repeat(3,1fr);padding-left:24px;padding-right:24px;gap:14px}
+  .today-card{padding:18px}
+  .today-card-val{font-size:28px}
+
+  /* やりたい事: 2列のグリッド */
+  .bl-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .bl-list > div[style*="text-align:center"]{grid-column:1 / -1}
+
+  /* メトリクスチャート: 高さを増やす */
+  .metric-chart{height:140px}
+  .metric-val{font-size:36px}
+
+  /* やりたい事ヒーロー */
+  .bl-hero{padding:36px 32px 28px}
+  .bl-hero-title{font-size:28px}
+}
+
+/* =========================================
+   RESPONSIVE - デスクトップ (1024px以上)
+   ========================================= */
+@media (min-width: 1024px){
+  body{background:var(--bg-e)}
+
+  /* メインコンテナ: 2カラムレイアウト */
+  .content{
+    max-width:1100px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:0 24px;
+    padding:24px 24px 100px;
+    align-items:start;
+  }
+
+  /* タブバーを固定下部に維持 */
+  .tabbar{
+    max-width:1100px;
+    background:var(--card);
+    box-shadow:0 -2px 20px rgba(0,0,0,.04);
+  }
+
+  /* トップバーは中央寄せ */
+  .topbar{max-width:1100px;margin:0 auto}
+
+  /* カウントダウンタブ: ヒーローは横幅いっぱい、他は2列 */
+  #p-countdown{display:contents}
+  #p-countdown > .cd-hero{
+    grid-column:1 / -1;
+    border-radius:var(--r);
+    margin-bottom:0;
+    padding:48px 40px 40px;
+  }
+  #p-countdown > .life-card,
+  #p-countdown > #inline-edit-wrap,
+  #p-countdown > #cd-health-block,
+  #p-countdown > .quote-card{
+    margin-left:0;margin-right:0;
+  }
+  #p-countdown > .life-card{grid-column:1; margin-top:0}
+  #p-countdown > #cd-health-block{grid-column:2; grid-row:span 3; margin-top:0}
+  #p-countdown > #inline-edit-wrap{grid-column:1}
+  #p-countdown > .quote-card{grid-column:1 / -1; margin-top:8px}
+
+  /* health-update-card と alert-list は cd-health-block 内なのでマージン調整 */
+  #cd-health-block .health-update-card,
+  #cd-health-block .contrib-card,
+  #cd-health-block .alert-list,
+  #cd-health-block .health-cta{
+    margin-left:0;margin-right:0;
+  }
+  #cd-health-block .health-update-card{margin-top:0}
+
+  /* やりたい事タブ: ヒーローは横幅いっぱい、リストは2列 */
+  #p-bucket{display:contents}
+  #p-bucket > .bl-hero{
+    grid-column:1 / -1;
+    border-radius:var(--r);
+    padding:40px 40px 32px;
+    margin-bottom:8px;
+  }
+  #p-bucket > .bl-suggest-btn{grid-column:1 / -1; margin:0; width:100%}
+  #p-bucket > .bl-list{
+    grid-column:1 / -1;
+    grid-template-columns:repeat(2,1fr);
+    padding:0;
+  }
+  #p-bucket > .bl-add-wrap{grid-column:1 / -1; padding:0}
+
+  /* 健康タブ: スコアは横幅いっぱい、メトリクスは2列 */
+  #p-health{display:contents}
+  #p-health > #hd-empty-view{
+    grid-column:1 / -1;
+    padding:0;
+  }
+  #p-health > #hd-loaded-view{
+    grid-column:1 / -1;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    padding:0;
+  }
+  #hd-loaded-view > .hd-loaded-header{
+    grid-column:1 / -1;
+    padding:0 0 8px;
+  }
+  #hd-loaded-view > .hd-score-big{
+    grid-column:1 / -1;
+    margin:0;
+    padding:32px;
+  }
+  #hd-loaded-view > .workout-manual-cta{
+    grid-column:1 / -1;
+    margin:0;
+  }
+  #hd-loaded-view > .period-bar{
+    grid-column:1 / -1;
+    padding:0;
+  }
+  #hd-loaded-view > #hd-metrics{
+    grid-column:1 / -1;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+  }
+  #hd-metrics > .metric-section{margin:0}
+  #hd-loaded-view > .moh-card{
+    grid-column:1 / -1;
+    margin:0;
+  }
+
+  /* Today: 4列グリッド */
+  .today-grid{grid-template-columns:repeat(4,1fr);padding:0;gap:14px;grid-column:1 / -1}
+
+  /* スコアカード: より広く */
+  .hd-score-ring{width:100px;height:100px}
+  .hd-score-ring svg{width:100px;height:100px}
+  .hd-score-num{font-size:36px}
+  .hd-score-grade{font-size:20px}
+  .hd-score-msg{font-size:13px}
+
+  /* メトリクスチャート: より高く */
+  .metric-chart{height:180px}
+
+  /* タブバー: ホバー効果を追加 */
+  .tab{cursor:pointer}
+  .tab:hover{background:color-mix(in srgb,var(--brand) 6%,transparent)}
+
+  /* オンボーディング: 中央に大きめのカード */
+  #ob{padding:80px 40px}
+  .ob-card{max-width:480px;padding:48px}
+  .ob-logo{width:96px;height:96px}
+  .ob-title{font-size:44px}
+}
+
+/* =========================================
+   RESPONSIVE - 大画面 (1400px以上)
+   ========================================= */
+@media (min-width: 1400px){
+  .content{max-width:1280px}
+  .tabbar{max-width:1280px}
+  .topbar{max-width:1280px}
+
+  /* Today: 5列に */
+  .today-grid{grid-template-columns:repeat(5,1fr)}
+
+  /* メトリクスは3列に */
+  #hd-loaded-view > #hd-metrics{
+    grid-template-columns:repeat(3,1fr);
+  }
+}
 </style>
 </head>
 <body data-theme="natural">
