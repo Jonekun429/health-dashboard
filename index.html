@@ -63,8 +63,9 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
 #app{background:var(--bg)}
 .topbar{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(20px) saturate(1.4);-webkit-backdrop-filter:blur(20px) saturate(1.4);border-bottom:1px solid color-mix(in srgb,var(--bg-e) 60%,transparent);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px}
 .topbar-title{font-size:17px;font-weight:700;letter-spacing:-.3px;flex-shrink:0}
-.topbar-settings{width:36px;height:36px;border-radius:12px;background:var(--card);border:1px solid var(--bg-e);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--tm);transition:all var(--tr);flex-shrink:0}
+.topbar-settings{border-radius:12px;background:var(--card);border:1px solid var(--bg-e);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:4px 9px;cursor:pointer;color:var(--tm);transition:all var(--tr);flex-shrink:0}
 .topbar-settings:hover{background:var(--card2);color:var(--brand)}
+.topbar-settings-lbl{font-size:8px;font-weight:700;letter-spacing:.6px;line-height:1}
 .topbar-upload{display:flex;align-items:center;gap:5px;padding:8px 12px;border-radius:20px;background:var(--brand);color:#fff;font-size:11px;font-weight:700;cursor:pointer;border:none;font-family:inherit;box-shadow:0 3px 12px color-mix(in srgb,var(--brand) 30%,transparent);transition:all var(--tr);white-space:nowrap;position:relative;flex-shrink:0}
 .topbar-upload:hover{transform:translateY(-1px)}
 .topbar-upload:active{transform:scale(.95)}
@@ -378,6 +379,47 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
 .workout-item-del{width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--bg-e);flex-shrink:0;background:transparent;border:none}
 .workout-item-del:hover{background:var(--errL);color:var(--err)}
 .workout-empty{text-align:center;padding:18px;font-size:12px;color:var(--tp);font-weight:500}
+/* 残り時間の実感変換カード */
+.feel-card{margin:14px 16px 0;background:var(--card);border-radius:var(--r);border:1px solid var(--bg-e);padding:18px;box-shadow:var(--sh)}
+.feel-title{font-size:10px;font-weight:700;color:var(--tp);letter-spacing:.8px;text-transform:uppercase;margin-bottom:14px}
+.feel-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.feel-item{display:flex;align-items:center;gap:10px;background:var(--bg);border:1px solid var(--bg-e);border-radius:var(--r3);padding:12px}
+.feel-icon{width:34px;height:34px;border-radius:10px;background:var(--card2);color:var(--brand);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.feel-num{font-size:16px;font-weight:700;line-height:1}
+.feel-lbl{font-size:10px;color:var(--tm);margin-top:3px}
+/* 週間レポートカード */
+.weekly-card{margin:14px 16px 0;background:var(--card);border-radius:var(--r);border:1px solid var(--bg-e);padding:18px;box-shadow:var(--sh)}
+.weekly-title{font-size:10px;font-weight:700;color:var(--tp);letter-spacing:.8px;text-transform:uppercase;margin-bottom:14px}
+.weekly-row{display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--bg-e)}
+.weekly-row:last-child{border:none;padding-bottom:0}
+.weekly-name{font-size:12px;font-weight:600;width:76px;flex-shrink:0}
+.weekly-val{font-size:12px;color:var(--tm);flex:1}
+.weekly-delta{font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.weekly-delta svg{flex-shrink:0}
+.weekly-note{font-size:9px;color:var(--tp);margin-top:12px;line-height:1.5}
+/* ライフプラン(人生カレンダー) */
+.lp-card{margin:14px 16px 0;background:var(--card);border-radius:var(--r);border:1px solid var(--bg-e);padding:18px;box-shadow:var(--sh)}
+.lp-title{font-size:10px;font-weight:700;color:var(--tp);letter-spacing:.8px;text-transform:uppercase;margin-bottom:14px}
+.lp-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;margin-bottom:12px}
+.lp-cell{aspect-ratio:1;border-radius:3px;background:var(--card);border:1px solid var(--bg-e)}
+.lp-cell.past{background:var(--brand);border-color:var(--brand)}
+.lp-cell.now{background:var(--brand-mid);border-color:var(--brand-mid);box-shadow:0 0 0 2px color-mix(in srgb,var(--brand) 35%,transparent)}
+.lp-cell.beyond{opacity:.25}
+.lp-cell.milestone{background:var(--warnL);border:1.5px solid var(--warn)}
+.lp-legend{display:flex;flex-wrap:wrap;gap:10px}
+.lp-legend-item{display:inline-flex;align-items:center;gap:5px;font-size:9.5px;color:var(--tm)}
+.lp-legend-sw{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+.lp-list{margin-top:12px;border-top:1px solid var(--bg-e);padding-top:6px}
+.lp-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--bg-e)}
+.lp-item:last-child{border-bottom:none}
+.lp-item-age{font-size:12px;font-weight:700;color:var(--brand);width:44px;flex-shrink:0}
+.lp-item-body{flex:1;min-width:0}
+.lp-item-text{font-size:13px;font-weight:600}
+.lp-item-meta{font-size:10px;color:var(--tp);margin-top:2px}
+.lp-item-del{width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--tp);flex-shrink:0;background:transparent;border:none}
+.lp-item-del:hover{background:var(--errL);color:var(--err)}
+.lp-add-btn{margin-top:12px;width:100%;padding:11px;background:transparent;border:1.5px dashed color-mix(in srgb,var(--brand) 50%,transparent);border-radius:var(--r2);font-size:12px;font-weight:700;color:var(--brand);cursor:pointer;font-family:inherit;transition:all var(--tr)}
+.lp-add-btn:hover{background:var(--card2)}
 
 /* =========================================
    RESPONSIVE - タブレット (600px以上)
@@ -406,7 +448,8 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
 
   /* カード類: 左右マージンを増やす */
   .life-card,.contrib-card,.alert-list,.health-cta,.health-update-card,
-  .workout-manual-cta,.metric-section,.moh-card,.hd-score-big,.quote-card{
+  .workout-manual-cta,.metric-section,.moh-card,.hd-score-big,.quote-card,
+  .feel-card,.weekly-card,.lp-card{
     margin-left:24px;margin-right:24px;
   }
   .inline-edit{margin-left:24px;margin-right:24px}
@@ -476,6 +519,10 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
   #p-countdown > .life-card{grid-column:1; margin-top:0}
   #p-countdown > #cd-health-block{grid-column:2; grid-row:span 3; margin-top:0}
   #p-countdown > #inline-edit-wrap{grid-column:1}
+  #p-countdown > #life-feel{grid-column:1}
+  #p-countdown > #life-feel .feel-card{margin:14px 0 0}
+  #p-countdown > #life-plan-wrap{grid-column:1 / -1}
+  #p-countdown > #life-plan-wrap .lp-card{margin:14px 0 0}
   #p-countdown > .quote-card{grid-column:1 / -1; margin-top:8px}
 
   /* health-update-card と alert-list は cd-health-block 内なのでマージン調整 */
@@ -529,6 +576,8 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
     grid-column:1 / -1;
     margin:0;
   }
+  #hd-loaded-view > #weekly-report{grid-column:1 / -1}
+  #hd-loaded-view > #weekly-report .weekly-card{margin:0}
   #hd-loaded-view > .period-bar{
     grid-column:1 / -1;
     padding:0;
@@ -654,18 +703,41 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
   </div>
 </div>
 
+<!-- ★追加: ライフプラン追加モーダル -->
+<div class="modal-bg" id="plan-modal-bg" onclick="if(event.target===this)closePlanModal()">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">ライフプランに追加</div>
+    <div class="modal-sub">何歳のときに何をしたいか登録しましょう</div>
+    <div class="workout-form-row">
+      <div class="workout-form-field" style="flex:2">
+        <label>予定・目標</label>
+        <input type="text" class="workout-form-input" id="pl-text" placeholder="例: 家を買う、世界一周">
+      </div>
+      <div class="workout-form-field">
+        <label>何歳のとき</label>
+        <input type="number" class="workout-form-input" id="pl-age" min="1" max="100" inputmode="numeric">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="closePlanModal()">閉じる</button>
+      <button class="modal-add" onclick="addPlanItem()">追加する</button>
+    </div>
+  </div>
+</div>
+
 <!-- ONBOARDING -->
 <div class="screen on" id="ob"><div class="ob-logo"><svg width="38" height="38" viewBox="0 0 38 38"><circle cx="19" cy="19" r="15" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="2"/><circle cx="19" cy="19" r="15" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="65 30" stroke-linecap="round"/><path d="M19 10v9l6 3.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div><div class="ob-title">TIME</div><div class="ob-sub">あなたの残り時間を、<br>リアルに感じよう</div><div class="ob-card"><div class="ob-field"><label>生年月日</label><input type="date" class="ob-input" id="ob-birth" value="1990-01-01"></div><div class="ob-field"><label>性別</label><div class="ob-sex"><button class="ob-sex-btn on" id="ob-m" onclick="setSex('m')">男性</button><button class="ob-sex-btn" id="ob-f" onclick="setSex('f')">女性</button></div></div><button class="ob-btn" onclick="startApp()">残り時間を見る →</button></div></div>
 <!-- APP -->
-<div class="screen" id="app"><div class="topbar"><div class="topbar-settings" onclick="openDrawer()"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topbar-title" style="cursor:pointer" onclick="goHome()" title="ホームに戻る">TIME</div><label class="topbar-upload" id="topbar-upload-btn" title="ヘルスケアZIPをアップロード"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 2v7M3.5 5l3-3 3 3" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 10h9" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg>最新データに更新<input type="file" accept=".zip" onchange="handleUpload(event)" style="display:none"></label></div><div class="content">
-<div class="panel on" id="p-countdown"><div class="cd-hero"><div class="cd-greeting">あなたの残り時間</div><div class="cd-ring-wrap"><svg viewBox="0 0 160 160"><circle cx="80" cy="80" r="68" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="10"/><circle cx="80" cy="80" r="68" fill="none" stroke="var(--brand)" stroke-width="10" stroke-dasharray="427" id="cd-ring-stroke" stroke-dashoffset="200" stroke-linecap="round"/></svg><div class="cd-ring-center"><div class="cd-years" id="cd-years">--</div><div class="cd-years-lbl">年</div></div></div><div class="cd-grid"><div class="cd-cell"><div class="cd-cell-num" id="cd-days">---</div><div class="cd-cell-lbl">日</div></div><div class="cd-cell"><div class="cd-cell-num" id="cd-hours">--</div><div class="cd-cell-lbl">時間</div></div><div class="cd-cell"><div class="cd-cell-num" id="cd-mins">--</div><div class="cd-cell-lbl">分</div></div><div class="cd-cell"><div class="cd-cell-num" id="cd-secs">--</div><div class="cd-cell-lbl">秒</div></div></div><div class="cd-progress"><div class="cd-prog-row"><span class="cd-prog-lbl">人生の進捗</span><span class="cd-prog-pct" id="cd-pct">--.--%</span></div><div class="cd-prog-track"><div class="cd-prog-fill" id="cd-prog-fill" style="width:0%"></div></div></div></div><div class="life-card" id="life-card"><div class="life-card-row"><div><div class="life-card-lbl">予測寿命</div><div class="life-card-base" id="lc-base">基準 --年</div></div><div class="life-card-num"><div class="life-card-big" id="lc-total">--.-</div><div class="life-card-unit">年</div></div></div><div class="life-card-profile"><span class="life-card-profile-info" id="lc-profile-info">-- 生まれ</span><div class="edit-chip" onclick="toggleInlineEdit()">編集</div></div></div><div id="inline-edit-wrap"></div><div id="cd-health-block"></div><div class="quote-card"><div class="quote-text" id="quote-text">　</div></div></div>
+<div class="screen" id="app"><div class="topbar"><div class="topbar-settings" onclick="openDrawer()" title="設定メニューを開く"><svg width="15" height="11" viewBox="0 0 15 11"><path d="M1 1.5h13M1 5.5h13M1 9.5h13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span class="topbar-settings-lbl">メニュー</span></div><div class="topbar-title" style="cursor:pointer" onclick="goHome()" title="ホームに戻る">TIME</div><label class="topbar-upload" id="topbar-upload-btn" title="ヘルスケアZIPをアップロード"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 2v7M3.5 5l3-3 3 3" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 10h9" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg>最新データに更新<input type="file" accept=".zip" onchange="handleUpload(event)" style="display:none"></label></div><div class="content">
+<div class="panel on" id="p-countdown"><div class="cd-hero"><div class="cd-greeting">あなたの残り時間</div><div class="cd-ring-wrap"><svg viewBox="0 0 160 160"><circle cx="80" cy="80" r="68" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="10"/><circle cx="80" cy="80" r="68" fill="none" stroke="var(--brand)" stroke-width="10" stroke-dasharray="427" id="cd-ring-stroke" stroke-dashoffset="200" stroke-linecap="round"/></svg><div class="cd-ring-center"><div class="cd-years" id="cd-years">--</div><div class="cd-years-lbl">年</div></div></div><div class="cd-grid"><div class="cd-cell"><div class="cd-cell-num" id="cd-days">---</div><div class="cd-cell-lbl">日</div></div><div class="cd-cell"><div class="cd-cell-num" id="cd-hours">--</div><div class="cd-cell-lbl">時間</div></div><div class="cd-cell"><div class="cd-cell-num" id="cd-mins">--</div><div class="cd-cell-lbl">分</div></div><div class="cd-cell"><div class="cd-cell-num" id="cd-secs">--</div><div class="cd-cell-lbl">秒</div></div></div><div class="cd-progress"><div class="cd-prog-row"><span class="cd-prog-lbl">人生の進捗</span><span class="cd-prog-pct" id="cd-pct">--.--%</span></div><div class="cd-prog-track"><div class="cd-prog-fill" id="cd-prog-fill" style="width:0%"></div></div></div></div><div class="life-card" id="life-card"><div class="life-card-row"><div><div class="life-card-lbl">予測寿命</div><div class="life-card-base" id="lc-base">基準 --年</div></div><div class="life-card-num"><div class="life-card-big" id="lc-total">--.-</div><div class="life-card-unit">年</div></div></div><div class="life-card-profile"><span class="life-card-profile-info" id="lc-profile-info">-- 生まれ</span><div class="edit-chip" onclick="toggleInlineEdit()">編集</div></div></div><div id="life-feel"></div><div id="inline-edit-wrap"></div><div id="cd-health-block"></div><div id="life-plan-wrap"></div><div class="quote-card"><div class="quote-text" id="quote-text">　</div></div></div>
 <div class="panel" id="p-bucket"><div class="bl-hero"><div class="bl-hero-title">やりたい事リスト</div><div class="bl-hero-sub">残りの人生でやりたいこと</div><div class="bl-progress-wrap"><div class="bl-prog-row"><span class="bl-prog-lbl">達成率</span><span class="bl-prog-count" id="bl-count">0 / 0 達成</span></div><div class="bl-prog-track"><div class="bl-prog-fill" id="bl-prog-fill" style="width:0%"></div></div></div></div><button class="bl-suggest-btn" onclick="openSuggestModal()"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v2M7 11v2M1 7h2M11 7h2M2.5 2.5l1.5 1.5M10 10l1.5 1.5M2.5 11.5l1.5-1.5M10 4l1.5-1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="7" cy="7" r="2" stroke="currentColor" stroke-width="1.3"/></svg> 人気の項目から選ぶ</button><div class="bl-list" id="bl-list"></div><div class="bl-add-wrap"><div class="bl-add-row"><input type="text" class="bl-add-input" id="bl-input" placeholder="新しい目標を追加..." onkeydown="if(event.key==='Enter')addItem()"><button class="bl-add-btn" onclick="addItem()">追加</button></div></div></div>
 <div class="panel" id="p-health"><div id="hd-empty-view" class="hd-empty"><div class="hd-empty-card"><div class="hd-empty-icon"><svg width="48" height="48" viewBox="0 0 48 48"><rect x="8" y="14" width="32" height="26" rx="5" fill="none" stroke="var(--brand)" stroke-width="2"/><path d="M24 22v12M18 28l6-6 6 6" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="hd-empty-title">ヘルスケアデータを追加</div><div class="hd-empty-sub">iPhoneのヘルスケアアプリからZIPファイルをアップロードして、寿命予測の精度を上げましょう</div><label class="hd-upload-label">ZIPファイルを選択<input type="file" accept=".zip" onchange="handleUpload(event)" style="display:none"></label></div>
 <!-- ★追加: ZIPなしでも運動手入力できるCTA -->
 <div class="workout-manual-cta" onclick="openWorkoutModal()" style="margin:0 0 14px"><div class="workout-manual-cta-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.2" stroke-linecap="round"/></svg></div><div class="workout-manual-cta-body"><div class="workout-manual-cta-title">運動を手入力で記録</div><div class="workout-manual-cta-sub">ヘルスケアに反映されない運動を追加</div></div><div class="workout-manual-cta-arrow">›</div></div>
 <div class="hd-steps-card"><div class="hd-steps-title">データの書き出し方</div><div class="hd-step"><div class="hd-step-num">1</div><div class="hd-step-text">iPhoneの「ヘルスケア」アプリを開く</div></div><div class="hd-step"><div class="hd-step-num">2</div><div class="hd-step-text">右上の「…（もっと見る）」をタップ</div></div><div class="hd-step"><div class="hd-step-num">3</div><div class="hd-step-text">「すべてのヘルスケアデータを書き出す」を選択してZIPを作成</div></div><div class="hd-step"><div class="hd-step-num">4</div><div class="hd-step-text">作成されたZIPファイルをここにアップロード</div></div></div></div>
 <!-- ★修正: 重複していた大型ZIPアップロードCTAを削除。スコアカードを最上部に配置 -->
-<div id="hd-loaded-view" style="display:none;padding-bottom:20px"><div class="hd-loaded-header"><div class="hd-loaded-title">健康ダッシュボード</div></div><div class="hd-score-big"><div class="hd-score-ring"><svg viewBox="0 0 72 72"><circle cx="36" cy="36" r="30" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="6"/><circle cx="36" cy="36" r="30" fill="none" stroke="var(--brand)" stroke-width="6" stroke-dasharray="188" id="hd-ring-stroke" stroke-dashoffset="80" stroke-linecap="round"/></svg><div class="hd-score-ring-center"><div class="hd-score-num" id="hd-score-num">--</div><div class="hd-score-den">/100</div></div></div><div class="hd-score-info"><div class="hd-score-grade" id="hd-score-grade">-- ランク</div><div class="hd-score-msg" id="hd-score-msg">計算中...</div></div></div>
+<div id="hd-loaded-view" style="display:none;padding-bottom:20px"><div class="hd-loaded-header"><div class="hd-loaded-title">健康ダッシュボード</div></div><div class="hd-score-big"><div class="hd-score-ring"><svg viewBox="0 0 72 72"><circle cx="36" cy="36" r="30" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="6"/><circle cx="36" cy="36" r="30" fill="none" stroke="var(--brand)" stroke-width="6" stroke-dasharray="188" id="hd-ring-stroke" stroke-dashoffset="80" stroke-linecap="round"/></svg><div class="hd-score-ring-center"><div class="hd-score-num" id="hd-score-num">--</div><div class="hd-score-den">/100</div></div></div><div class="hd-score-info"><div class="hd-score-grade" id="hd-score-grade">-- ランク</div><div class="hd-score-msg" id="hd-score-msg">計算中...</div></div></div><div id="weekly-report"></div>
 <!-- ★追加: ロード済みでも手入力CTA表示 -->
 <div class="workout-manual-cta" onclick="openWorkoutModal()"><div class="workout-manual-cta-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="white" stroke-width="2.2" stroke-linecap="round"/></svg></div><div class="workout-manual-cta-body"><div class="workout-manual-cta-title">運動を手入力で追加</div><div class="workout-manual-cta-sub" id="manual-workout-count">ジムや屋外運動など、未記録の活動を追加</div></div><div class="workout-manual-cta-arrow">›</div></div>
 <div class="period-bar" id="period-bar"></div><div id="hd-metrics"></div><div class="moh-card" id="moh-card"></div><div style="height:8px"></div></div></div>
@@ -688,11 +760,22 @@ body{font-family:'DM Sans','Noto Sans JP',sans-serif;background:var(--bg);color:
   <button class="drawer-save-btn" style="background:var(--brand)" onclick="closeDrawer();openWorkoutModal()">運動を手入力する</button>
 </div>
 <div class="drawer-sep"></div>
-<div class="drawer-section"><div class="drawer-label">ヘルスケアデータ</div><label style="display:flex;align-items:center;gap:10px;padding:10px 0;cursor:pointer"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M9 3v9M5 9l4-4 4 4" fill="none" stroke="var(--brand)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 14h12" stroke="var(--tp)" stroke-width="1.2" stroke-linecap="round"/></svg><span style="font-size:13px;color:var(--brand);font-weight:500">ZIPをアップロード</span><input type="file" accept=".zip" onchange="handleUpload(event)" style="display:none"></label><button class="drawer-danger-btn" onclick="clearHealthData()">健康データを削除</button></div></div>
+<div class="drawer-section"><div class="drawer-label">ヘルスケアデータ</div><label style="display:flex;align-items:center;gap:10px;padding:10px 0;cursor:pointer"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M9 3v9M5 9l4-4 4 4" fill="none" stroke="var(--brand)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 14h12" stroke="var(--tp)" stroke-width="1.2" stroke-linecap="round"/></svg><span style="font-size:13px;color:var(--brand);font-weight:500">ZIPをアップロード</span><input type="file" accept=".zip" onchange="handleUpload(event)" style="display:none"></label><button class="drawer-danger-btn" onclick="clearHealthData()">健康データを削除</button></div>
+<div class="drawer-sep"></div>
+<!-- ★追加: バックアップセクション -->
+<div class="drawer-section">
+  <div class="drawer-label">バックアップ</div>
+  <button class="drawer-save-btn" style="margin-top:0" onclick="exportBackup()">データを書き出す</button>
+  <label style="display:block;width:100%;padding:12px;margin-top:8px;background:transparent;border:1.5px dashed color-mix(in srgb,var(--brand) 50%,transparent);border-radius:var(--r2);font-size:13px;font-weight:700;color:var(--brand);cursor:pointer;text-align:center;box-sizing:border-box">
+    バックアップを読み込む
+    <input type="file" accept=".json,application/json" onchange="importBackup(event)" style="display:none">
+  </label>
+  <div style="font-size:10px;color:var(--tp);margin-top:10px;line-height:1.6">機種変更やブラウザ変更のときは、書き出したファイルで全データ(プロフィール・やりたい事・健康データ・ライフプラン)を復元できます。</div>
+</div></div>
 
 <script>
 // ★追加: 状態に theme と manualWorkouts と lastHealthUpdate を追加
-var S={birth:'1990-01-01',sex:'m',bucket:[],healthData:null,manualWorkouts:[],theme:'natural',lastHealthUpdate:null};
+var S={birth:'1990-01-01',sex:'m',bucket:[],healthData:null,manualWorkouts:[],theme:'natural',lastHealthUpdate:null,lifePlan:[]};
 var timerID=null,quoteTimerID=null,quoteIdx=0,obSex='m';
 var hdPeriod='today';
 var charts={};
@@ -718,12 +801,12 @@ var SUGGESTIONS={
 };
 
 document.addEventListener('DOMContentLoaded',function(){
-  try{var saved=localStorage.getItem('lt_s');if(saved){var p=JSON.parse(saved);S.birth=p.birth||S.birth;S.sex=p.sex||S.sex;S.bucket=Array.isArray(p.bucket)?p.bucket:[];S.manualWorkouts=Array.isArray(p.manualWorkouts)?p.manualWorkouts:[];S.theme=p.theme||'natural';S.lastHealthUpdate=p.lastHealthUpdate||null;}}catch(e){}
+  try{var saved=localStorage.getItem('lt_s');if(saved){var p=JSON.parse(saved);S.birth=p.birth||S.birth;S.sex=p.sex||S.sex;S.bucket=Array.isArray(p.bucket)?p.bucket:[];S.manualWorkouts=Array.isArray(p.manualWorkouts)?p.manualWorkouts:[];S.theme=p.theme||'natural';S.lastHealthUpdate=p.lastHealthUpdate||null;S.lifePlan=Array.isArray(p.lifePlan)?p.lifePlan:[];}}catch(e){}
   try{var hd=localStorage.getItem('lt_hd');if(hd){S.healthData=JSON.parse(hd);}}catch(e){console.warn('healthData復元失敗',e);}
   applyTheme(S.theme);
   if(localStorage.getItem('lt_ob')){requestAnimationFrame(function(){showApp();});}
 });
-function saveState(){try{localStorage.setItem('lt_s',JSON.stringify({birth:S.birth,sex:S.sex,bucket:S.bucket,manualWorkouts:S.manualWorkouts,theme:S.theme,lastHealthUpdate:S.lastHealthUpdate}));}catch(e){}}
+function saveState(){try{localStorage.setItem('lt_s',JSON.stringify({birth:S.birth,sex:S.sex,bucket:S.bucket,manualWorkouts:S.manualWorkouts,theme:S.theme,lastHealthUpdate:S.lastHealthUpdate,lifePlan:S.lifePlan}));}catch(e){}}
 function saveHealthData(){
   if(!S.healthData){try{localStorage.removeItem('lt_hd');}catch(e){}return true;}
   try{
@@ -848,7 +931,7 @@ function calcLife(){var base=S.sex==='f'?87:81,bonus=0;
   return{base:base,bonus:bonus,total:Math.round((base+bonus)*10)/10};}
 function calcTimeLeft(){var life=calcLife();var end=new Date(S.birth);end.setFullYear(end.getFullYear()+life.total);var birth=new Date(S.birth).getTime(),now=Date.now(),endT=end.getTime();var diff=Math.max(0,endT-now);return{y:Math.floor(diff/31557600000),d:Math.floor((diff%31557600000)/86400000),h:Math.floor((diff%86400000)/3600000),m:Math.floor((diff%3600000)/60000),s:Math.floor((diff%60000)/1000),prog:endT>birth?Math.min(Math.max((now-birth)/(endT-birth)*100,0),100):100,life:life};}
 function initCountdown(){updateCountdown();if(timerID)clearInterval(timerID);timerID=setInterval(updateCountdown,1000);}
-function updateCountdown(){var t=calcTimeLeft(),life=t.life;var ring=document.getElementById('cd-ring-stroke');if(ring)ring.setAttribute('stroke-dashoffset',(427*t.prog/100).toFixed(1));setEl('cd-years',t.y);setEl('cd-days',t.d);setEl('cd-hours',pad(t.h));setEl('cd-mins',pad(t.m));setEl('cd-secs',pad(t.s));setEl('cd-pct',t.prog.toFixed(1)+'%');var fill=document.getElementById('cd-prog-fill');if(fill)fill.style.width=t.prog.toFixed(1)+'%';setEl('lc-base','基準 '+life.base+'年'+(life.bonus!==0?' / 補正 '+(life.bonus>0?'+':'')+life.bonus+'年':''));setEl('lc-total',life.total.toFixed(1));updateProfileInfo();renderCDHealthBlock(life);updateTopbarUploadBadge();}
+function updateCountdown(){var t=calcTimeLeft(),life=t.life;var ring=document.getElementById('cd-ring-stroke');if(ring)ring.setAttribute('stroke-dashoffset',(427*t.prog/100).toFixed(1));setEl('cd-years',t.y);setEl('cd-days',t.d);setEl('cd-hours',pad(t.h));setEl('cd-mins',pad(t.m));setEl('cd-secs',pad(t.s));setEl('cd-pct',t.prog.toFixed(1)+'%');var fill=document.getElementById('cd-prog-fill');if(fill)fill.style.width=t.prog.toFixed(1)+'%';setEl('lc-base','基準 '+life.base+'年'+(life.bonus!==0?' / 補正 '+(life.bonus>0?'+':'')+life.bonus+'年':''));setEl('lc-total',life.total.toFixed(1));updateProfileInfo();renderCDHealthBlock(life);renderLifeFeel(t.y);renderLifePlan(life);updateTopbarUploadBadge();}
 function updateTopbarUploadBadge(){
   var btn=document.getElementById('topbar-upload-btn');if(!btn)return;
   if(!S.healthData||!S.lastHealthUpdate){btn.classList.remove('stale');return;}
@@ -1028,7 +1111,211 @@ function updateManualWorkoutCountLabel(){
   el.textContent=parts.length?parts.join(' · ')+' · タップで管理':'ジムや屋外運動など、未記録の活動を追加';
 }
 
-function renderHealth(){var empty=document.getElementById('hd-empty-view'),loaded=document.getElementById('hd-loaded-view');if(!S.healthData){empty.style.display='';loaded.style.display='none';return;}empty.style.display='none';loaded.style.display='';var sc=calcScores(),total=sc.total;var ring=document.getElementById('hd-ring-stroke');if(ring)ring.setAttribute('stroke-dashoffset',(188*(1-total/100)).toFixed(1));setEl('hd-score-num',total);var grade=total>=80?'A':total>=65?'B':total>=50?'C':'D';var msg=total>=80?'良好な健康状態です':total>=65?'いくつか改善できる項目があります':total>=50?'生活習慣の見直しをおすすめします':'積極的な改善が必要です';setEl('hd-score-grade',grade+' ランク');setEl('hd-score-msg',msg);buildPeriodBar();renderMetrics();renderMOH(sc);updateManualWorkoutCountLabel();}
+// ★追加: 残り時間の実感変換 (塗り潰しSVGアイコン)
+var _lastFeelYears=null;
+function renderLifeFeel(years){
+  var el=document.getElementById('life-feel');if(!el)return;
+  if(years===_lastFeelYears)return;
+  _lastFeelYears=years;
+  var IC={
+    sakura:'<svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor"><circle cx="9" cy="4" r="3"/><circle cx="13.8" cy="7.5" r="3"/><circle cx="12" cy="13.2" r="3"/><circle cx="6" cy="13.2" r="3"/><circle cx="4.2" cy="7.5" r="3"/><circle cx="9" cy="9" r="2.2" fill="var(--card)"/></svg>',
+    weekend:'<svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor"><rect x="2" y="3" width="14" height="13" rx="2.5"/><rect x="2" y="6.5" width="14" height="1.5" fill="var(--card)"/><rect x="5" y="1.5" width="1.8" height="3" rx="0.9"/><rect x="11.2" y="1.5" width="1.8" height="3" rx="0.9"/><circle cx="12" cy="12" r="2" fill="var(--card)"/></svg>',
+    moon:'<svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor"><circle cx="9" cy="9" r="7"/><circle cx="6.5" cy="7" r="1.4" fill="var(--card)" opacity=".5"/><circle cx="11" cy="11.5" r="1" fill="var(--card)" opacity=".5"/></svg>',
+    sun:'<svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor"><circle cx="9" cy="9" r="4"/><rect x="8.2" y="0.5" width="1.6" height="3" rx="0.8"/><rect x="8.2" y="14.5" width="1.6" height="3" rx="0.8"/><rect x="0.5" y="8.2" width="3" height="1.6" rx="0.8"/><rect x="14.5" y="8.2" width="3" height="1.6" rx="0.8"/><rect x="2.6" y="3.7" width="1.6" height="3" rx="0.8" transform="rotate(-45 3.4 5.2)"/><rect x="13.8" y="11.3" width="1.6" height="3" rx="0.8" transform="rotate(-45 14.6 12.8)"/><rect x="13.8" y="3.7" width="1.6" height="3" rx="0.8" transform="rotate(45 14.6 5.2)"/><rect x="2.6" y="11.3" width="1.6" height="3" rx="0.8" transform="rotate(45 3.4 12.8)"/></svg>'
+  };
+  var items=[
+    {icon:IC.sakura,num:fmtNum(years),lbl:'桜の季節'},
+    {icon:IC.weekend,num:fmtNum(years*52),lbl:'週末'},
+    {icon:IC.moon,num:fmtNum(Math.round(years*12.37)),lbl:'満月の夜'},
+    {icon:IC.sun,num:fmtNum(years),lbl:'夏'}
+  ];
+  el.innerHTML='<div class="feel-card"><div class="feel-title">残り時間の実感</div><div class="feel-grid">'
+    +items.map(function(it){
+      return '<div class="feel-item"><div class="feel-icon">'+it.icon+'</div><div><div class="feel-num">'+it.num+'<span style="font-size:11px;font-weight:500;color:var(--tm)"> 回</span></div><div class="feel-lbl">'+it.lbl+'</div></div></div>';
+    }).join('')+'</div></div>';
+}
+
+// ★追加: 週間レポート (直近7日 vs 前の7日)
+function _dateNDaysAgo(n){var d=new Date();d.setDate(d.getDate()-n);return d.toISOString().slice(0,10);}
+function _avgInRange(obj,from,to,extract){
+  var vals=[];Object.keys(obj||{}).forEach(function(k){
+    if(k>=from&&k<=to){var v=extract?extract(obj[k]):obj[k];if(typeof v==='number'&&!isNaN(v))vals.push(v);}
+  });
+  return vals.length?av(vals):null;
+}
+function _rangeDist(v,lo,hi){return v<lo?lo-v:v>hi?v-hi:0;}
+function mkWeeklyRow(name,valStr,d,deltaStr,good){
+  var dir=d>0?'up':d<0?'down':'flat';
+  var color=dir==='flat'?'var(--tp)':good?'var(--brand)':'var(--err)';
+  var arrow=dir==='up'
+    ?'<svg width="10" height="10" viewBox="0 0 10 10"><path d="M5 1l4 7H1z" fill="currentColor"/></svg>'
+    :dir==='down'
+    ?'<svg width="10" height="10" viewBox="0 0 10 10"><path d="M5 9L1 2h8z" fill="currentColor"/></svg>'
+    :'<svg width="10" height="10" viewBox="0 0 10 10"><rect x="1" y="4" width="8" height="2" rx="1" fill="currentColor"/></svg>';
+  return '<div class="weekly-row"><span class="weekly-name">'+name+'</span><span class="weekly-val">'+valStr+'</span><span class="weekly-delta" style="color:'+color+'">'+arrow+deltaStr+'</span></div>';
+}
+function renderWeeklyReport(){
+  var el=document.getElementById('weekly-report');if(!el)return;
+  if(!S.healthData){el.innerHTML='';return;}
+  var D=S.healthData;
+  var t0=_dateNDaysAgo(0),f1=_dateNDaysAgo(6),f2from=_dateNDaysAgo(13),f2to=_dateNDaysAgo(7);
+  var rows=[];
+  // 歩数: 増加=良い
+  var sNow=_avgInRange(D.steps,f1,t0),sPrev=_avgInRange(D.steps,f2from,f2to);
+  if(sNow!==null&&sPrev!==null){
+    var sd=Math.round(sNow-sPrev);
+    rows.push(mkWeeklyRow('歩数','平均 '+fmtNum(sNow)+'歩',sd,(sd===0?'±0':(sd>0?'+':'−')+fmtNum(Math.abs(sd))+'歩'),sd>=0));
+  }
+  // 睡眠: 推奨範囲への接近=良い
+  var slNow=_avgInRange(D.sleep,f1,t0,function(x){return x.total;}),slPrev=_avgInRange(D.sleep,f2from,f2to,function(x){return x.total;});
+  if(slNow!==null&&slPrev!==null){
+    var sld=Math.round(slNow-slPrev);
+    var sr=getSleepRange(getAge());
+    var slGood=_rangeDist(slNow,sr.lo,sr.hi)<=_rangeDist(slPrev,sr.lo,sr.hi);
+    rows.push(mkWeeklyRow('睡眠','平均 '+fmtMin(Math.round(slNow)),sld,(sld===0?'±0':(sld>0?'+':'−')+fmtMin(Math.abs(sld))),slGood));
+  }
+  // 運動: 増加=良い (歩数換算・手入力込み)
+  var wk=getMergedWorkouts();
+  var wNow=wk.filter(function(w){return w.d>=f1&&w.d<=t0;}).length;
+  var wPrev=wk.filter(function(w){return w.d>=f2from&&w.d<=f2to;}).length;
+  if(wNow>0||wPrev>0){
+    var wd=wNow-wPrev;
+    rows.push(mkWeeklyRow('運動',wNow+'回',wd,(wd===0?'±0':(wd>0?'+':'−')+Math.abs(wd)+'回'),wd>=0));
+  }
+  // 消費カロリー: 増加=良い
+  var aeNow=_avgInRange(D.activeEnergy,f1,t0),aePrev=_avgInRange(D.activeEnergy,f2from,f2to);
+  if(aeNow!==null&&aePrev!==null){
+    var aed=Math.round(aeNow-aePrev);
+    rows.push(mkWeeklyRow('消費カロリー','平均 '+fmtNum(aeNow)+'kcal',aed,(aed===0?'±0':(aed>0?'+':'−')+fmtNum(Math.abs(aed))+'kcal'),aed>=0));
+  }
+  if(!rows.length){el.innerHTML='';return;}
+  el.innerHTML='<div class="weekly-card"><div class="weekly-title">今週の変化</div>'+rows.join('')
+    +'<div class="weekly-note">直近7日間と、その前の7日間の比較です。</div></div>';
+}
+
+// ★追加: ライフプラン(人生カレンダー)
+var _lastPlanKey=null;
+function renderLifePlan(life){
+  var el=document.getElementById('life-plan-wrap');if(!el)return;
+  var age=getAge();
+  var key=age+'|'+life.total+'|'+S.lifePlan.map(function(p){return p.id;}).join(',');
+  if(key===_lastPlanKey)return;
+  _lastPlanKey=key;
+  var maxY=90;
+  var lifeEnd=Math.round(life.total);
+  var msAges={};S.lifePlan.forEach(function(p){msAges[p.age]=1;});
+  var cells='';
+  for(var y=0;y<maxY;y++){
+    var cls='lp-cell';
+    if(y<age)cls+=' past';
+    else if(y===age)cls+=' now';
+    if(y>lifeEnd)cls+=' beyond';
+    if(msAges[y]&&y>=age)cls+=' milestone';
+    cells+='<div class="'+cls+'"></div>';
+  }
+  var legend='<div class="lp-legend">'
+    +'<span class="lp-legend-item"><span class="lp-legend-sw" style="background:var(--brand)"></span>過ごした年</span>'
+    +'<span class="lp-legend-item"><span class="lp-legend-sw" style="background:var(--brand-mid)"></span>今年</span>'
+    +'<span class="lp-legend-item"><span class="lp-legend-sw" style="background:var(--card);border:1px solid var(--bg-e)"></span>これから</span>'
+    +'<span class="lp-legend-item"><span class="lp-legend-sw" style="background:var(--warnL);border:1.5px solid var(--warn)"></span>予定あり</span>'
+    +'<span class="lp-legend-item"><span class="lp-legend-sw" style="background:var(--bg-e);opacity:.4"></span>予測寿命以降</span>'
+    +'</div>';
+  var birthYear=parseInt((S.birth||'1990-01-01').slice(0,4));
+  var items='';
+  S.lifePlan.slice().sort(function(a,b){return a.age-b.age;}).forEach(function(p){
+    var yearsLeft=p.age-age;
+    var targetYear=birthYear+p.age;
+    var meta=targetYear+'年 · '+(yearsLeft>0?'あと'+yearsLeft+'年':yearsLeft===0?'今年':'過去');
+    items+='<div class="lp-item"><div class="lp-item-age">'+p.age+'歳</div><div class="lp-item-body"><div class="lp-item-text">'+esc(p.text)+'</div><div class="lp-item-meta">'+meta+'</div></div><button class="lp-item-del" onclick="delPlanItem(\''+p.id+'\')"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button></div>';
+  });
+  el.innerHTML='<div class="lp-card"><div class="lp-title">ライフプラン(人生カレンダー · 90年)</div>'
+    +'<div class="lp-grid">'+cells+'</div>'+legend
+    +(items?'<div class="lp-list">'+items+'</div>':'')
+    +'<button class="lp-add-btn" onclick="openPlanModal()">+ 予定を追加する</button></div>';
+}
+function openPlanModal(){
+  document.getElementById('pl-text').value='';
+  document.getElementById('pl-age').value=getAge()+5;
+  document.getElementById('plan-modal-bg').classList.add('on');
+  document.body.style.overflow='hidden';
+  gaEvent('plan_modal_open');
+}
+function closePlanModal(){
+  document.getElementById('plan-modal-bg').classList.remove('on');
+  document.body.style.overflow='';
+}
+function addPlanItem(){
+  var text=(document.getElementById('pl-text').value||'').trim();
+  var pAge=parseInt(document.getElementById('pl-age').value);
+  if(!text){showToast('予定・目標を入力してください');return;}
+  if(!pAge||pAge<1||pAge>100){showToast('年齢は1〜100で入力してください');return;}
+  S.lifePlan.push({id:Date.now()+'',text:text,age:pAge});
+  saveState();
+  _lastPlanKey=null;
+  renderLifePlan(calcLife());
+  closePlanModal();
+  showToast('ライフプランに追加しました');
+  gaEvent('plan_add',{age:pAge});
+}
+function delPlanItem(id){
+  S.lifePlan=S.lifePlan.filter(function(p){return p.id!==id;});
+  saveState();
+  _lastPlanKey=null;
+  renderLifePlan(calcLife());
+  showToast('削除しました');
+}
+
+// ★追加: バックアップの書き出し/読み込み
+function exportBackup(){
+  var payload={
+    app:'TIME',version:1,exportedAt:new Date().toISOString(),
+    state:{birth:S.birth,sex:S.sex,bucket:S.bucket,manualWorkouts:S.manualWorkouts,theme:S.theme,lastHealthUpdate:S.lastHealthUpdate,lifePlan:S.lifePlan},
+    healthData:S.healthData
+  };
+  try{
+    var blob=new Blob([JSON.stringify(payload)],{type:'application/json'});
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download='time_backup_'+new Date().toISOString().slice(0,10).replace(/-/g,'')+'.json';
+    document.body.appendChild(a);a.click();
+    setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},100);
+    showToast('バックアップを書き出しました');
+    gaEvent('backup_export');
+  }catch(e){showToast('書き出しに失敗しました');}
+}
+function importBackup(ev){
+  var f=ev.target.files&&ev.target.files[0];if(!f)return;
+  var r=new FileReader();
+  r.onload=function(){
+    try{
+      var obj=JSON.parse(r.result);
+      if(!obj||obj.app!=='TIME'||!obj.state)throw new Error('TIMEのバックアップファイルではありません');
+      var st=obj.state;
+      S.birth=st.birth||S.birth;
+      S.sex=st.sex||S.sex;
+      S.bucket=Array.isArray(st.bucket)?st.bucket:[];
+      S.manualWorkouts=Array.isArray(st.manualWorkouts)?st.manualWorkouts:[];
+      S.theme=st.theme||'natural';
+      S.lastHealthUpdate=st.lastHealthUpdate||null;
+      S.lifePlan=Array.isArray(st.lifePlan)?st.lifePlan:[];
+      S.healthData=obj.healthData||null;
+      saveState();saveHealthData();
+      applyTheme(S.theme);
+      _lastFeelYears=null;_lastPlanKey=null;
+      updateCountdown();renderBucket();renderHealth();updateProfileInfo();
+      var dwB=document.getElementById('dw-birth');if(dwB)dwB.value=S.birth;
+      closeDrawer();
+      showToast('バックアップから復元しました');
+      gaEvent('backup_import');
+    }catch(e){
+      showToast('読み込み失敗: '+(e.message||'不正なファイル'));
+    }
+  };
+  r.readAsText(f);
+  ev.target.value='';
+}
+
+function renderHealth(){var empty=document.getElementById('hd-empty-view'),loaded=document.getElementById('hd-loaded-view');if(!S.healthData){empty.style.display='';loaded.style.display='none';return;}empty.style.display='none';loaded.style.display='';var sc=calcScores(),total=sc.total;var ring=document.getElementById('hd-ring-stroke');if(ring)ring.setAttribute('stroke-dashoffset',(188*(1-total/100)).toFixed(1));setEl('hd-score-num',total);var grade=total>=80?'A':total>=65?'B':total>=50?'C':'D';var msg=total>=80?'良好な健康状態です':total>=65?'いくつか改善できる項目があります':total>=50?'生活習慣の見直しをおすすめします':'積極的な改善が必要です';setEl('hd-score-grade',grade+' ランク');setEl('hd-score-msg',msg);buildPeriodBar();renderMetrics();renderMOH(sc);updateManualWorkoutCountLabel();renderWeeklyReport();}
 function buildPeriodBar(){var bar=document.getElementById('period-bar');if(!bar)return;var periods=[['today','今日'],['1w','1週間'],['1m','1ヶ月'],['3m','3ヶ月'],['6m','6ヶ月'],['1y','1年'],['all','全期間']];bar.innerHTML=periods.map(function(p){return '<button class="period-btn'+(hdPeriod===p[0]?' on':'')+'" onclick="changePeriod(\''+p[0]+'\')">'+p[1]+'</button>';}).join('');}
 function changePeriod(p){hdPeriod=p;gaEvent('period_change',{period:p});buildPeriodBar();renderMetrics();}
 function renderMetrics(){var D=S.healthData,container=document.getElementById('hd-metrics');if(!container)return;Object.keys(charts).forEach(function(k){try{charts[k].destroy();}catch(e){}});charts={};container.innerHTML='';if(hdPeriod==='today'){renderTodayView(D,container);}else{renderChartView(D,container);}}
